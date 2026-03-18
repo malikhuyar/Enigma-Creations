@@ -1,988 +1,999 @@
-/* ============================================================
-   ENIGMA CREATION DESIGN — Main JavaScript
-   ============================================================ */
+/* =============================================================
+   ENIGMA CREATION DESIGN — script.js
+   Complete product system, cart, routing, animations
+   ============================================================= */
 
-// ── PRODUCT DATA ──────────────────────────────────────────────
-const PRODUCTS = [
+// ─────────────────────────────────────────────────────────────
+// PRODUCT DATA
+// ─────────────────────────────────────────────────────────────
+const products = [
   {
     id: 1,
-    name: "Celestial Eye Pendant",
-    category: "necklaces",
-    price: 48,
+    name: "Minimal Logo Pack",
+    price: 15,
     originalPrice: null,
-    emoji: "🪬",
-    rating: 4.9,
-    reviews: 127,
+    category: "branding",
+    keyword: "logo,branding,minimal",
+    description: "A clean, versatile minimal logo pack containing 10 unique mark designs. Perfect for modern businesses, freelancers, and startups. Includes SVG, PNG, and PDF source files with full commercial license.",
     badges: ["bestseller"],
-    description: "Handcrafted from sterling silver, this pendant draws on the ancient symbolism of the evil eye — a talisman of protection worn across civilizations. The centerpiece features a deep cobalt glass eye framed by delicate wire-wrapped rays. Each piece is made to order in our Portland studio.",
-    materials: ["Sterling Silver", "Gold Vermeil", "Rose Gold"],
-    emojis: ["🪬", "✨", "💫"],
-    related: [2, 5, 8],
+    rating: 4.9,
+    reviews: 214,
     isFeatured: true,
     isBestseller: true,
     isNew: false,
+    materials: ["SVG", "PNG", "PDF"],
+    thumbKeywords: ["logo,design,white","branding,minimal,clean","typography,logo","icon,design,simple"],
+    relatedIds: [2, 5, 9],
+    reviewData: [
+      { author: "Sarah M.", rating: 5, text: "Absolutely stunning logos. Used them for my agency rebranding and the client loved it.", date: "Dec 8, 2024" },
+      { author: "Tom K.", rating: 5, text: "Clean, professional, and incredibly versatile. Worth every penny.", date: "Nov 22, 2024" },
+      { author: "Anika R.", rating: 4, text: "Great quality! Would love even more variations in a future pack.", date: "Nov 5, 2024" },
+    ]
   },
   {
     id: 2,
-    name: "Lunar Crescent Earrings",
-    category: "earrings",
-    price: 36,
-    originalPrice: 52,
-    emoji: "🌙",
+    name: "Abstract Digital Art Print",
+    price: 29,
+    originalPrice: null,
+    category: "digital-art",
+    keyword: "abstract,art,digital",
+    description: "A stunning high-resolution digital art print blending fluid shapes and rich gradients. Designed for large-format printing up to 24x36\". Delivered as a high-quality TIFF and PNG at 300 DPI.",
+    badges: ["new"],
     rating: 4.8,
-    reviews: 89,
-    badges: ["sale"],
-    description: "Inspired by the waxing moon, these dangle earrings are hand-hammered for a uniquely organic texture. The raw, imperfect finish is entirely intentional — a reminder that beauty lives in the imperfect. Sterling silver with 18k gold-fill option available.",
-    materials: ["Sterling Silver", "18k Gold Fill"],
-    emojis: ["🌙", "✨", "🌕"],
-    related: [1, 4, 7],
+    reviews: 87,
     isFeatured: true,
     isBestseller: false,
-    isNew: false,
+    isNew: true,
+    materials: ["TIFF 300DPI", "PNG 300DPI"],
+    thumbKeywords: ["abstract,colorful","fluid,art,gradient","texture,digital,art","print,wall,art"],
+    relatedIds: [3, 7, 11],
+    reviewData: [
+      { author: "James T.", rating: 5, text: "Printed this at 24x36\" and it looks incredible on my living room wall.", date: "Dec 12, 2024" },
+      { author: "Lisa B.", rating: 5, text: "The colors are vibrant and the detail is remarkable. Instant download was seamless.", date: "Dec 1, 2024" },
+    ]
   },
   {
     id: 3,
-    name: "Obsidian Sigil Ring",
-    category: "rings",
-    price: 62,
-    originalPrice: null,
-    emoji: "🔮",
-    rating: 4.7,
-    reviews: 54,
-    badges: ["new"],
-    description: "Carved from raw obsidian and set in oxidized sterling silver, this statement ring channels the stone's legendary protective energy. The geometric bezel is inspired by alchemical sigils — symbols used to encode intention. Available in sizes 5–11.",
-    materials: ["Oxidized Silver", "Sterling Silver"],
-    emojis: ["🔮", "🖤", "✦"],
-    related: [6, 9, 12],
-    isFeatured: false,
-    isBestseller: false,
-    isNew: true,
+    name: "Premium Brand Identity Kit",
+    price: 49,
+    originalPrice: 79,
+    category: "branding",
+    keyword: "brand,identity,design",
+    description: "A complete brand identity system: primary logo, submark, color palette, typography guide, business card template, and letterhead. Everything you need to launch a polished brand. Fully editable in Adobe Illustrator.",
+    badges: ["sale", "bestseller"],
+    rating: 5.0,
+    reviews: 312,
+    isFeatured: true,
+    isBestseller: true,
+    isNew: false,
+    materials: ["AI", "EPS", "PDF", "PNG"],
+    thumbKeywords: ["brand,identity,business","stationery,design,elegant","typography,branding","business,card,design"],
+    relatedIds: [1, 6, 8],
+    reviewData: [
+      { author: "Priya K.", rating: 5, text: "This kit saved me weeks of work. My clients always ask who designed my branding now.", date: "Dec 15, 2024" },
+      { author: "Mark J.", rating: 5, text: "Unbelievable value for $49. The business card template alone is worth more.", date: "Nov 28, 2024" },
+      { author: "Chen L.", rating: 5, text: "Used this for 3 clients already. Professional results every time.", date: "Nov 10, 2024" },
+    ]
   },
   {
     id: 4,
-    name: "Mystic Labradorite Bracelet",
-    category: "bracelets",
-    price: 54,
+    name: "Luxury Social Media Templates",
+    price: 22,
     originalPrice: null,
-    emoji: "💎",
-    rating: 5.0,
-    reviews: 203,
-    badges: ["bestseller"],
-    description: "Labradorite — the stone of transformation — flashes between deep blues, golds, and greens depending on the light. Each stone is individually selected for its labradorescence. Strung on durable silk cord with a handmade silver toggle clasp.",
-    materials: ["Silk Cord", "Sterling Silver Toggle"],
-    emojis: ["💎", "🌊", "✨"],
-    related: [1, 7, 10],
-    isFeatured: true,
-    isBestseller: true,
-    isNew: false,
+    category: "templates",
+    keyword: "social,media,template",
+    description: "60 premium Canva and Photoshop templates for Instagram, Facebook, and Pinterest. Includes post templates, stories, and highlight covers. Fully editable with smart object layers. Commercial license included.",
+    badges: ["new"],
+    rating: 4.7,
+    reviews: 143,
+    isFeatured: false,
+    isBestseller: false,
+    isNew: true,
+    materials: ["Canva", "PSD", "PNG"],
+    thumbKeywords: ["instagram,template,modern","social,media,design","mobile,template,app","content,creator,design"],
+    relatedIds: [5, 8, 10],
+    reviewData: [
+      { author: "Emma R.", rating: 5, text: "My Instagram feed has never looked this good. The templates are so easy to customize.", date: "Dec 10, 2024" },
+      { author: "Alex P.", rating: 4, text: "Really polished designs. Wish there were more color options but still great.", date: "Nov 30, 2024" },
+    ]
   },
   {
     id: 5,
-    name: "Sacred Geometry Necklace",
-    category: "necklaces",
-    price: 78,
+    name: "Geometric Pattern Collection",
+    price: 18,
     originalPrice: null,
-    emoji: "⬡",
+    category: "patterns",
+    keyword: "geometric,pattern,design",
+    description: "100 seamless geometric vector patterns perfect for textile, web, packaging, and print design. Fully editable SVG and EPS files. Each pattern tiles perfectly and can be recolored instantly.",
+    badges: [],
     rating: 4.9,
-    reviews: 166,
-    badges: ["bestseller"],
-    description: "The Flower of Life is one of the oldest geometric symbols known to humanity, found in ancient temples from Egypt to India. This pendant is precision-cut from sterling silver sheet and finished by hand. 18\" chain included; longer lengths available.",
-    materials: ["Sterling Silver", "Gold Vermeil"],
-    emojis: ["⬡", "✦", "🌸"],
-    related: [1, 8, 11],
+    reviews: 198,
     isFeatured: true,
     isBestseller: true,
     isNew: false,
+    materials: ["SVG", "EPS", "PNG"],
+    thumbKeywords: ["geometric,pattern,art","seamless,pattern,design","textile,pattern,minimal","vector,geometric,shape"],
+    relatedIds: [7, 10, 12],
+    reviewData: [
+      { author: "David M.", rating: 5, text: "Saved me hours of work. The patterns are incredibly versatile and well-organized.", date: "Dec 5, 2024" },
+      { author: "Sophia L.", rating: 5, text: "Perfect for packaging design projects. My go-to resource now.", date: "Nov 20, 2024" },
+    ]
   },
   {
     id: 6,
-    name: "Moon Phase Stacking Rings",
-    category: "rings",
-    price: 45,
-    originalPrice: 60,
-    emoji: "🌑",
-    rating: 4.8,
-    reviews: 91,
+    name: "Vintage Poster Art Prints",
+    price: 35,
+    originalPrice: 45,
+    category: "digital-art",
+    keyword: "vintage,poster,art",
+    description: "A collection of 12 vintage-inspired poster art prints featuring retro typography and classic illustration styles. Perfect for gallery walls, office spaces, or cafe decor. Print-ready at 300 DPI.",
     badges: ["sale"],
-    description: "A set of 5 stacking rings, each representing a phase of the moon — from the dark new moon to the full, radiant circle. Wear all five together or mix and match. Thin, comfortable band perfect for everyday wear. Sizes 5–10.",
-    materials: ["Sterling Silver", "Gold Vermeil", "Rose Gold"],
-    emojis: ["🌑", "🌒", "🌕"],
-    related: [3, 9, 12],
+    rating: 4.8,
+    reviews: 156,
     isFeatured: false,
     isBestseller: false,
     isNew: false,
+    materials: ["PDF 300DPI", "PNG 300DPI"],
+    thumbKeywords: ["vintage,poster,retro","retro,typography,design","art,deco,poster","illustration,vintage,minimal"],
+    relatedIds: [2, 11, 3],
+    reviewData: [
+      { author: "Nina S.", rating: 5, text: "These are gorgeous! Printed all 12 and they look amazing framed together.", date: "Dec 14, 2024" },
+      { author: "Carlos F.", rating: 4, text: "Beautiful designs. Would love a matching color theme option.", date: "Nov 25, 2024" },
+    ]
   },
   {
     id: 7,
-    name: "Tourmaline Crystal Drop Earrings",
-    category: "earrings",
-    price: 58,
+    name: "Minimal Icon Set — 500 Icons",
+    price: 25,
     originalPrice: null,
-    emoji: "💚",
-    rating: 4.9,
-    reviews: 74,
-    badges: ["new"],
-    description: "Raw green tourmaline crystals wrapped in 14k gold-fill wire — these earrings celebrate the beauty of the unpolished. No two pairs are exactly alike; each tourmaline crystal is unique in its color depth and natural form. Lightweight and comfortable for all-day wear.",
-    materials: ["14k Gold Fill", "Sterling Silver"],
-    emojis: ["💚", "🌿", "✨"],
-    related: [2, 4, 10],
-    isFeatured: false,
-    isBestseller: false,
-    isNew: true,
-  },
-  {
-    id: 8,
-    name: "Serpent Chain Necklace",
-    category: "necklaces",
-    price: 88,
-    originalPrice: null,
-    emoji: "🐍",
-    rating: 4.8,
-    reviews: 112,
+    category: "icons",
+    keyword: "icon,set,minimal",
+    description: "500 minimal stroke icons covering UI, business, food, travel, technology, and lifestyle categories. Available in SVG, PNG (16px–512px), and Figma/Sketch formats. Consistent 2px stroke throughout.",
     badges: ["bestseller"],
-    description: "The serpent — symbol of transformation, wisdom, and renewal — is immortalized in this sinuous chain necklace. Each scale-like link is individually cast and connected by hand. A bold statement piece that carries ancient mythology into modern adornment.",
-    materials: ["Sterling Silver", "Gold Vermeil"],
-    emojis: ["🐍", "✦", "🌙"],
-    related: [5, 1, 11],
-    isFeatured: false,
-    isBestseller: true,
-    isNew: false,
-  },
-  {
-    id: 9,
-    name: "Rune Ring Set",
-    category: "rings",
-    price: 56,
-    originalPrice: null,
-    emoji: "ᚱ",
-    rating: 4.7,
-    reviews: 63,
-    badges: ["new"],
-    description: "Choose three elder futhark runes, and we'll engrave them onto this set of fine sterling silver stacking rings. A personal talisman, custom-made for you. Please include your chosen runes at checkout — we'll guide you with our rune reference card.",
-    materials: ["Sterling Silver"],
-    emojis: ["ᚱ", "ᚠ", "✦"],
-    related: [3, 6, 12],
-    isFeatured: false,
-    isBestseller: false,
-    isNew: true,
-  },
-  {
-    id: 10,
-    name: "Apatite & Gold Bracelet",
-    category: "bracelets",
-    price: 44,
-    originalPrice: 58,
-    emoji: "🔵",
-    rating: 4.8,
-    reviews: 87,
-    badges: ["sale"],
-    description: "Deep ocean-blue apatite beads alternate with handmade 14k gold-fill daisy spacers in this serene bracelet. Apatite is associated with clarity, inspiration, and manifestation. A beautiful everyday piece with a meditative quality.",
-    materials: ["14k Gold Fill", "Sterling Silver"],
-    emojis: ["🔵", "💧", "✨"],
-    related: [4, 7, 1],
-    isFeatured: false,
-    isBestseller: false,
-    isNew: false,
-  },
-  {
-    id: 11,
-    name: "The Enigma Gift Set",
-    category: "sets",
-    price: 119,
-    originalPrice: 148,
-    emoji: "🎁",
-    rating: 5.0,
-    reviews: 189,
-    badges: ["bestseller", "sale"],
-    description: "Our most popular gift set: the Celestial Eye Pendant, a pair of Lunar Crescent Earrings, and one Moon Phase Stacking Ring, beautifully packaged in our handmade kraft box with a wax seal. A complete collection of meaning, ready to gift.",
-    materials: ["Sterling Silver", "Gold Vermeil"],
-    emojis: ["🎁", "✨", "🪬"],
-    related: [1, 2, 6],
+    rating: 4.9,
+    reviews: 267,
     isFeatured: true,
     isBestseller: true,
     isNew: false,
+    materials: ["SVG", "PNG", "Figma"],
+    thumbKeywords: ["icon,set,ui","minimal,icon,design","outline,icon,collection","user,interface,icon"],
+    relatedIds: [5, 4, 9],
+    reviewData: [
+      { author: "Raj P.", rating: 5, text: "Absolutely worth it. The consistency is perfect and they work great at every size.", date: "Dec 11, 2024" },
+      { author: "Mia C.", rating: 5, text: "My design workflow has been completely transformed by this icon set.", date: "Dec 2, 2024" },
+      { author: "Felix H.", rating: 5, text: "Best icon pack I've ever purchased. Quality is exceptional.", date: "Nov 18, 2024" },
+    ]
   },
   {
-    id: 12,
-    name: "Amethyst Cluster Ring",
-    category: "rings",
-    price: 72,
+    id: 8,
+    name: "Photographer Portfolio Template",
+    price: 32,
     originalPrice: null,
-    emoji: "💜",
-    rating: 4.9,
-    reviews: 98,
-    badges: [],
-    description: "A raw amethyst cluster set in a hand-forged sterling silver bezel. The rough, crystalline surface catches light in unexpected ways — each angle reveals something new. Amethyst has been prized for centuries as a stone of wisdom and calm. Sizes 5–10.",
-    materials: ["Sterling Silver", "Oxidized Silver"],
-    emojis: ["💜", "💎", "✦"],
-    related: [3, 6, 9],
+    category: "templates",
+    keyword: "photography,portfolio,website",
+    description: "A stunning Webflow-ready portfolio template for photographers and creatives. Features a full-screen gallery, client inquiry form, pricing page, and animated transitions. Fully responsive and SEO-optimized.",
+    badges: ["new"],
+    rating: 4.8,
+    reviews: 94,
+    isFeatured: false,
+    isBestseller: false,
+    isNew: true,
+    materials: ["Webflow", "Figma", "HTML/CSS"],
+    thumbKeywords: ["photography,portfolio,minimal","portfolio,website,modern","gallery,photography,art","website,template,elegant"],
+    relatedIds: [4, 10, 3],
+    reviewData: [
+      { author: "Isabella K.", rating: 5, text: "My portfolio looks incredible now. Clients comment on it constantly.", date: "Dec 9, 2024" },
+      { author: "Tom R.", rating: 4, text: "Great template! Setup was a little tricky but the result is worth it.", date: "Nov 27, 2024" },
+    ]
+  },
+  {
+    id: 9,
+    name: "Hand-Lettering Font Bundle",
+    price: 28,
+    originalPrice: 42,
+    category: "fonts",
+    keyword: "handlettering,calligraphy,font",
+    description: "5 premium hand-lettered fonts with full character sets, alternates, and ligatures. Perfect for logos, wedding invitations, labels, and social media. Compatible with all major design software.",
+    badges: ["sale"],
+    rating: 4.7,
+    reviews: 178,
     isFeatured: false,
     isBestseller: false,
     isNew: false,
+    materials: ["OTF", "TTF", "WOFF"],
+    thumbKeywords: ["calligraphy,lettering,font","handwriting,script,elegant","typography,lettering,art","script,font,design"],
+    relatedIds: [1, 5, 7],
+    reviewData: [
+      { author: "Anna S.", rating: 5, text: "These fonts are breathtakingly beautiful. Used them for a wedding project.", date: "Dec 7, 2024" },
+      { author: "Ben F.", rating: 4, text: "Lovely designs. Some fonts are better than others but overall great value.", date: "Nov 22, 2024" },
+    ]
+  },
+  {
+    id: 10,
+    name: "Watercolor Texture Pack",
+    price: 20,
+    originalPrice: null,
+    category: "textures",
+    keyword: "watercolor,texture,paint",
+    description: "50 high-resolution watercolor textures and washes in PNG format with transparent backgrounds. Perfect for overlays, backgrounds, and design elements. Includes 300 DPI files at 4000x4000px.",
+    badges: [],
+    rating: 4.8,
+    reviews: 132,
+    isFeatured: false,
+    isBestseller: false,
+    isNew: false,
+    materials: ["PNG 300DPI", "JPG"],
+    thumbKeywords: ["watercolor,texture,art","paint,texture,splash","watercolor,background,soft","artistic,texture,colorful"],
+    relatedIds: [5, 6, 2],
+    reviewData: [
+      { author: "Grace M.", rating: 5, text: "Perfect watercolors! The transparency on the PNGs is flawless.", date: "Dec 4, 2024" },
+      { author: "Jake T.", rating: 5, text: "I use these in almost every project now. Saves so much time.", date: "Nov 15, 2024" },
+    ]
+  },
+  {
+    id: 11,
+    name: "Luxury Business Card Designs",
+    price: 16,
+    originalPrice: null,
+    category: "branding",
+    keyword: "business,card,luxury",
+    description: "20 premium business card templates with front and back designs. Features gold foil, emboss-ready, and standard print variations. Fully editable in Photoshop and Illustrator. Print-ready at 300 DPI with bleed.",
+    badges: ["new"],
+    rating: 4.6,
+    reviews: 89,
+    isFeatured: false,
+    isBestseller: false,
+    isNew: true,
+    materials: ["PSD", "AI", "PDF"],
+    thumbKeywords: ["business,card,elegant","luxury,card,gold","stationery,premium,design","name,card,minimal"],
+    relatedIds: [3, 1, 6],
+    reviewData: [
+      { author: "Marina L.", rating: 5, text: "My new business cards look so luxurious. Clients always comment on them!", date: "Dec 13, 2024" },
+      { author: "Oliver P.", rating: 4, text: "Nice designs! A tutorial for the gold foil effect would be helpful.", date: "Nov 29, 2024" },
+    ]
+  },
+  {
+    id: 12,
+    name: "Procreate Brush Collection",
+    price: 24,
+    originalPrice: 34,
+    category: "digital-art",
+    keyword: "procreate,brush,digital",
+    description: "80 premium Procreate brushes covering inking, painting, texturing, and lettering styles. Includes grain pencils, watercolor washes, ink splatter, chalk pastels, and more. Compatible with all iPad Pro models.",
+    badges: ["sale", "bestseller"],
+    rating: 4.9,
+    reviews: 234,
+    isFeatured: false,
+    isBestseller: true,
+    isNew: false,
+    materials: ["BRUSHSET (Procreate)"],
+    thumbKeywords: ["digital,painting,procreate","illustration,brush,art","creative,art,digital","drawing,ipad,sketch"],
+    relatedIds: [2, 10, 7],
+    reviewData: [
+      { author: "Zoe K.", rating: 5, text: "These brushes completely changed my illustration style. Absolutely love them.", date: "Dec 16, 2024" },
+      { author: "Ethan M.", rating: 5, text: "The inking brushes are insanely good. Best Procreate purchase I've made.", date: "Dec 3, 2024" },
+      { author: "Lily N.", rating: 5, text: "I've tried dozens of brush packs. This one stands head and shoulders above the rest.", date: "Nov 21, 2024" },
+    ]
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    stars: 5,
-    text: "I've owned a lot of jewelry but nothing has ever felt this meaningful. The Sacred Geometry necklace arrived wrapped in tissue with a handwritten note. I was genuinely moved. It's become my everyday piece.",
-    author: "Amara L. — New York, NY",
-  },
-  {
-    stars: 5,
-    text: "The Labradorite Bracelet is absolutely stunning in person. Photos don't do justice to how the stone shifts color. Ordered on a Thursday, arrived Tuesday. Will be ordering the matching earrings next.",
-    author: "Clara M. — Austin, TX",
-  },
-  {
-    stars: 5,
-    text: "Bought the Enigma Gift Set for my sister's birthday and she cried when she opened it. The packaging alone is beautiful. The jewelry inside is exquisite. Enigma has a customer for life.",
-    author: "Priya S. — London, UK",
-  },
-  {
-    stars: 5,
-    text: "The Rune Ring Set is perfect — they made exactly the runes I chose and the engraving is crisp and clean. Incredible quality for the price. Already have three orders in now!",
-    author: "Finn R. — Portland, OR",
-  },
+const CATEGORIES = [
+  { value: "branding",    label: "Branding",        emoji: "🏷️",  keyword: "branding,logo,identity" },
+  { value: "digital-art", label: "Digital Art",     emoji: "🎨",  keyword: "digital,art,abstract" },
+  { value: "templates",   label: "Templates",       emoji: "📐",  keyword: "template,design,layout" },
+  { value: "icons",       label: "Icons",           emoji: "✦",   keyword: "icon,ui,minimal" },
+  { value: "fonts",       label: "Fonts",           emoji: "Aa",  keyword: "typography,font,lettering" },
+  { value: "patterns",    label: "Patterns",        emoji: "⬡",   keyword: "pattern,geometric,vector" },
+  { value: "textures",    label: "Textures",        emoji: "🖼️",  keyword: "texture,watercolor,paint" },
 ];
 
-const REVIEWS_DATA = {
-  average: 4.9,
-  total: 284,
-  distribution: [
-    { stars: 5, pct: 91 },
-    { stars: 4, pct: 7 },
-    { stars: 3, pct: 1 },
-    { stars: 2, pct: 1 },
-    { stars: 1, pct: 0 },
-  ],
-  items: [
-    { author: "Sophie K.", date: "Dec 12, 2024", stars: 5, text: "Genuinely the most beautiful piece of jewelry I own. The craftsmanship is exceptional — you can tell it was made with real care and intention.", verified: true },
-    { author: "James T.", date: "Nov 28, 2024", stars: 5, text: "Bought this as a gift and the recipient was absolutely thrilled. The packaging is gorgeous and the quality exceeded expectations.", verified: true },
-    { author: "Nadia R.", date: "Nov 15, 2024", stars: 4, text: "Beautiful piece, just as described. Shipping was fast. Only reason for 4 stars is I wish there were more size options, but what I received is stunning.", verified: true },
-    { author: "Marcus W.", date: "Oct 30, 2024", stars: 5, text: "This is exactly what I was looking for. The symbolism, the quality, the feel of it — everything is perfect. Will definitely be back.", verified: true },
-  ],
-};
+// ─────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────
+let cart = JSON.parse(localStorage.getItem('enigmaCart') || '[]');
+let currentProduct = null;
+let currentQty = 1;
+let activeCategory = 'all';
+let wishlist = new Set(JSON.parse(localStorage.getItem('enigmaWishlist') || '[]'));
 
-// ── APP STATE ──────────────────────────────────────────────────
-const state = {
-  cart: JSON.parse(localStorage.getItem("enigmaCart") || "[]"),
-  currentPage: "home",
-  currentProduct: null,
-  qty: 1,
-  selectedMaterial: null,
-  currentTestimonial: 0,
-  filterCategory: "all",
-  filterPrice: "all",
-  sortBy: "featured",
-  shopSearch: "",
-  wishlist: new Set(JSON.parse(localStorage.getItem("enigmaWishlist") || "[]")),
-};
+// ─────────────────────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const fmt = n => `$${n.toFixed(2)}`;
+const unsplash = (keyword, w = 600, h = 600) =>
+  `https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=${w}&q=80&auto=format&fit=crop`;
 
-// ── UTILS ──────────────────────────────────────────────────────
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => [...document.querySelectorAll(sel)];
-
-function fmt(n) { return `$${n.toFixed(2)}`; }
-
-function starsHtml(rating) {
-  const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5;
-  let s = "★".repeat(full);
-  if (half) s += "½";
-  return `<span class="stars">${s}</span>`;
+// Better image URLs using Unsplash search
+function getUnsplashUrl(keyword, w = 600, h = 600, seed = 0) {
+  const keywords = keyword.replace(/,/g, '+');
+  // Use Unsplash source with keywords (works without API key)
+  return `https://source.unsplash.com/${w}x${h}/?${encodeURIComponent(keyword)}`;
 }
 
-function showToast(msg, duration = 2800) {
-  const t = $("#toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), duration);
+function imgEl(keyword, alt, cls = '', w = 600, h = 600, seed = 0) {
+  const url = getUnsplashUrl(keyword, w, h, seed);
+  return `<img src="${url}" alt="${alt}" class="${cls}" loading="lazy" onerror="handleImgError(this,'${keyword}')" />`;
+}
+
+function handleImgError(el, keyword) {
+  // Fallback: try a different unsplash endpoint
+  const fallbacks = [
+    `https://picsum.photos/seed/${encodeURIComponent(keyword)}/600/600`,
+    `https://images.unsplash.com/photo-1558655146-d09347e92766?w=600&q=80&auto=format&fit=crop`,
+  ];
+  const tried = parseInt(el.dataset.tried || '0');
+  if (tried < fallbacks.length) {
+    el.dataset.tried = tried + 1;
+    el.src = fallbacks[tried];
+  } else {
+    el.style.display = 'none';
+    el.parentElement.style.background = 'linear-gradient(135deg, #F5ECC7, #F0EBE1)';
+  }
+}
+
+function starsHtml(n) {
+  return '★'.repeat(Math.floor(n)) + (n % 1 >= 0.5 ? '½' : '');
 }
 
 function saveCart() {
-  localStorage.setItem("enigmaCart", JSON.stringify(state.cart));
+  localStorage.setItem('enigmaCart', JSON.stringify(cart));
 }
 
 function saveWishlist() {
-  localStorage.setItem("enigmaWishlist", JSON.stringify([...state.wishlist]));
+  localStorage.setItem('enigmaWishlist', JSON.stringify([...wishlist]));
 }
 
-// ── NAVIGATION ─────────────────────────────────────────────────
-function navigateTo(page, opts = {}) {
-  $$(".page").forEach(p => p.classList.remove("active"));
-  const el = $(`#page-${page}`);
-  if (!el) return;
-  el.classList.add("active");
-  state.currentPage = page;
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function showToast(msg) {
+  const t = $('toast');
+  $('toast-msg').textContent = msg;
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  t.style.opacity = '1';
+  t.style.pointerEvents = 'auto';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => {
+    t.style.transform = 'translateX(-50%) translateY(80px)';
+    t.style.opacity = '0';
+    t.style.pointerEvents = 'none';
+  }, 2800);
+}
 
-  // close cart / mobile
+// ─────────────────────────────────────────────────────────────
+// PAGE ROUTING
+// ─────────────────────────────────────────────────────────────
+const PAGES = ['home', 'shop', 'product', 'about', 'contact', 'checkout', 'confirmation'];
+
+function showPage(name, opts = {}) {
+  PAGES.forEach(p => {
+    const el = $(`page-${p}`);
+    if (el) el.classList.toggle('hidden', p !== name);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Nav active state
+  document.querySelectorAll('.nav-link').forEach(a => {
+    a.classList.toggle('nav-link-active', a.dataset.page === name);
+  });
+
+  // Close drawers
   closeCart();
-  closeMobileNav();
+  closeMobileMenu();
+  $('search-bar').classList.add('hidden');
 
-  // update nav links
-  $$(".nav-link").forEach(a => {
-    a.classList.toggle("active", a.dataset.page === page);
-  });
-
-  // page-specific init
-  if (page === "shop") initShop(opts.category);
-  if (page === "cart") renderCartPage();
-  if (page === "checkout") renderCheckout();
-  if (page === "product" && opts.product) openProduct(opts.product);
-
-  // re-run reveal for new page
-  setTimeout(initReveal, 100);
-}
-
-// delegate clicks on [data-page]
-document.addEventListener("click", (e) => {
-  const el = e.target.closest("[data-page]");
-  if (!el) return;
-  e.preventDefault();
-  const page = el.dataset.page;
-  const cat = el.dataset.category;
-  if (page === "shop" && cat) {
-    navigateTo("shop", { category: cat });
-    state.filterCategory = cat;
-    // update radio
-    const radio = document.querySelector(`input[name="cat"][value="${cat}"]`);
-    if (radio) { radio.checked = true; filterShop(); }
-  } else {
-    navigateTo(page);
+  // Page-specific init
+  if (name === 'shop') {
+    initShopPage(opts.category || null);
   }
-});
+  if (name === 'product' && opts.productId) {
+    openProduct(opts.productId);
+  }
+  if (name === 'checkout') {
+    renderCheckout();
+  }
 
-// ── LOADER ─────────────────────────────────────────────────────
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    $("#loader").classList.add("hidden");
-    navigateTo("home");
-    initAll();
-  }, 1400);
-});
-
-// ── INIT ALL ───────────────────────────────────────────────────
-function initAll() {
-  initNavbar();
-  initTheme();
-  initSearch();
-  initCart();
-  initReveal();
-  renderFeatured();
-  renderBestsellers();
-  renderTestimonials();
-  updateCartUI();
+  // Re-run reveal
+  setTimeout(initReveal, 80);
 }
 
-// ── NAVBAR ─────────────────────────────────────────────────────
-function initNavbar() {
-  window.addEventListener("scroll", () => {
-    $("#navbar").classList.toggle("scrolled", window.scrollY > 10);
-  });
-}
-
-// Mobile nav
-$("#mobileToggle").addEventListener("click", () => {
-  $("#navLinks").classList.toggle("mobile-open");
-});
-
-function closeMobileNav() {
-  $("#navLinks").classList.remove("mobile-open");
-}
-
-// ── THEME ──────────────────────────────────────────────────────
-function initTheme() {
-  const saved = localStorage.getItem("enigmaTheme") || "light";
-  document.documentElement.dataset.theme = saved;
-}
-
-$("#themeToggle").addEventListener("click", () => {
-  const current = document.documentElement.dataset.theme;
-  const next = current === "light" ? "dark" : "light";
-  document.documentElement.dataset.theme = next;
-  localStorage.setItem("enigmaTheme", next);
-});
-
-// ── SEARCH ─────────────────────────────────────────────────────
-function initSearch() {
-  const bar = $("#searchBar");
-
-  $("#searchToggle").addEventListener("click", () => {
-    bar.classList.add("open");
-    $("#searchInput").focus();
-  });
-
-  $("#searchClose").addEventListener("click", () => {
-    bar.classList.remove("open");
-  });
-
-  let searchTimer;
-  $("#searchInput").addEventListener("input", (e) => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => {
-      const q = e.target.value.trim();
-      if (q.length > 1) {
-        state.shopSearch = q;
-        navigateTo("shop");
-        filterShop();
-        bar.classList.remove("open");
-      }
-    }, 500);
-  });
-}
-
-// ── CART ───────────────────────────────────────────────────────
-function initCart() {
-  const overlay = $("#cartOverlay");
-  const drawer = $("#cartDrawer");
-
-  $("#cartToggle").addEventListener("click", openCart);
-  $("#cartClose").addEventListener("click", closeCart);
-  overlay.addEventListener("click", closeCart);
-}
-
+// ─────────────────────────────────────────────────────────────
+// CART
+// ─────────────────────────────────────────────────────────────
 function openCart() {
-  $("#cartOverlay").classList.add("open");
-  $("#cartDrawer").classList.add("open");
-  document.body.style.overflow = "hidden";
+  $('cart-overlay').style.opacity = '1';
+  $('cart-overlay').style.pointerEvents = 'auto';
+  $('cart-drawer').style.transform = 'translateX(0)';
+  document.body.style.overflow = 'hidden';
   renderCartDrawer();
 }
 
 function closeCart() {
-  $("#cartOverlay").classList.remove("open");
-  $("#cartDrawer").classList.remove("open");
-  document.body.style.overflow = "";
+  $('cart-overlay').style.opacity = '0';
+  $('cart-overlay').style.pointerEvents = 'none';
+  $('cart-drawer').style.transform = 'translateX(100%)';
+  document.body.style.overflow = '';
 }
 
 function addToCart(productId, qty = 1, material = null) {
-  const product = PRODUCTS.find(p => p.id === productId);
-  if (!product) return;
-
-  const mat = material || product.materials[0];
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  const mat = material || (p.materials && p.materials[0]) || 'Standard';
   const key = `${productId}-${mat}`;
-  const existing = state.cart.find(i => i.key === key);
-
+  const existing = cart.find(i => i.key === key);
   if (existing) {
     existing.qty += qty;
   } else {
-    state.cart.push({
-      key,
-      productId,
-      name: product.name,
-      price: product.price,
-      emoji: product.emoji,
-      material: mat,
-      qty,
-    });
+    cart.push({ key, productId, name: p.name, price: p.price, keyword: p.keyword, material: mat, qty });
   }
-
   saveCart();
-  updateCartUI();
-  showToast(`✓ "${product.name}" added to cart`);
-
-  // animate count
-  const count = $("#cartCount");
-  count.classList.remove("show");
-  void count.offsetWidth;
-  count.classList.add("show");
+  updateCartBadge();
+  renderCartDrawer();
+  showToast(`✓ "${p.name}" added to cart`);
+  // Pulse badge
+  const badge = $('cart-badge');
+  badge.style.transform = 'scale(1.5)';
+  setTimeout(() => (badge.style.transform = 'scale(1)'), 300);
 }
 
 function removeFromCart(key) {
-  state.cart = state.cart.filter(i => i.key !== key);
+  cart = cart.filter(i => i.key !== key);
   saveCart();
-  updateCartUI();
+  updateCartBadge();
   renderCartDrawer();
-  renderCartPage();
 }
 
-function updateCartQty(key, delta) {
-  const item = state.cart.find(i => i.key === key);
+function updateCartItemQty(key, delta) {
+  const item = cart.find(i => i.key === key);
   if (!item) return;
   item.qty = Math.max(1, item.qty + delta);
   saveCart();
-  updateCartUI();
+  updateCartBadge();
   renderCartDrawer();
-  renderCartPage();
 }
 
-function updateCartUI() {
-  const total = state.cart.reduce((s, i) => s + i.qty, 0);
-  const countEl = $("#cartCount");
-  countEl.textContent = total;
-  countEl.classList.toggle("show", total > 0);
+function updateCartBadge() {
+  const total = cart.reduce((s, i) => s + i.qty, 0);
+  const badge = $('cart-badge');
+  badge.textContent = total;
+  if (total > 0) {
+    badge.style.opacity = '1';
+    badge.style.transform = 'scale(1)';
+  } else {
+    badge.style.opacity = '0';
+    badge.style.transform = 'scale(0)';
+  }
 }
 
 function renderCartDrawer() {
-  const el = $("#cartItems");
-  const footer = $("#cartFooter");
+  const itemsEl = $('cart-items');
+  const footerEl = $('cart-footer');
+  const emptyEl = $('cart-empty');
 
-  if (state.cart.length === 0) {
-    el.innerHTML = `<div class="cart-empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <p>Your cart is empty</p>
-      <button class="btn btn-outline" onclick="closeCart();navigateTo('shop')">Browse Shop</button>
-    </div>`;
-    footer.style.display = "none";
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '';
+    footerEl.classList.add('hidden');
+    emptyEl.classList.remove('hidden');
     return;
   }
 
-  footer.style.display = "flex";
-  const subtotal = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
-  el.innerHTML = state.cart.map(item => `
-    <div class="cart-item">
-      <div class="cart-item-img">${item.emoji}</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-variant">${item.material}</div>
-        <div class="cart-item-price-row">
-          <span class="cart-item-price">${fmt(item.price * item.qty)}</span>
-          <div class="cart-qty-ctrl">
-            <button onclick="updateCartQty('${item.key}',-1)">−</button>
-            <span>${item.qty}</span>
-            <button onclick="updateCartQty('${item.key}',1)">+</button>
+  emptyEl.classList.add('hidden');
+  footerEl.classList.remove('hidden');
+
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+  itemsEl.innerHTML = cart.map(item => `
+    <div class="flex gap-3 items-start p-3 bg-white rounded-xl border border-gold-pale">
+      <div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-cream-dark">
+        ${imgEl(item.keyword, item.name, 'w-full h-full object-cover', 200, 200)}
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-ink leading-tight mb-1 truncate">${item.name}</p>
+        <p class="text-xs text-ink-muted mb-2">${item.material}</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-semibold text-gold-dark">${fmt(item.price * item.qty)}</span>
+          <div class="flex items-center gap-1.5">
+            <button onclick="updateCartItemQty('${item.key}',-1)" class="w-6 h-6 rounded-md bg-cream-dark hover:bg-gold-pale flex items-center justify-center text-ink-soft text-sm transition-colors">−</button>
+            <span class="text-xs font-semibold w-4 text-center text-ink">${item.qty}</span>
+            <button onclick="updateCartItemQty('${item.key}',1)" class="w-6 h-6 rounded-md bg-cream-dark hover:bg-gold-pale flex items-center justify-center text-ink-soft text-sm transition-colors">+</button>
           </div>
         </div>
       </div>
-      <button class="cart-item-remove" onclick="removeFromCart('${item.key}')">✕</button>
+      <button onclick="removeFromCart('${item.key}')" class="w-6 h-6 rounded-full hover:bg-red-50 flex items-center justify-center text-ink-muted hover:text-red-400 transition-colors text-xs flex-shrink-0 mt-0.5">✕</button>
     </div>
-  `).join("");
+  `).join('');
 
-  $("#cartTotal").textContent = fmt(subtotal);
+  $('cart-subtotal').textContent = fmt(subtotal);
 }
 
-// ── REVEAL ANIMATION ───────────────────────────────────────────
-function initReveal() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add("visible");
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  $$(".reveal").forEach(el => obs.observe(el));
-}
-
-// ── PRODUCT CARD ────────────────────────────────────────────────
-function productCardHTML(p) {
+// ─────────────────────────────────────────────────────────────
+// PRODUCT CARD
+// ─────────────────────────────────────────────────────────────
+function productCard(p, size = 'normal') {
   const hasDiscount = p.originalPrice && p.originalPrice > p.price;
   const discountPct = hasDiscount ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
+  const isWishlisted = wishlist.has(p.id);
 
   return `
-    <article class="product-card" onclick="navigateTo('product',{product:${p.id}})">
-      <div class="product-card-img" style="background:linear-gradient(135deg,var(--cream-dark),rgba(201,169,110,0.1))">
-        ${p.emoji}
-        <div class="product-card-badges">
-          ${p.badges.map(b => `<span class="badge badge-${b}">${b}</span>`).join("")}
+    <article class="product-card bg-white rounded-2xl border border-gold-pale overflow-hidden shadow-card cursor-pointer group" onclick="showPage('product',{productId:${p.id}})">
+      <div class="relative overflow-hidden aspect-square bg-cream-dark">
+        ${imgEl(p.keyword, p.name, 'w-full h-full object-cover img-zoom', 600, 600)}
+        <!-- Badges -->
+        <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+          ${p.badges.includes('bestseller') ? `<span class="text-[10px] font-bold uppercase tracking-wide bg-gold-light text-white px-2.5 py-1 rounded-full">Bestseller</span>` : ''}
+          ${p.badges.includes('new') ? `<span class="text-[10px] font-bold uppercase tracking-wide bg-sky-500 text-white px-2.5 py-1 rounded-full">New</span>` : ''}
+          ${p.badges.includes('sale') ? `<span class="text-[10px] font-bold uppercase tracking-wide bg-rose-500 text-white px-2.5 py-1 rounded-full">Sale</span>` : ''}
         </div>
-        <button class="product-card-wishlist" onclick="toggleWishlist(event,${p.id})" data-id="${p.id}">
-          ${state.wishlist.has(p.id) ? "♥" : "♡"}
+        <!-- Wishlist -->
+        <button onclick="event.stopPropagation();toggleWishlistCard(${p.id},this)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center text-sm shadow-sm transition-all hover:scale-110 ${isWishlisted ? 'text-rose-500' : 'text-ink-muted hover:text-rose-400'}" title="${isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}">
+          ${isWishlisted ? '♥' : '♡'}
         </button>
-      </div>
-      <div class="product-card-info">
-        <div class="product-card-cat">${p.category}</div>
-        <h3 class="product-card-name">${p.name}</h3>
-        <div class="product-card-rating">
-          ${starsHtml(p.rating)}
-          <span class="rating-count">(${p.reviews})</span>
-        </div>
-        <div class="product-card-price-row">
-          <span class="product-card-price">${fmt(p.price)}</span>
-          ${hasDiscount ? `<span class="product-card-original">${fmt(p.originalPrice)}</span><span class="product-card-discount">−${discountPct}%</span>` : ""}
+        <!-- Quick add -->
+        <div class="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <button onclick="event.stopPropagation();addToCart(${p.id})" class="btn-gold w-full bg-gold-light/95 hover:bg-gold text-white text-xs font-semibold py-3 transition-all">
+            Quick Add to Cart
+          </button>
         </div>
       </div>
-      <div class="product-card-footer">
-        <button class="product-card-add" onclick="event.stopPropagation();addToCart(${p.id})">
-          Add to Cart
-        </button>
+      <div class="p-4">
+        <p class="text-[10px] font-semibold text-gold-dark uppercase tracking-widest mb-1.5">${p.category.replace('-', ' ')}</p>
+        <h3 class="font-display font-semibold text-ink text-[15px] leading-snug mb-1.5 group-hover:text-gold-dark transition-colors line-clamp-2">${p.name}</h3>
+        <div class="flex items-center gap-1.5 mb-3">
+          <span class="stars text-xs">${starsHtml(p.rating)}</span>
+          <span class="text-xs text-ink-muted">(${p.reviews})</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-display font-bold text-ink">${fmt(p.price)}</span>
+          ${hasDiscount ? `<span class="text-xs text-ink-muted line-through">${fmt(p.originalPrice)}</span><span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">-${discountPct}%</span>` : ''}
+        </div>
       </div>
     </article>
   `;
 }
 
-function toggleWishlist(e, id) {
-  e.stopPropagation();
-  if (state.wishlist.has(id)) {
-    state.wishlist.delete(id);
-    showToast("Removed from wishlist");
+function toggleWishlistCard(id, btn) {
+  if (wishlist.has(id)) {
+    wishlist.delete(id);
+    btn.innerHTML = '♡';
+    btn.classList.remove('text-rose-500');
+    btn.classList.add('text-ink-muted', 'hover:text-rose-400');
+    showToast('Removed from wishlist');
   } else {
-    state.wishlist.add(id);
-    showToast("♥ Added to wishlist");
+    wishlist.add(id);
+    btn.innerHTML = '♥';
+    btn.classList.add('text-rose-500');
+    btn.classList.remove('text-ink-muted', 'hover:text-rose-400');
+    showToast('♥ Added to wishlist');
   }
   saveWishlist();
-  e.target.textContent = state.wishlist.has(id) ? "♥" : "♡";
 }
 
-// ── FEATURED ───────────────────────────────────────────────────
-function renderFeatured() {
-  const featured = PRODUCTS.filter(p => p.isFeatured).slice(0, 4);
-  $("#featuredGrid").innerHTML = featured.map(productCardHTML).join("");
-}
-
-// ── BESTSELLERS ────────────────────────────────────────────────
-function renderBestsellers() {
-  const best = PRODUCTS.filter(p => p.isBestseller).slice(0, 4);
-  $("#bestsellerGrid").innerHTML = best.map(productCardHTML).join("");
-}
-
-// ── TESTIMONIALS ───────────────────────────────────────────────
-function renderTestimonials() {
-  const inner = $("#testimonialInner");
-  const dots = $("#testimonialDots");
-
-  inner.innerHTML = TESTIMONIALS.map(t => `
-    <div class="testimonial-card">
-      <div class="testimonial-inner">
-        <div class="testimonial-stars">${"★".repeat(t.stars)}</div>
-        <p class="testimonial-text">"${t.text}"</p>
-        <p class="testimonial-author">— ${t.author}</p>
+// ─────────────────────────────────────────────────────────────
+// HOME PAGE INIT
+// ─────────────────────────────────────────────────────────────
+function initHome() {
+  // Categories grid
+  const catGrid = $('categories-grid');
+  if (catGrid) {
+    catGrid.innerHTML = CATEGORIES.map(c => `
+      <div class="cat-card bg-white rounded-2xl border border-gold-pale overflow-hidden shadow-card cursor-pointer hover:border-gold-light hover:shadow-card-hover" onclick="showPage('shop',{category:'${c.value}'})">
+        <div class="aspect-[4/3] overflow-hidden bg-cream-dark">
+          ${imgEl(c.keyword, c.label, 'w-full h-full object-cover img-zoom', 400, 300)}
+        </div>
+        <div class="p-3.5 text-center">
+          <p class="font-display font-semibold text-ink text-sm">${c.label}</p>
+          <p class="text-xs text-ink-muted mt-0.5">${products.filter(p => p.category === c.value).length} designs</p>
+        </div>
       </div>
-    </div>
-  `).join("");
-
-  dots.innerHTML = TESTIMONIALS.map((_, i) => `
-    <button class="testimonial-dot ${i === 0 ? "active" : ""}" onclick="goToTestimonial(${i})"></button>
-  `).join("");
-
-  // auto-advance
-  setInterval(() => {
-    goToTestimonial((state.currentTestimonial + 1) % TESTIMONIALS.length);
-  }, 5000);
-}
-
-function goToTestimonial(idx) {
-  state.currentTestimonial = idx;
-  $("#testimonialInner").style.transform = `translateX(-${idx * 100}%)`;
-  $$(".testimonial-dot").forEach((d, i) => d.classList.toggle("active", i === idx));
-}
-
-// ── SHOP PAGE ──────────────────────────────────────────────────
-function initShop(presetCategory = null) {
-  if (presetCategory) {
-    state.filterCategory = presetCategory;
-    const radio = document.querySelector(`input[name="cat"][value="${presetCategory}"]`);
-    if (radio) radio.checked = true;
+    `).join('');
   }
 
-  filterShop();
+  // Featured grid (isFeatured)
+  const featGrid = $('featured-grid');
+  if (featGrid) {
+    const featured = products.filter(p => p.isFeatured).slice(0, 4);
+    featGrid.innerHTML = featured.map(p => productCard(p)).join('');
+  }
 
-  // Filter listeners
-  $$("input[name='cat']").forEach(r => r.addEventListener("change", () => {
-    state.filterCategory = r.value;
-    filterShop();
-  }));
-
-  $$("input[name='price']").forEach(r => r.addEventListener("change", () => {
-    state.filterPrice = r.value;
-    filterShop();
-  }));
-
-  $("#sortSelect").addEventListener("change", (e) => {
-    state.sortBy = e.target.value;
-    filterShop();
-  });
-
-  $("#shopSearch").addEventListener("input", (e) => {
-    state.shopSearch = e.target.value;
-    filterShop();
-  });
+  // Bestsellers grid
+  const bestGrid = $('bestsellers-grid');
+  if (bestGrid) {
+    const best = products.filter(p => p.isBestseller).slice(0, 3);
+    bestGrid.innerHTML = best.map(p => productCard(p)).join('');
+  }
 }
 
-function filterShop() {
-  let products = [...PRODUCTS];
+// ─────────────────────────────────────────────────────────────
+// SHOP PAGE
+// ─────────────────────────────────────────────────────────────
+function initShopPage(presetCategory = null) {
+  // Build category filters
+  const catEl = $('category-filters');
+  if (catEl) {
+    catEl.innerHTML = `
+      <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-ink text-ink-muted">
+        <input type="radio" name="shop-cat" value="all" ${!presetCategory || presetCategory === 'all' ? 'checked' : ''} onchange="applyFilters()" class="accent-gold-light"> All Categories
+      </label>
+      ${CATEGORIES.map(c => `
+        <label class="flex items-center gap-2 text-sm cursor-pointer hover:text-ink text-ink-muted">
+          <input type="radio" name="shop-cat" value="${c.value}" ${presetCategory === c.value ? 'checked' : ''} onchange="applyFilters()" class="accent-gold-light">
+          ${c.label}
+        </label>
+      `).join('')}
+    `;
+  }
+
+  applyFilters();
+}
+
+function applyFilters() {
+  const search = ($('shop-search')?.value || '').toLowerCase().trim();
+  const catEl = document.querySelector('input[name="shop-cat"]:checked');
+  const cat = catEl ? catEl.value : 'all';
+  const priceEl = document.querySelector('input[name="price"]:checked');
+  const price = priceEl ? priceEl.value : 'all';
+  const onlyBest = $('filter-bestseller')?.checked;
+  const onlyNew = $('filter-new')?.checked;
+  const onlySale = $('filter-sale')?.checked;
+  const sort = $('shop-sort')?.value || 'featured';
+
+  let filtered = [...products];
 
   // Category
-  if (state.filterCategory !== "all") {
-    products = products.filter(p => p.category === state.filterCategory);
-  }
+  if (cat && cat !== 'all') filtered = filtered.filter(p => p.category === cat);
 
   // Price
-  if (state.filterPrice === "under40") products = products.filter(p => p.price < 40);
-  else if (state.filterPrice === "40-80") products = products.filter(p => p.price >= 40 && p.price <= 80);
-  else if (state.filterPrice === "over80") products = products.filter(p => p.price > 80);
+  if (price === 'under20') filtered = filtered.filter(p => p.price < 20);
+  else if (price === '20-50') filtered = filtered.filter(p => p.price >= 20 && p.price <= 50);
+  else if (price === 'over50') filtered = filtered.filter(p => p.price > 50);
+
+  // Type checkboxes
+  if (onlyBest) filtered = filtered.filter(p => p.isBestseller);
+  if (onlyNew) filtered = filtered.filter(p => p.isNew);
+  if (onlySale) filtered = filtered.filter(p => p.badges.includes('sale'));
 
   // Search
-  if (state.shopSearch) {
-    const q = state.shopSearch.toLowerCase();
-    products = products.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q)
+  if (search) {
+    filtered = filtered.filter(p =>
+      p.name.toLowerCase().includes(search) ||
+      p.category.toLowerCase().includes(search) ||
+      p.description.toLowerCase().includes(search)
     );
   }
 
   // Sort
-  if (state.sortBy === "low-high") products.sort((a, b) => a.price - b.price);
-  else if (state.sortBy === "high-low") products.sort((a, b) => b.price - a.price);
-  else if (state.sortBy === "newest") products.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
-  else if (state.sortBy === "popular") products.sort((a, b) => b.reviews - a.reviews);
+  if (sort === 'price-low') filtered.sort((a, b) => a.price - b.price);
+  else if (sort === 'price-high') filtered.sort((a, b) => b.price - a.price);
+  else if (sort === 'newest') filtered.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+  else if (sort === 'popular') filtered.sort((a, b) => b.reviews - a.reviews);
 
-  $("#shopCount").textContent = `Showing ${products.length} product${products.length !== 1 ? "s" : ""}`;
-  $("#shopGrid").innerHTML = products.length
-    ? products.map(productCardHTML).join("")
-    : `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-soft)">
-        <p style="font-size:2rem;margin-bottom:12px">🔍</p>
-        <p>No products found. Try adjusting your filters.</p>
-       </div>`;
+  const grid = $('shop-grid');
+  const empty = $('shop-empty');
+  const count = $('shop-count');
+
+  if (count) count.textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+  } else {
+    empty.classList.add('hidden');
+    grid.innerHTML = filtered.map(p => productCard(p)).join('');
+  }
 }
 
-// ── PRODUCT PAGE ───────────────────────────────────────────────
+function resetFilters() {
+  const catAll = document.querySelector('input[name="shop-cat"][value="all"]');
+  if (catAll) catAll.checked = true;
+  const priceAll = document.querySelector('input[name="price"][value="all"]');
+  if (priceAll) priceAll.checked = true;
+  const bestEl = $('filter-bestseller');
+  if (bestEl) bestEl.checked = false;
+  const newEl = $('filter-new');
+  if (newEl) newEl.checked = false;
+  const saleEl = $('filter-sale');
+  if (saleEl) saleEl.checked = false;
+  const searchEl = $('shop-search');
+  if (searchEl) searchEl.value = '';
+  const sortEl = $('shop-sort');
+  if (sortEl) sortEl.value = 'featured';
+  applyFilters();
+}
+
+// ─────────────────────────────────────────────────────────────
+// PRODUCT PAGE
+// ─────────────────────────────────────────────────────────────
+let detailQty = 1;
+
 function openProduct(id) {
-  const p = PRODUCTS.find(pr => pr.id === id);
+  const p = products.find(x => x.id === id);
   if (!p) return;
-  state.currentProduct = p;
-  state.qty = 1;
-  state.selectedMaterial = p.materials[0];
+  currentProduct = p;
+  detailQty = 1;
 
-  // Update breadcrumb
-  $("#prodBreadcrumb").textContent = p.name;
+  $('prod-breadcrumb').textContent = p.name;
+  $('prod-name').textContent = p.name;
 
-  // Title, badges, price
-  $("#productTitle").textContent = p.name;
-  $("#productBadges").innerHTML = p.badges.map(b => `<span class="badge badge-${b}">${b}</span>`).join("");
+  // Badges
+  $('prod-badges').innerHTML = p.badges.map(b => {
+    const map = { bestseller: 'bg-gold-light text-white', new: 'bg-sky-500 text-white', sale: 'bg-rose-500 text-white' };
+    return `<span class="text-xs font-bold uppercase tracking-wide ${map[b] || ''} px-3 py-1 rounded-full">${b}</span>`;
+  }).join('');
 
+  // Stars + reviews
+  $('prod-reviews').innerHTML = `<span class="stars text-base">${starsHtml(p.rating)}</span> <span class="text-sm text-ink-muted ml-1">(${p.reviews} reviews)</span>`;
+
+  // Price
+  $('prod-price').textContent = fmt(p.price);
   const hasDiscount = p.originalPrice && p.originalPrice > p.price;
-  const discountPct = hasDiscount ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
-  $("#productPrice").textContent = fmt(p.price);
-  $("#productOriginal").textContent = hasDiscount ? fmt(p.originalPrice) : "";
-  $("#productDiscount").textContent = hasDiscount ? `−${discountPct}%` : "";
-
-  // Stars
-  $("#productStars").innerHTML = starsHtml(p.rating);
-  $("#productReviewCount").textContent = `(${p.reviews} reviews)`;
+  if (hasDiscount) {
+    $('prod-original').textContent = fmt(p.originalPrice);
+    $('prod-original').classList.remove('hidden');
+    $('prod-discount').textContent = `-${Math.round((1 - p.price / p.originalPrice) * 100)}%`;
+    $('prod-discount').classList.remove('hidden');
+  } else {
+    $('prod-original').classList.add('hidden');
+    $('prod-discount').classList.add('hidden');
+  }
 
   // Description
-  $("#productDesc").textContent = p.description;
+  $('prod-desc').textContent = p.description;
 
-  // Gallery
-  $("#productMainImg").textContent = p.emoji;
-  $("#productThumbs").innerHTML = p.emojis.map((em, i) => `
-    <div class="product-thumb ${i === 0 ? "active" : ""}" onclick="setThumb(this,'${em}')">${em}</div>
-  `).join("");
+  // Main image
+  $('prod-main-img').src = getUnsplashUrl(p.keyword, 800, 800);
+  $('prod-main-img').onerror = function() { handleImgError(this, p.keyword); };
 
-  // Materials
-  $("#materialBtns").innerHTML = p.materials.map(m => `
-    <button class="option-btn ${m === p.materials[0] ? "active" : ""}" onclick="selectMaterial(this,'${m}')">${m}</button>
-  `).join("");
+  // Thumbnails
+  const thumbsEl = $('prod-thumbs');
+  const allKeywords = [p.keyword, ...(p.thumbKeywords || [])].slice(0, 4);
+  thumbsEl.innerHTML = allKeywords.map((kw, i) => `
+    <button onclick="setMainImg('${kw}')" class="rounded-xl overflow-hidden border-2 ${i === 0 ? 'border-gold-light' : 'border-transparent'} hover:border-gold-light transition-all aspect-square bg-cream-dark thumb-btn" data-kw="${kw}">
+      ${imgEl(kw, '', 'w-full h-full object-cover', 200, 200, i)}
+    </button>
+  `).join('');
 
-  // Qty
-  $("#qtyValue").textContent = 1;
+  // Options (materials)
+  const optsEl = $('prod-options');
+  if (p.materials && p.materials.length > 0) {
+    optsEl.innerHTML = `
+      <p class="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-2">Format / Files Included</p>
+      <div class="flex flex-wrap gap-2 mb-5">
+        ${p.materials.map((m, i) => `
+          <button class="px-3 py-1.5 rounded-lg border text-xs font-medium transition-all ${i === 0 ? 'border-gold-light bg-gold-pale text-gold-dark' : 'border-gold-pale text-ink-muted hover:border-gold-light hover:text-ink'}" onclick="selectMaterialBtn(this)">${m}</button>
+        `).join('')}
+      </div>
+    `;
+  }
 
-  // Wishlist
-  $("#wishlistBtn").textContent = state.wishlist.has(p.id) ? "♥" : "♡";
-  $("#wishlistBtn").onclick = () => {
-    toggleWishlistProduct(p.id);
+  // Quantity
+  $('prod-qty').textContent = detailQty;
+
+  // Add to cart button
+  $('add-to-cart-btn').onclick = () => {
+    addToCart(p.id, detailQty);
+    openCart();
   };
 
-  // Add to cart
-  $("#addToCartBtn").onclick = () => {
-    addToCart(p.id, state.qty, state.selectedMaterial);
-  };
-
-  // Qty controls
-  $("#qtyMinus").onclick = () => { if (state.qty > 1) { state.qty--; $("#qtyValue").textContent = state.qty; } };
-  $("#qtyPlus").onclick = () => { state.qty++; $("#qtyValue").textContent = state.qty; };
+  // Wishlist button
+  const wlBtn = $('wishlist-btn');
+  wlBtn.textContent = wishlist.has(p.id) ? '♥' : '♡';
+  wlBtn.classList.toggle('text-rose-500', wishlist.has(p.id));
 
   // Reviews
-  renderProductReviews();
+  const reviewsEl = $('prod-reviews-list');
+  if (p.reviewData && p.reviewData.length) {
+    reviewsEl.innerHTML = p.reviewData.map(r => `
+      <div class="bg-white rounded-2xl border border-gold-pale p-5 hover:border-gold-light transition-colors">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-white text-xs font-bold">${r.author[0]}</div>
+            <div><p class="text-sm font-semibold text-ink">${r.author}</p><p class="text-xs text-emerald-600">✓ Verified</p></div>
+          </div>
+          <span class="text-xs text-ink-muted">${r.date}</span>
+        </div>
+        <div class="stars text-sm mb-2">${'★'.repeat(r.rating)}</div>
+        <p class="text-sm text-ink-soft font-display italic leading-relaxed">"${r.text}"</p>
+      </div>
+    `).join('');
+  }
 
-  // Related
-  const related = p.related.map(id => PRODUCTS.find(pr => pr.id === id)).filter(Boolean);
-  $("#relatedGrid").innerHTML = related.map(productCardHTML).join("");
+  // Related products
+  const relGrid = $('related-grid');
+  if (p.relatedIds) {
+    const related = p.relatedIds.map(rid => products.find(x => x.id === rid)).filter(Boolean);
+    relGrid.innerHTML = related.map(rp => productCard(rp)).join('');
+  }
 }
 
-function setThumb(el, emoji) {
-  $$(".product-thumb").forEach(t => t.classList.remove("active"));
-  el.classList.add("active");
-  $("#productMainImg").textContent = emoji;
+function setMainImg(kw) {
+  $('prod-main-img').src = getUnsplashUrl(kw, 800, 800);
+  document.querySelectorAll('.thumb-btn').forEach(btn => {
+    btn.classList.toggle('border-gold-light', btn.dataset.kw === kw);
+    btn.classList.toggle('border-transparent', btn.dataset.kw !== kw);
+  });
 }
 
-function selectMaterial(btn, mat) {
-  $$(".option-btn").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  state.selectedMaterial = mat;
+function selectMaterialBtn(btn) {
+  document.querySelectorAll('#prod-options button').forEach(b => {
+    b.classList.remove('border-gold-light', 'bg-gold-pale', 'text-gold-dark');
+    b.classList.add('border-gold-pale', 'text-ink-muted');
+  });
+  btn.classList.add('border-gold-light', 'bg-gold-pale', 'text-gold-dark');
+  btn.classList.remove('border-gold-pale', 'text-ink-muted');
 }
 
-function toggleWishlistProduct(id) {
-  if (state.wishlist.has(id)) {
-    state.wishlist.delete(id);
-    $("#wishlistBtn").textContent = "♡";
-    showToast("Removed from wishlist");
+function changeQty(delta) {
+  detailQty = Math.max(1, detailQty + delta);
+  $('prod-qty').textContent = detailQty;
+}
+
+function toggleWishlist() {
+  if (!currentProduct) return;
+  const id = currentProduct.id;
+  const btn = $('wishlist-btn');
+  if (wishlist.has(id)) {
+    wishlist.delete(id);
+    btn.textContent = '♡';
+    btn.classList.remove('text-rose-500');
+    showToast('Removed from wishlist');
   } else {
-    state.wishlist.add(id);
-    $("#wishlistBtn").textContent = "♥";
-    showToast("♥ Added to wishlist");
+    wishlist.add(id);
+    btn.textContent = '♥';
+    btn.classList.add('text-rose-500');
+    showToast('♥ Added to wishlist');
   }
   saveWishlist();
 }
 
-function renderProductReviews() {
-  const d = REVIEWS_DATA;
-  // Summary
-  $("#reviewsSummary").innerHTML = `
-    <div class="rs-score">
-      <strong>${d.average}</strong>
-      <div class="rs-stars">${"★".repeat(5)}</div>
-      <span>${d.total} reviews</span>
-    </div>
-    <div class="rs-bars">
-      ${d.distribution.map(r => `
-        <div class="rs-bar-row">
-          <span>${r.stars}★</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" style="width:${r.pct}%"></div></div>
-          <span>${r.pct}%</span>
-        </div>
-      `).join("")}
-    </div>
-  `;
-
-  // Reviews list
-  $("#reviewsList").innerHTML = d.items.map(r => `
-    <div class="review-card">
-      <div class="review-header">
-        <span class="review-author">${r.author}</span>
-        <span class="review-date">${r.date}</span>
-      </div>
-      <div class="review-stars">${"★".repeat(r.stars)}</div>
-      <p class="review-text">${r.text}</p>
-      ${r.verified ? '<p class="review-verified">✓ Verified Purchase</p>' : ""}
-    </div>
-  `).join("");
-}
-
-// ── CART PAGE ──────────────────────────────────────────────────
-function renderCartPage() {
-  const el = $("#cartPageItems");
+// ─────────────────────────────────────────────────────────────
+// CHECKOUT
+// ─────────────────────────────────────────────────────────────
+function renderCheckout() {
+  const el = $('checkout-items-list');
   if (!el) return;
 
-  if (state.cart.length === 0) {
-    el.innerHTML = `
-      <div style="text-align:center;padding:80px 20px;color:var(--text-soft)">
-        <p style="font-size:3rem;margin-bottom:16px">🛒</p>
-        <p style="font-size:1.1rem;margin-bottom:24px">Your cart is empty</p>
-        <button class="btn btn-primary" data-page="shop">Start Shopping</button>
-      </div>`;
-    updateCartSummary(0);
+  if (cart.length === 0) {
+    el.innerHTML = `<p class="text-sm text-ink-muted text-center py-4">No items in cart</p>`;
+    $('co-subtotal').textContent = '$0.00';
+    $('co-tax').textContent = '$0.00';
+    $('co-total').textContent = '$0.00';
+    $('checkout-total-btn').textContent = '$0.00';
     return;
   }
 
-  el.innerHTML = state.cart.map(item => `
-    <div class="cart-page-item">
-      <div class="cart-page-item-img">${item.emoji}</div>
-      <div>
-        <div class="cart-page-name">${item.name}</div>
-        <div class="cart-page-variant">${item.material} · Qty: ${item.qty}</div>
-        <div class="cart-qty-ctrl">
-          <button onclick="updateCartQty('${item.key}',-1);renderCartPage()">−</button>
-          <span>${item.qty}</span>
-          <button onclick="updateCartQty('${item.key}',1);renderCartPage()">+</button>
-        </div>
+  el.innerHTML = cart.map(item => `
+    <div class="flex items-center gap-3 py-2">
+      <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-cream-dark border border-gold-pale">
+        ${imgEl(item.keyword, item.name, 'w-full h-full object-cover', 100, 100)}
       </div>
-      <div>
-        <div class="cart-page-price">${fmt(item.price * item.qty)}</div>
-        <button class="btn btn-ghost small" onclick="removeFromCart('${item.key}');renderCartPage()" style="margin-top:8px;font-size:0.75rem">Remove</button>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-ink leading-tight truncate">${item.name}</p>
+        <p class="text-xs text-ink-muted">Qty: ${item.qty}</p>
       </div>
+      <span class="text-sm font-semibold text-ink">${fmt(item.price * item.qty)}</span>
     </div>
-  `).join("");
+  `).join('');
 
-  const subtotal = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
-  updateCartSummary(subtotal);
-}
-
-function updateCartSummary(subtotal) {
-  const shipping = subtotal >= 75 ? 0 : 8.95;
-  const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
-
-  const s = (id, val) => { const el = $(id); if (el) el.textContent = val; };
-  s("#summarySubtotal", fmt(subtotal));
-  s("#summaryShipping", shipping === 0 ? "Free" : fmt(shipping));
-  s("#summaryTax", fmt(tax));
-  s("#summaryTotal", fmt(total));
-}
-
-// ── CHECKOUT PAGE ──────────────────────────────────────────────
-function renderCheckout() {
-  const el = $("#checkoutItems");
-  if (!el) return;
-
-  el.innerHTML = state.cart.map(item => `
-    <div class="checkout-item">
-      <div class="checkout-item-img" data-qty="${item.qty}">${item.emoji}</div>
-      <div class="checkout-item-name">${item.name}<br><small style="color:var(--text-soft)">${item.material}</small></div>
-      <div class="checkout-item-price">${fmt(item.price * item.qty)}</div>
-    </div>
-  `).join("");
-
-  const subtotal = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const tax = subtotal * 0.08;
   const total = subtotal + tax;
 
-  const s = (id, val) => { const el = $(id); if (el) el.textContent = val; };
-  s("#coSubtotal", fmt(subtotal));
-  s("#coTax", fmt(tax));
-  s("#coTotal", fmt(total));
-  s("#checkoutTotal", fmt(total));
+  $('co-subtotal').textContent = fmt(subtotal);
+  $('co-tax').textContent = fmt(tax);
+  $('co-total').textContent = fmt(total);
+  $('checkout-total-btn').textContent = fmt(total);
 }
 
-function handleCheckout() {
-  // Simulate order
-  const orderNum = "ECD-" + Date.now().toString().slice(-6);
-  $("#orderNum").textContent = orderNum;
-  state.cart = [];
+function placeOrder() {
+  if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+  const orderId = 'ECD-' + Date.now().toString().slice(-6);
+  $('confirm-order-id').textContent = orderId;
+  cart = [];
   saveCart();
-  updateCartUI();
-  navigateTo("confirmation");
+  updateCartBadge();
+  showPage('confirmation');
 }
 
-// ── NEWSLETTER ─────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// SEARCH
+// ─────────────────────────────────────────────────────────────
+function toggleSearch() {
+  const bar = $('search-bar');
+  bar.classList.toggle('hidden');
+  if (!bar.classList.contains('hidden')) {
+    $('global-search').focus();
+  }
+}
+
+function handleGlobalSearch(val) {
+  if (val.trim().length > 1) {
+    showPage('shop');
+    const s = $('shop-search');
+    if (s) { s.value = val; applyFilters(); }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// MOBILE MENU
+// ─────────────────────────────────────────────────────────────
+function toggleMobileMenu() {
+  const m = $('mobile-menu');
+  m.classList.toggle('hidden');
+}
+
+function closeMobileMenu() {
+  $('mobile-menu').classList.add('hidden');
+}
+
+// ─────────────────────────────────────────────────────────────
+// SCROLL REVEAL
+// ─────────────────────────────────────────────────────────────
+function initReveal() {
+  const els = document.querySelectorAll('.reveal:not(.visible)');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => obs.observe(el));
+}
+
+// ─────────────────────────────────────────────────────────────
+// NAVBAR SHADOW ON SCROLL
+// ─────────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = $('navbar');
+  if (nav) nav.style.boxShadow = window.scrollY > 10 ? '0 4px 24px rgba(28,25,23,0.07)' : 'none';
+}, { passive: true });
+
+// ─────────────────────────────────────────────────────────────
+// FORMS
+// ─────────────────────────────────────────────────────────────
 function handleNewsletter(e) {
   e.preventDefault();
   e.target.reset();
-  showToast("🎉 Welcome to the circle! Check your inbox for 10% off.");
+  showToast('🎉 Welcome! Your 10% discount code is on its way.');
 }
 
-// ── CONTACT ────────────────────────────────────────────────────
 function handleContact(e) {
   e.preventDefault();
   e.target.reset();
-  showToast("✓ Message sent! We'll get back to you within 24 hours.");
+  showToast('✓ Message sent! We\'ll reply within 24 hours.');
 }
 
-// ── SCROLL ANIMATIONS ─────────────────────────────────────────
-// Parallax hero orbs on scroll
-window.addEventListener("scroll", () => {
-  const scrollY = window.scrollY;
-  const orb1 = $(".hero-orb-1");
-  const orb2 = $(".hero-orb-2");
-  if (orb1) orb1.style.transform = `translateY(${scrollY * 0.15}px)`;
-  if (orb2) orb2.style.transform = `translateY(${scrollY * 0.08}px)`;
-});
-
-// ── KEYBOARD ───────────────────────────────────────────────────
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
+// ─────────────────────────────────────────────────────────────
+// KEYBOARD
+// ─────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
     closeCart();
-    $("#searchBar").classList.remove("open");
+    $('search-bar').classList.add('hidden');
+    closeMobileMenu();
   }
 });
 
-// ── EXPOSE GLOBALS FOR INLINE HANDLERS ─────────────────────────
+// ─────────────────────────────────────────────────────────────
+// BOOTSTRAP
+// ─────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  // Hide loader
+  setTimeout(() => {
+    const loader = $('loader');
+    if (loader) loader.classList.add('hidden');
+    // Init home page
+    initHome();
+    updateCartBadge();
+    initReveal();
+  }, 900);
+});
+
+// Expose globals for inline handlers
 Object.assign(window, {
-  navigateTo,
-  addToCart,
-  removeFromCart,
-  updateCartQty,
-  toggleWishlist,
-  setThumb,
-  selectMaterial,
-  goToTestimonial,
-  handleNewsletter,
-  handleContact,
-  handleCheckout,
-  closeCart,
-  filterShop,
-  renderCartPage,
+  showPage, openCart, closeCart, addToCart, removeFromCart,
+  updateCartItemQty, toggleWishlistCard, toggleWishlist,
+  openProduct, setMainImg, selectMaterialBtn, changeQty,
+  applyFilters, resetFilters, toggleSearch, handleGlobalSearch,
+  toggleMobileMenu, closeMobileMenu, handleNewsletter,
+  handleContact, placeOrder, handleImgError,
 });
