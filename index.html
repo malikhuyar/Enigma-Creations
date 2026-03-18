@@ -1,935 +1,1057 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enigma Creation Design — Premium Digital Art & Branding</title>
-  <meta name="description" content="Discover premium handcrafted digital art, logos, and brand identity designs by Enigma Creation Design." />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Enigma Creation Design — Handcrafted Jewelry</title>
+<meta name="description" content="Handcrafted bracelets, rings, pendants, necklaces and earrings by Enigma Creation Design. Wearable art made with intention."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{display:['"Playfair Display"','Georgia','serif'],body:['Jost','sans-serif']},colors:{gold:{DEFAULT:'#B8975A',light:'#D4B483',dark:'#8A6F3A'},ink:{DEFAULT:'#0F0E0C',soft:'#2C2A26',light:'#5A564E'},parch:{DEFAULT:'#FAF7F2',dark:'#F0EBE1'}}}}}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:#FAF7F2;color:#0F0E0C;overflow-x:hidden}
+::selection{background:#B8975A;color:#fff}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:#F0EBE1}
+::-webkit-scrollbar-thumb{background:#B8975A;border-radius:3px}
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");opacity:.5}
 
-  <!-- Google Fonts: Playfair Display + Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+#loader{position:fixed;inset:0;background:#FAF7F2;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .65s ease,visibility .65s ease}
+#loader.gone{opacity:0;visibility:hidden;pointer-events:none}
+.loader-ring{width:44px;height:44px;border:2px solid #D4B483;border-top-color:transparent;border-radius:50%;animation:ldspin .85s linear infinite}
+@keyframes ldspin{to{transform:rotate(360deg)}}
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['"Playfair Display"', 'Georgia', 'serif'],
-            body: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            gold: { DEFAULT: '#B8960C', light: '#D4AF37', pale: '#F5ECC7', dark: '#8B6914' },
-            ink: { DEFAULT: '#1C1917', soft: '#44403C', muted: '#78716C' },
-            cream: { DEFAULT: '#FAF8F3', dark: '#F0EBE1' },
-          },
-          animation: {
-            'fade-up': 'fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards',
-            'fade-in': 'fadeIn 0.5s ease forwards',
-            'scale-in': 'scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards',
-            'slide-right': 'slideRight 0.45s cubic-bezier(0.4,0,0.2,1) forwards',
-            'shimmer': 'shimmer 1.8s infinite',
-          },
-          keyframes: {
-            fadeUp: { '0%': { opacity: '0', transform: 'translateY(28px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-            scaleIn: { '0%': { opacity: '0', transform: 'scale(0.85)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
-            slideRight: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(0)' } },
-            shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
-          },
-          boxShadow: {
-            'gold': '0 8px 32px rgba(184,150,12,0.22)',
-            'card': '0 4px 24px rgba(28,25,23,0.08)',
-            'card-hover': '0 16px 48px rgba(28,25,23,0.14)',
-          }
-        }
-      }
-    }
-  </script>
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:none}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
 
-  <style>
-    * { box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAF8F3; color: #1C1917; }
+#nav{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 
-    /* Loader */
-    #loader { position: fixed; inset: 0; background: #FAF8F3; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; transition: opacity 0.6s ease, visibility 0.6s ease; }
-    #loader.hidden { opacity: 0; visibility: hidden; }
-    .loader-ring { width: 56px; height: 56px; border: 2px solid #F5ECC7; border-top-color: #D4AF37; border-radius: 50%; animation: spin 0.9s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+.ci{transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.pc:hover .ci{transform:scale(1.07)}
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #FAF8F3; }
-    ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+.pg{display:none}
+.pg.on{display:block;animation:pgfade .35s ease}
+@keyframes pgfade{from{opacity:0}to{opacity:1}}
 
-    /* Navbar glass */
-    #navbar { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+#cdraw{transition:transform .42s cubic-bezier(.4,0,.2,1)}
 
-    /* Hero gradient text */
-    .gradient-text { background: linear-gradient(135deg, #8B6914 0%, #D4AF37 40%, #B8960C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mq-inner{animation:mq 26s linear infinite;white-space:nowrap;display:flex;gap:3rem}
 
-    /* Product image skeleton */
-    .img-skeleton { background: linear-gradient(90deg, #F0EBE1 25%, #FAF8F3 50%, #F0EBE1 75%); background-size: 200% 100%; animation: shimmer 1.8s infinite; }
+.hex{clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+.gl::after{content:'';display:block;width:36px;height:2px;background:#B8975A;margin-top:8px}
 
-    /* Hover zoom image */
-    .img-zoom { transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
-    .img-zoom:hover { transform: scale(1.07); }
+.bg{background:#B8975A;color:#fff;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:all .3s ease;font-size:.8rem}
+.bg:hover{background:#8A6F3A;transform:translateY(-2px);box-shadow:0 8px 24px rgba(184,151,90,.3)}
+.bo{background:transparent;color:#B8975A;border:1.5px solid #B8975A;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:all .3s ease;font-size:.8rem}
+.bo:hover{background:#B8975A;color:#fff;transform:translateY(-2px)}
 
-    /* Cart drawer */
-    #cart-overlay { transition: opacity 0.35s ease; }
-    #cart-drawer { transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+.fp{padding:6px 16px;border-radius:100px;border:1.5px solid #E8E1D5;background:transparent;font-family:'Jost',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .22s;color:#5A564E}
+.fp:hover,.fp.on{background:#B8975A;border-color:#B8975A;color:#fff}
 
-    /* Toast */
-    #toast { transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease; }
+.st{color:#B8975A;font-size:.78rem;letter-spacing:2px}
+.eb{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:#B8975A;font-weight:600}
 
-    /* Scroll reveal */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+.qb{width:30px;height:30px;border:1px solid #E8E1D5;background:#FAF7F2;border-radius:6px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.qb:hover{border-color:#B8975A;color:#B8975A}
 
-    /* Gold button shine */
-    .btn-gold { position: relative; overflow: hidden; }
-    .btn-gold::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
-    .btn-gold:hover::after { left: 100%; }
+#toast{transition:transform .42s cubic-bezier(.34,1.56,.64,1),opacity .42s ease}
 
-    /* Category card hover */
-    .cat-card { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
-    .cat-card:hover { transform: translateY(-6px); }
+@keyframes mpop{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+#mbox{animation:mpop .35s cubic-bezier(.34,1.56,.64,1) forwards}
 
-    /* Product card */
-    .product-card { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
-    .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(28,25,23,0.13); }
+/* Size selector */
+.sz-btn{padding:7px 14px;border-radius:8px;border:1.5px solid #E8E1D5;background:transparent;font-family:'Jost',sans-serif;font-size:.75rem;font-weight:500;cursor:pointer;transition:all .2s;color:#5A564E}
+.sz-btn:hover,.sz-btn.picked{border-color:#B8975A;background:#B8975A;color:#fff}
 
-    /* Mobile menu */
-    #mobile-menu { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
-
-    /* Range input */
-    input[type="range"] { accent-color: #D4AF37; }
-
-    /* Grain overlay */
-    .grain::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
-
-    /* Active nav link */
-    .nav-link-active { color: #D4AF37 !important; }
-    .nav-link-active::after { transform: scaleX(1) !important; }
-
-    /* Star rating */
-    .stars { color: #D4AF37; }
-
-    /* Tooltip */
-    .tooltip { position: relative; }
-    .tooltip-text { visibility: hidden; opacity: 0; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: #1C1917; color: white; font-size: 11px; padding: 4px 10px; border-radius: 6px; white-space: nowrap; transition: opacity 0.2s; pointer-events: none; }
-    .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
-
-    /* Image error fallback */
-    img.error { display: none; }
-  </style>
+/* Wishlist heart fill */
+.wl-filled{color:#e05c5c !important;border-color:#f0a0a0 !important}
+</style>
 </head>
+<body>
 
-<body class="antialiased overflow-x-hidden">
-
-<!-- ═══════════════════════════════════════════════════
-     LOADER
-═══════════════════════════════════════════════════ -->
+<!-- LOADER -->
 <div id="loader">
   <div class="loader-ring"></div>
-  <p class="font-display text-gold-dark text-sm tracking-[0.2em] uppercase">Enigma</p>
+  <p style="font-family:'Playfair Display',serif;font-size:1rem;letter-spacing:.3em;color:#B8975A;text-transform:uppercase">Enigma</p>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     CART OVERLAY + DRAWER
-═══════════════════════════════════════════════════ -->
-<div id="cart-overlay" class="fixed inset-0 bg-ink/40 z-50 opacity-0 pointer-events-none" onclick="closeCart()"></div>
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-8 left-1/2 z-[9999] bg-[#0F0E0C] text-white px-7 py-3 rounded-full text-sm shadow-2xl pointer-events-none whitespace-nowrap font-medium" style="transform:translateX(-50%) translateY(70px);opacity:0"></div>
 
-<aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-cream z-50 translate-x-full flex flex-col shadow-2xl">
-  <!-- Header -->
-  <div class="flex items-center justify-between px-6 py-5 border-b border-gold-pale">
-    <h3 class="font-display text-xl font-semibold text-ink">Your Cart</h3>
-    <button onclick="closeCart()" class="w-9 h-9 rounded-full bg-cream-dark hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted hover:text-ink">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-  </div>
-  <!-- Items -->
-  <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-4 space-y-4"></div>
-  <!-- Footer -->
-  <div id="cart-footer" class="px-6 py-5 border-t border-gold-pale hidden">
-    <div class="flex justify-between items-center mb-4">
-      <span class="text-sm text-ink-muted">Subtotal</span>
-      <span id="cart-subtotal" class="font-display text-xl font-semibold text-ink">$0.00</span>
-    </div>
-    <p class="text-xs text-ink-muted mb-4 text-center">Shipping & taxes calculated at checkout</p>
-    <button onclick="showPage('checkout')" class="btn-gold w-full bg-gold-light hover:bg-gold text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:shadow-gold mb-3">Proceed to Checkout</button>
-    <button onclick="closeCart();showPage('shop')" class="w-full border border-gold-light/60 text-ink-soft hover:border-gold-light hover:text-ink py-3 rounded-xl text-sm font-medium transition-all">Continue Shopping</button>
-  </div>
-  <div id="cart-empty" class="flex-1 flex flex-col items-center justify-center px-6 text-center gap-4">
-    <div class="w-20 h-20 rounded-full bg-gold-pale flex items-center justify-center">
-      <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-    </div>
-    <p class="font-display text-lg text-ink">Your cart is empty</p>
-    <p class="text-sm text-ink-muted">Discover our premium collection</p>
-    <button onclick="closeCart();showPage('shop')" class="btn-gold bg-gold-light text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-gold transition-all">Browse Shop</button>
-  </div>
-</aside>
-
-<!-- ═══════════════════════════════════════════════════
-     NAVBAR
-═══════════════════════════════════════════════════ -->
-<header id="navbar" class="fixed top-0 left-0 right-0 z-40 bg-cream/90 border-b border-gold-pale/60 transition-shadow duration-300">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16 sm:h-18">
-
-      <!-- Logo -->
-      <button onclick="showPage('home')" class="flex items-center gap-2.5 group">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center">
-          <span class="text-white font-display font-bold text-sm">E</span>
-        </div>
-        <span class="font-display font-semibold text-lg text-ink group-hover:text-gold-dark transition-colors hidden sm:block">Enigma</span>
-      </button>
-
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-8">
-        <button onclick="showPage('home')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="home">Home</button>
-        <button onclick="showPage('shop')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="shop">Shop</button>
-        <button onclick="showPage('about')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="about">About</button>
-        <button onclick="showPage('contact')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="contact">Contact</button>
-      </nav>
-
-      <!-- Actions -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Search -->
-        <button onclick="toggleSearch()" class="w-9 h-9 rounded-full hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted hover:text-ink tooltip">
-          <svg class="w-4.5 h-4.5 w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <span class="tooltip-text">Search</span>
-        </button>
-
-        <!-- Cart -->
-        <button onclick="openCart()" class="relative w-9 h-9 rounded-full hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted hover:text-ink tooltip">
-          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span id="cart-badge" class="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 w-[18px] h-[18px] bg-gold-light text-white text-[10px] font-bold rounded-full flex items-center justify-center opacity-0 scale-0 transition-all duration-300">0</span>
-          <span class="tooltip-text">Cart</span>
-        </button>
-
-        <!-- Mobile menu -->
-        <button onclick="toggleMobileMenu()" class="md:hidden w-9 h-9 rounded-full hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted">
-          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+<!-- ══════════ NAVBAR ══════════ -->
+<header id="nav" class="fixed top-0 inset-x-0 z-40 bg-[#FAF7F2]/90 border-b border-black/[.06] h-[68px]">
+  <div class="max-w-7xl mx-auto px-5 h-full flex items-center justify-between gap-4">
+    <button onclick="go('home')" class="flex items-center gap-2 group shrink-0">
+      <div class="hex bg-[#B8975A] w-8 h-8 flex items-center justify-center transition-transform duration-500 group-hover:rotate-12" style="display:flex;align-items:center;justify-content:center">
+        <span class="text-white text-xs font-bold" style="font-family:'Playfair Display',serif">E</span>
       </div>
+      <span style="font-family:'Playfair Display',serif" class="text-[1.15rem] font-bold tracking-wide text-[#0F0E0C]">Enigma</span>
+    </button>
+
+    <nav class="hidden md:flex items-center gap-7">
+      <button onclick="go('home')" class="nav-l text-[.75rem] font-medium tracking-[.18em] uppercase text-[#5A564E] hover:text-[#B8975A] transition-colors" data-p="home">Home</button>
+      <button onclick="go('shop')" class="nav-l text-[.75rem] font-medium tracking-[.18em] uppercase text-[#5A564E] hover:text-[#B8975A] transition-colors" data-p="shop">Shop</button>
+      <button onclick="go('about')" class="nav-l text-[.75rem] font-medium tracking-[.18em] uppercase text-[#5A564E] hover:text-[#B8975A] transition-colors" data-p="about">About</button>
+      <button onclick="go('contact')" class="nav-l text-[.75rem] font-medium tracking-[.18em] uppercase text-[#5A564E] hover:text-[#B8975A] transition-colors" data-p="contact">Contact</button>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <button onclick="toggleSrch()" class="w-9 h-9 flex items-center justify-center text-[#5A564E] hover:text-[#B8975A] rounded-lg hover:bg-[#B8975A]/10 transition-all">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button onclick="openCart()" class="relative w-9 h-9 flex items-center justify-center text-[#5A564E] hover:text-[#B8975A] rounded-lg hover:bg-[#B8975A]/10 transition-all">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span id="cbadge" class="absolute -top-0.5 -right-0.5 bg-[#B8975A] text-white text-[9px] font-bold rounded-full" style="width:17px;height:17px;display:none;align-items:center;justify-content:center">0</span>
+      </button>
+      <button onclick="toggleMob()" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px]">
+        <span class="w-5 h-[1.5px] bg-[#0F0E0C] block"></span>
+        <span class="w-5 h-[1.5px] bg-[#0F0E0C] block"></span>
+        <span class="w-3 h-[1.5px] bg-[#0F0E0C] block self-start"></span>
+      </button>
     </div>
   </div>
-
-  <!-- Search Bar -->
-  <div id="search-bar" class="hidden border-t border-gold-pale/60 bg-cream/95 px-4 py-3">
-    <div class="max-w-2xl mx-auto relative">
-      <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="global-search" type="text" placeholder="Search products, categories…" class="w-full pl-10 pr-4 py-2.5 bg-white border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light transition-colors" oninput="handleGlobalSearch(this.value)" />
+  <div id="srchbar" class="hidden border-t border-black/[.06] bg-[#FAF7F2]/95 px-5 py-3">
+    <div class="max-w-lg mx-auto flex items-center gap-3">
+      <svg width="15" height="15" fill="none" stroke="#B8975A" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="nsrch" type="text" placeholder="Search jewelry…" oninput="navSrch(this.value)" class="flex-1 bg-transparent text-sm text-[#0F0E0C] placeholder-[#0F0E0C]/40 outline-none" style="font-family:'Jost',sans-serif"/>
+      <button onclick="toggleSrch()" class="text-[#0F0E0C]/40 hover:text-[#B8975A] text-xs uppercase tracking-widest">Close</button>
     </div>
-  </div>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden hidden border-t border-gold-pale/60 bg-cream/98 px-4 py-4 space-y-1">
-    <button onclick="showPage('home');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">Home</button>
-    <button onclick="showPage('shop');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">Shop</button>
-    <button onclick="showPage('about');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">About</button>
-    <button onclick="showPage('contact');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">Contact</button>
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════════════
-     TOAST
-═══════════════════════════════════════════════════ -->
-<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-ink text-white text-sm font-medium px-5 py-3 rounded-xl shadow-xl translate-y-20 opacity-0 pointer-events-none whitespace-nowrap flex items-center gap-2">
-  <svg class="w-4 h-4 text-gold-light flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-  <span id="toast-msg"></span>
+<!-- Mobile menu -->
+<div id="mob" class="fixed inset-0 z-30 bg-[#FAF7F2] flex flex-col pt-20 px-8 gap-7" style="transition:all .4s;transform:translateX(-100%);opacity:0;pointer-events:none">
+  <button onclick="go('home');toggleMob()" class="text-left text-2xl text-[#0F0E0C] hover:text-[#B8975A] transition-colors" style="font-family:'Playfair Display',serif">Home</button>
+  <button onclick="go('shop');toggleMob()" class="text-left text-2xl text-[#0F0E0C] hover:text-[#B8975A] transition-colors" style="font-family:'Playfair Display',serif">Shop</button>
+  <button onclick="go('about');toggleMob()" class="text-left text-2xl text-[#0F0E0C] hover:text-[#B8975A] transition-colors" style="font-family:'Playfair Display',serif">About</button>
+  <button onclick="go('contact');toggleMob()" class="text-left text-2xl text-[#0F0E0C] hover:text-[#B8975A] transition-colors" style="font-family:'Playfair Display',serif">Contact</button>
+  <div class="mt-auto mb-12 text-xs tracking-[.3em] uppercase text-[#0F0E0C]/30">@enigmacreationdesign</div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     PAGE: HOME
-═══════════════════════════════════════════════════ -->
-<main id="page-home" class="page pt-16 sm:pt-[72px]">
+<!-- Cart overlay -->
+<div id="cover" class="fixed inset-0 z-40 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeCart()"></div>
+
+<!-- Cart drawer -->
+<aside id="cdraw" class="fixed top-0 right-0 h-full w-full max-w-[390px] z-50 bg-[#FAF7F2] shadow-2xl flex flex-col translate-x-full">
+  <div class="flex items-center justify-between px-6 py-5 border-b border-black/[.07]">
+    <h3 style="font-family:'Playfair Display',serif" class="text-xl font-bold">Your Cart</h3>
+    <button onclick="closeCart()" class="w-8 h-8 flex items-center justify-center text-[#0F0E0C]/40 hover:text-[#B8975A] transition-colors text-xl">✕</button>
+  </div>
+  <div id="clist" class="flex-1 overflow-y-auto px-6 py-4"></div>
+  <div id="cfooter" class="hidden px-6 py-5 border-t border-black/[.07] space-y-4">
+    <div class="flex justify-between items-center">
+      <span class="text-xs uppercase tracking-widest text-[#0F0E0C]/50 font-medium">Subtotal</span>
+      <span id="csub" style="font-family:'Playfair Display',serif" class="text-2xl font-bold">$0.00</span>
+    </div>
+    <p class="text-[11px] text-[#0F0E0C]/30">Free shipping on orders over $75</p>
+    <button onclick="doCheckout()" class="bg w-full py-3.5 rounded-xl">Proceed to Checkout</button>
+    <button onclick="closeCart();go('shop')" class="bo w-full py-3 rounded-xl">Continue Shopping</button>
+  </div>
+  <div id="cempty" class="flex-1 flex flex-col items-center justify-center gap-4 text-[#0F0E0C]/30">
+    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width=".8" viewBox="0 0 24 24" class="opacity-30"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <p class="text-sm">Your cart is empty</p>
+    <button onclick="closeCart();go('shop')" class="bg px-6 py-2.5 rounded-full text-xs">Browse Jewelry</button>
+  </div>
+</aside>
+
+<!-- Product modal -->
+<div id="moverlay" class="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm hidden items-center justify-center p-4" onclick="if(event.target===this)closeM()">
+  <div id="mbox" class="bg-white rounded-2xl w-full max-w-[800px] max-h-[92vh] overflow-y-auto shadow-2xl relative">
+    <button onclick="closeM()" class="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center bg-black/[.06] hover:bg-black/10 rounded-full text-[#0F0E0C]/50 hover:text-[#0F0E0C] transition-all text-xl">✕</button>
+    <div id="mcont" class="grid md:grid-cols-2"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════ -->
+<main id="pg-home" class="pg on">
 
   <!-- HERO -->
-  <section class="relative min-h-[88vh] flex items-center overflow-hidden grain">
-    <!-- BG image -->
-    <div class="absolute inset-0 z-0">
-      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-15" onerror="this.style.display='none'" />
-      <div class="absolute inset-0 bg-gradient-to-br from-cream via-cream/95 to-gold-pale/40"></div>
-    </div>
-    <!-- Decorative orbs -->
-    <div class="absolute top-20 right-[10%] w-80 h-80 rounded-full bg-gold-pale/50 blur-[100px] pointer-events-none"></div>
-    <div class="absolute bottom-20 left-[5%] w-60 h-60 rounded-full bg-gold-pale/30 blur-[80px] pointer-events-none"></div>
+  <section class="relative min-h-screen flex items-center overflow-hidden pt-[68px]">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#FAF7F2] via-[#FAF7F2] to-[#F0EBE1]"></div>
+    <div class="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-[#B8975A]/[.07] blur-[110px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-1/4 w-[300px] h-[300px] rounded-full bg-[#B8975A]/[.05] blur-[80px] pointer-events-none"></div>
+    <div class="absolute left-16 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#B8975A]/20 to-transparent hidden lg:block pointer-events-none"></div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 grid lg:grid-cols-2 gap-16 items-center">
-      <!-- Text -->
-      <div>
-        <div class="inline-flex items-center gap-2 bg-gold-pale border border-gold-light/40 rounded-full px-4 py-1.5 mb-7 reveal">
-          <span class="w-1.5 h-1.5 rounded-full bg-gold-light animate-pulse"></span>
-          <span class="text-xs font-semibold text-gold-dark tracking-[0.12em] uppercase">Premium Digital Creations</span>
-        </div>
-        <h1 class="font-display text-5xl sm:text-6xl lg:text-[4.5rem] leading-[1.05] font-bold text-ink mb-6 reveal reveal-delay-1">
-          Where Design<br>Becomes<br><em class="gradient-text not-italic">Enigma</em>
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-16 w-full py-20 grid lg:grid-cols-2 gap-14 items-center">
+      <div class="space-y-7">
+        <div class="reveal"><span class="eb">✦ Handcrafted with Intention</span></div>
+        <h1 class="reveal rd1 text-5xl md:text-6xl xl:text-[4.2rem] font-bold leading-[1.04] text-[#0F0E0C]" style="font-family:'Playfair Display',serif">
+          Wear Your<br/>
+          <em class="text-[#B8975A] not-italic">Story</em><br/>
+          in Gold
         </h1>
-        <p class="text-base sm:text-lg text-ink-muted leading-relaxed max-w-lg mb-10 reveal reveal-delay-2">
-          Handcrafted digital art, premium brand identities, and creative designs that captivate. Each piece tells a story — yours to own.
+        <p class="reveal rd2 text-[#5A564E] text-[1.05rem] leading-relaxed max-w-md">
+          Handcrafted bracelets, rings, pendants &amp; necklaces — each piece made with care, designed to be worn close and kept forever.
         </p>
-        <div class="flex flex-wrap gap-4 reveal reveal-delay-3">
-          <button onclick="showPage('shop')" class="btn-gold bg-gold-light hover:bg-gold text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 hover:shadow-gold hover:-translate-y-0.5">
-            Explore Collection
-          </button>
-          <button onclick="showPage('about')" class="border border-ink/20 hover:border-gold-light text-ink-soft hover:text-ink font-medium px-8 py-3.5 rounded-xl transition-all duration-300">
-            Our Story
-          </button>
+        <div class="reveal rd3 flex flex-wrap gap-4">
+          <button onclick="go('shop')" class="bg px-8 py-4 rounded-xl text-sm">Shop the Collection</button>
+          <button onclick="go('about')" class="bo px-8 py-4 rounded-xl text-sm">Our Story</button>
         </div>
-        <!-- Stats -->
-        <div class="flex gap-8 mt-12 reveal reveal-delay-4">
-          <div><p class="font-display text-2xl font-bold text-ink">2.4k+</p><p class="text-xs text-ink-muted uppercase tracking-wider">Customers</p></div>
-          <div class="w-px bg-gold-pale"></div>
-          <div><p class="font-display text-2xl font-bold text-ink">150+</p><p class="text-xs text-ink-muted uppercase tracking-wider">Products</p></div>
-          <div class="w-px bg-gold-pale"></div>
-          <div><p class="font-display text-2xl font-bold text-ink">4.9★</p><p class="text-xs text-ink-muted uppercase tracking-wider">Rating</p></div>
+        <div class="reveal rd4 flex items-center gap-8 pt-2">
+          <div><p style="font-family:'Playfair Display',serif" class="text-3xl font-bold">2.4k+</p><p class="text-[11px] text-[#5A564E] uppercase tracking-widest mt-1">Happy Customers</p></div>
+          <div class="w-px h-10 bg-black/10"></div>
+          <div><p style="font-family:'Playfair Display',serif" class="text-3xl font-bold">100%</p><p class="text-[11px] text-[#5A564E] uppercase tracking-widest mt-1">Handmade</p></div>
+          <div class="w-px h-10 bg-black/10"></div>
+          <div><p style="font-family:'Playfair Display',serif" class="text-3xl font-bold">★ 4.9</p><p class="text-[11px] text-[#5A564E] uppercase tracking-widest mt-1">Rating</p></div>
         </div>
       </div>
-      <!-- Hero product cards -->
-      <div class="relative hidden lg:block h-[500px] reveal reveal-delay-2">
-        <div class="absolute top-0 right-0 w-64 rounded-2xl overflow-hidden shadow-card-hover rotate-3 hover:rotate-0 transition-transform duration-500">
-          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80&auto=format&fit=crop" alt="Featured design" class="w-full h-48 object-cover" onerror="this.src='https://images.unsplash.com/photo-1558655146-d09347e92766?w=500&q=80'" />
-          <div class="bg-white p-3"><p class="font-medium text-sm text-ink">Premium Brand Kit</p><p class="text-gold-dark font-semibold text-sm">$49</p></div>
+
+      <!-- Hero image mosaic -->
+      <div class="reveal rd2 hidden lg:grid grid-cols-2 gap-4 h-[500px]">
+        <div class="flex flex-col gap-4">
+          <div class="rounded-2xl overflow-hidden flex-1 pc">
+            <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=480&h=380&fit=crop&auto=format&q=80" alt="Gold bracelet" class="ci w-full h-full object-cover"/>
+          </div>
+          <div class="rounded-2xl overflow-hidden h-44 pc">
+            <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=480&h=280&fit=crop&auto=format&q=80" alt="Silver ring" class="ci w-full h-full object-cover"/>
+          </div>
         </div>
-        <div class="absolute top-28 left-0 w-56 rounded-2xl overflow-hidden shadow-card-hover -rotate-2 hover:rotate-0 transition-transform duration-500">
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80&auto=format&fit=crop" alt="Featured design" class="w-full h-44 object-cover" onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=80'" />
-          <div class="bg-white p-3"><p class="font-medium text-sm text-ink">Digital Art Print</p><p class="text-gold-dark font-semibold text-sm">$29</p></div>
-        </div>
-        <div class="absolute bottom-0 right-12 w-60 rounded-2xl overflow-hidden shadow-card-hover rotate-1 hover:rotate-0 transition-transform duration-500">
-          <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=80&auto=format&fit=crop" alt="Featured design" class="w-full h-44 object-cover" onerror="this.src='https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80'" />
-          <div class="bg-white p-3"><p class="font-medium text-sm text-ink">Logo Design Pack</p><p class="text-gold-dark font-semibold text-sm">$39</p></div>
+        <div class="flex flex-col gap-4 mt-8">
+          <div class="rounded-2xl overflow-hidden h-44 pc">
+            <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=480&h=280&fit=crop&auto=format&q=80" alt="Pendant necklace" class="ci w-full h-full object-cover"/>
+          </div>
+          <div class="rounded-2xl overflow-hidden flex-1 relative pc">
+            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=480&h=380&fit=crop&auto=format&q=80" alt="Earrings" class="ci w-full h-full object-cover"/>
+            <div class="absolute top-3 right-3 bg-[#B8975A] text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">New</div>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div class="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-[#0F0E0C]/25 text-[10px] tracking-[.3em] uppercase">
+      Scroll
+      <div class="w-px h-8 bg-gradient-to-b from-[#0F0E0C]/25 to-transparent"></div>
     </div>
   </section>
 
-  <!-- TRUST BAR -->
-  <div class="bg-gold-pale/60 border-y border-gold-light/30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex flex-wrap justify-center gap-6 sm:gap-12 text-xs sm:text-sm text-ink-muted">
-        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> Instant Digital Download</span>
-        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> Commercial License Included</span>
-        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> 24/7 Customer Support</span>
-        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> 100% Satisfaction Guarantee</span>
+  <!-- CATEGORY STRIP -->
+  <div class="border-y border-black/[.06] bg-[#F0EBE1] py-10 overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-6 flex items-center gap-6 whitespace-nowrap">
+      <span class="eb shrink-0 hidden sm:block">Shop by:</span>
+      <div class="flex gap-2.5 flex-wrap">
+        <button class="fp" onclick="go('shop');setcat('all')">All Jewelry</button>
+        <button class="fp" onclick="go('shop');setcat('bracelet')">Bracelets</button>
+        <button class="fp" onclick="go('shop');setcat('ring')">Rings</button>
+        <button class="fp" onclick="go('shop');setcat('pendant')">Pendants</button>
+        <button class="fp" onclick="go('shop');setcat('necklace')">Necklaces</button>
+        <button class="fp" onclick="go('shop');setcat('earring')">Earrings</button>
+        <button class="fp" onclick="go('shop');setcat('anklet')">Anklets</button>
       </div>
     </div>
   </div>
 
-  <!-- CATEGORIES -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="text-center mb-12 reveal">
-      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Browse By</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Our Collections</h2>
-    </div>
-    <div id="categories-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
-  </section>
-
-  <!-- FEATURED PRODUCTS -->
-  <section class="bg-cream-dark/50 py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 reveal">
-        <div>
-          <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Curated For You</p>
-          <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Featured Designs</h2>
-        </div>
-        <button onclick="showPage('shop')" class="text-sm font-medium text-gold-dark hover:text-gold border-b border-gold-light pb-0.5 transition-colors self-start sm:self-auto">View All →</button>
+  <!-- FEATURED -->
+  <section class="py-24 max-w-7xl mx-auto px-6">
+    <div class="flex items-end justify-between mb-14">
+      <div class="reveal">
+        <span class="eb">Curated For You</span>
+        <h2 class="gl mt-2 text-4xl md:text-5xl font-bold" style="font-family:'Playfair Display',serif">Featured Pieces</h2>
       </div>
-      <div id="featured-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"></div>
+      <button onclick="go('shop')" class="reveal hidden md:flex items-center gap-2 text-sm font-medium text-[#B8975A] hover:text-[#8A6F3A] transition-colors uppercase tracking-widest">
+        View All <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
     </div>
+    <div id="fgrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
   </section>
 
-  <!-- MID BANNER -->
-  <section class="relative py-28 overflow-hidden grain">
-    <div class="absolute inset-0 z-0">
-      <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-20" onerror="this.style.display='none'" />
-      <div class="absolute inset-0 bg-gradient-to-r from-ink/90 to-ink/70"></div>
+  <!-- MARQUEE -->
+  <div class="overflow-hidden border-y border-[#B8975A]/20 py-4 bg-[#B8975A]/[.04]">
+    <div class="mq-inner text-[#B8975A]/50 text-xs font-semibold uppercase tracking-[.2em]">
+      <span style="min-width:max-content">✦ Bracelets ✦ Rings ✦ Pendants ✦ Necklaces ✦ Earrings ✦ Anklets ✦ Sterling Silver ✦ Gold Plated ✦ Rose Gold ✦ Gemstone ✦ Handcrafted ✦ Free Shipping Over $75 &nbsp;&nbsp;&nbsp;</span>
+      <span style="min-width:max-content">✦ Bracelets ✦ Rings ✦ Pendants ✦ Necklaces ✦ Earrings ✦ Anklets ✦ Sterling Silver ✦ Gold Plated ✦ Rose Gold ✦ Gemstone ✦ Handcrafted ✦ Free Shipping Over $75 &nbsp;&nbsp;&nbsp;</span>
     </div>
-    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-      <p class="text-xs tracking-[0.25em] text-gold-light uppercase font-semibold mb-4 reveal">Our Philosophy</p>
-      <h2 class="font-display text-3xl sm:text-5xl font-semibold text-white mb-6 leading-tight reveal reveal-delay-1">
-        "Every design is a conversation<br class="hidden sm:block" /><em class="text-gold-light">between vision and form."</em>
-      </h2>
-      <p class="text-white/70 max-w-xl mx-auto mb-8 reveal reveal-delay-2">We believe great design transforms businesses, elevates brands, and creates lasting impressions. Each piece is crafted with intention.</p>
-      <button onclick="showPage('about')" class="btn-gold bg-gold-light/20 hover:bg-gold-light border border-gold-light/40 hover:border-gold-light text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 reveal reveal-delay-3">
-        Discover Our Story
-      </button>
+  </div>
+
+  <!-- VALUE PROPS (dark strip) -->
+  <section class="py-24 bg-[#0F0E0C] text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[.07]" style="background:radial-gradient(circle at 20% 50%,#B8975A,transparent 60%)"></div>
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+      <div class="reveal text-center md:text-left">
+        <div class="w-10 h-10 rounded-xl bg-[#B8975A]/20 flex items-center justify-center mb-4 mx-auto md:mx-0 text-[#B8975A] text-lg">🤲</div>
+        <h4 style="font-family:'Playfair Display',serif" class="text-lg font-bold mb-1.5">100% Handmade</h4>
+        <p class="text-white/40 text-sm leading-relaxed">Every piece crafted by hand in our studio.</p>
+      </div>
+      <div class="reveal rd1 text-center md:text-left">
+        <div class="w-10 h-10 rounded-xl bg-[#B8975A]/20 flex items-center justify-center mb-4 mx-auto md:mx-0 text-[#B8975A] text-lg">📦</div>
+        <h4 style="font-family:'Playfair Display',serif" class="text-lg font-bold mb-1.5">Gift Packaging</h4>
+        <p class="text-white/40 text-sm leading-relaxed">Beautifully boxed and ready to gift.</p>
+      </div>
+      <div class="reveal rd2 text-center md:text-left">
+        <div class="w-10 h-10 rounded-xl bg-[#B8975A]/20 flex items-center justify-center mb-4 mx-auto md:mx-0 text-[#B8975A] text-lg">🚚</div>
+        <h4 style="font-family:'Playfair Display',serif" class="text-lg font-bold mb-1.5">Free Shipping</h4>
+        <p class="text-white/40 text-sm leading-relaxed">On all orders over $75 worldwide.</p>
+      </div>
+      <div class="reveal rd3 text-center md:text-left">
+        <div class="w-10 h-10 rounded-xl bg-[#B8975A]/20 flex items-center justify-center mb-4 mx-auto md:mx-0 text-[#B8975A] text-lg">↩</div>
+        <h4 style="font-family:'Playfair Display',serif" class="text-lg font-bold mb-1.5">Easy Returns</h4>
+        <p class="text-white/40 text-sm leading-relaxed">30-day hassle-free return policy.</p>
+      </div>
     </div>
   </section>
 
   <!-- BESTSELLERS -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 reveal">
-      <div>
-        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Most Loved</p>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Bestsellers</h2>
+  <section class="py-24 max-w-7xl mx-auto px-6">
+    <div class="flex items-end justify-between mb-14">
+      <div class="reveal">
+        <span class="eb">Most Loved</span>
+        <h2 class="gl mt-2 text-4xl md:text-5xl font-bold" style="font-family:'Playfair Display',serif">Bestsellers</h2>
       </div>
-      <button onclick="showPage('shop')" class="text-sm font-medium text-gold-dark hover:text-gold border-b border-gold-light pb-0.5 transition-colors self-start sm:self-auto">See All →</button>
     </div>
-    <div id="bestsellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"></div>
+    <div id="bgrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="bg-cream-dark/60 py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12 reveal">
-        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Reviews</p>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">What Customers Say</h2>
+  <section class="py-24 bg-[#F0EBE1]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-14 reveal">
+        <span class="eb">Customer Reviews</span>
+        <h2 class="text-4xl font-bold mt-2" style="font-family:'Playfair Display',serif">What They're Saying</h2>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div class="bg-white rounded-2xl p-7 shadow-card reveal">
-          <div class="stars text-lg mb-4">★★★★★</div>
-          <p class="text-ink-soft text-sm leading-relaxed mb-5 font-display italic">"The logo pack is absolutely stunning. The files were perfectly organized and the quality exceeded my expectations. Highly recommend!"</p>
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-white text-sm font-bold">S</div>
-            <div><p class="text-sm font-semibold text-ink">Sarah M.</p><p class="text-xs text-ink-muted">Verified Buyer</p></div>
-          </div>
-        </div>
-        <div class="bg-white rounded-2xl p-7 shadow-card reveal reveal-delay-1">
-          <div class="stars text-lg mb-4">★★★★★</div>
-          <p class="text-ink-soft text-sm leading-relaxed mb-5 font-display italic">"Incredible digital prints! They arrived instantly and look gorgeous printed large. The attention to detail in each piece is remarkable."</p>
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-white text-sm font-bold">J</div>
-            <div><p class="text-sm font-semibold text-ink">James T.</p><p class="text-xs text-ink-muted">Verified Buyer</p></div>
-          </div>
-        </div>
-        <div class="bg-white rounded-2xl p-7 shadow-card reveal reveal-delay-2">
-          <div class="stars text-lg mb-4">★★★★★</div>
-          <p class="text-ink-soft text-sm leading-relaxed mb-5 font-display italic">"Used the branding kit for my startup and the response has been incredible. Professional, unique, and exactly what we needed."</p>
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-white text-sm font-bold">P</div>
-            <div><p class="text-sm font-semibold text-ink">Priya K.</p><p class="text-xs text-ink-muted">Verified Buyer</p></div>
-          </div>
-        </div>
-      </div>
+      <div id="tgrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
     </div>
   </section>
 
   <!-- NEWSLETTER -->
-  <section class="py-20 relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-gold-pale/60 via-cream to-gold-pale/30 pointer-events-none"></div>
-    <div class="relative z-10 max-w-2xl mx-auto px-4 text-center reveal">
-      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-3">Join the Circle</p>
-      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mb-3">Get 10% Off Your First Order</h2>
-      <p class="text-ink-muted mb-8">Subscribe for new drops, exclusive offers, and creative inspiration delivered to your inbox.</p>
-      <form onsubmit="handleNewsletter(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-        <input type="email" placeholder="your@email.com" required class="flex-1 px-5 py-3 rounded-xl border border-gold-light/50 bg-white focus:outline-none focus:border-gold-light text-sm transition-colors" />
-        <button type="submit" class="btn-gold bg-gold-light hover:bg-gold text-white font-semibold px-6 py-3 rounded-xl transition-all hover:shadow-gold whitespace-nowrap">Subscribe</button>
-      </form>
-    </div>
+  <section class="py-24 max-w-2xl mx-auto px-6 text-center reveal">
+    <span class="eb">Join the Circle</span>
+    <h2 class="text-4xl font-bold mt-3 mb-3" style="font-family:'Playfair Display',serif">Get 10% Off Your First Order</h2>
+    <p class="text-[#5A564E] text-sm mb-7">Subscribe for new arrivals, exclusive offers, and styling inspiration.</p>
+    <form onsubmit="doNews(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input type="email" required placeholder="your@email.com" class="flex-1 px-5 py-3.5 rounded-xl border border-black/10 bg-white text-[#0F0E0C] text-sm outline-none focus:border-[#B8975A] transition-colors" style="font-family:'Jost',sans-serif"/>
+      <button type="submit" class="bg px-6 py-3.5 rounded-xl text-sm whitespace-nowrap">Subscribe</button>
+    </form>
   </section>
 
 </main>
 
-<!-- ═══════════════════════════════════════════════════
-     PAGE: SHOP
-═══════════════════════════════════════════════════ -->
-<main id="page-shop" class="page hidden pt-16 sm:pt-[72px]">
-  <!-- Shop Header -->
-  <div class="relative bg-cream-dark/60 border-b border-gold-pale py-14 sm:py-20 text-center overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-gold-pale/20 to-transparent pointer-events-none"></div>
-    <div class="relative z-10 max-w-2xl mx-auto px-4">
-      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">The Collection</p>
-      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mb-3">Shop All Designs</h1>
-      <p class="text-ink-muted text-sm">Handcrafted digital creations for every vision</p>
+<!-- ══════════════════════════════════════
+     SHOP PAGE
+══════════════════════════════════════ -->
+<main id="pg-shop" class="pg pt-[68px]">
+  <div class="bg-[#F0EBE1] border-b border-black/[.06] py-12">
+    <div class="max-w-7xl mx-auto px-6">
+      <span class="eb">The Collection</span>
+      <h1 class="text-5xl font-bold mt-2" style="font-family:'Playfair Display',serif">Shop All Jewelry</h1>
     </div>
   </div>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-    <!-- Toolbar -->
-    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-8">
-      <!-- Search -->
-      <div class="relative w-full sm:w-72">
-        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="shop-search" type="text" placeholder="Search products…" class="w-full pl-10 pr-4 py-2.5 bg-white border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light transition-colors" oninput="applyFilters()" />
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-7">
+      <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-2.5 border border-black/[.08] w-full lg:w-64">
+        <svg width="15" height="15" fill="none" stroke="#B8975A" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="ssrch" type="text" placeholder="Search jewelry…" oninput="filtr()" class="flex-1 bg-transparent text-sm text-[#0F0E0C] placeholder-[#0F0E0C]/35 outline-none" style="font-family:'Jost',sans-serif"/>
       </div>
-      <!-- Sort + Count -->
-      <div class="flex items-center gap-3 w-full sm:w-auto">
-        <span id="shop-count" class="text-sm text-ink-muted whitespace-nowrap"></span>
-        <select id="shop-sort" onchange="applyFilters()" class="ml-auto sm:ml-0 bg-white border border-gold-pale rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-gold-light transition-colors text-ink cursor-pointer">
-          <option value="featured">Featured</option>
-          <option value="newest">Newest First</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-          <option value="popular">Most Popular</option>
-        </select>
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-[10px] uppercase tracking-widest text-[#0F0E0C]/35 font-medium mr-1">Filter:</span>
+        <button class="fp on" data-c="all" onclick="scat(this,'all')">All</button>
+        <button class="fp" data-c="bracelet" onclick="scat(this,'bracelet')">Bracelets</button>
+        <button class="fp" data-c="ring" onclick="scat(this,'ring')">Rings</button>
+        <button class="fp" data-c="pendant" onclick="scat(this,'pendant')">Pendants</button>
+        <button class="fp" data-c="necklace" onclick="scat(this,'necklace')">Necklaces</button>
+        <button class="fp" data-c="earring" onclick="scat(this,'earring')">Earrings</button>
+        <button class="fp" data-c="anklet" onclick="scat(this,'anklet')">Anklets</button>
       </div>
+      <select id="ssort" onchange="filtr()" class="bg-white border border-black/[.08] rounded-xl px-4 py-2.5 text-sm text-[#0F0E0C] outline-none focus:border-[#B8975A] cursor-pointer min-w-[148px]" style="font-family:'Jost',sans-serif">
+        <option value="def">Featured</option>
+        <option value="lo">Price: Low–High</option>
+        <option value="hi">Price: High–Low</option>
+        <option value="new">Newest</option>
+        <option value="pop">Most Popular</option>
+      </select>
     </div>
-
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Sidebar Filters -->
-      <aside class="w-full lg:w-60 flex-shrink-0">
-        <div class="bg-white rounded-2xl border border-gold-pale p-5 sticky top-24 space-y-6">
-          <div>
-            <h4 class="font-semibold text-sm text-ink mb-3">Category</h4>
-            <div id="category-filters" class="space-y-2"></div>
-          </div>
-          <div class="border-t border-gold-pale pt-5">
-            <h4 class="font-semibold text-sm text-ink mb-3">Price Range</h4>
-            <div class="space-y-2">
-              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
-                <input type="radio" name="price" value="all" checked onchange="applyFilters()" class="accent-gold-light"> All Prices
-              </label>
-              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
-                <input type="radio" name="price" value="under20" onchange="applyFilters()" class="accent-gold-light"> Under $20
-              </label>
-              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
-                <input type="radio" name="price" value="20-50" onchange="applyFilters()" class="accent-gold-light"> $20 – $50
-              </label>
-              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
-                <input type="radio" name="price" value="over50" onchange="applyFilters()" class="accent-gold-light"> Over $50
-              </label>
-            </div>
-          </div>
-          <div class="border-t border-gold-pale pt-5">
-            <h4 class="font-semibold text-sm text-ink mb-3">Type</h4>
-            <div class="space-y-2">
-              <label class="flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
-                <input type="checkbox" id="filter-bestseller" onchange="applyFilters()" class="accent-gold-light rounded"> Bestsellers
-              </label>
-              <label class="flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
-                <input type="checkbox" id="filter-new" onchange="applyFilters()" class="accent-gold-light rounded"> New Arrivals
-              </label>
-              <label class="flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
-                <input type="checkbox" id="filter-sale" onchange="applyFilters()" class="accent-gold-light rounded"> On Sale
-              </label>
-            </div>
-          </div>
-          <button onclick="resetFilters()" class="w-full text-xs text-ink-muted hover:text-gold-dark border border-gold-pale hover:border-gold-light rounded-lg py-2 transition-colors">Reset Filters</button>
-        </div>
-      </aside>
-
-      <!-- Products Grid -->
-      <div class="flex-1 min-w-0">
-        <div id="shop-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6"></div>
-        <div id="shop-empty" class="hidden text-center py-24">
-          <div class="w-16 h-16 rounded-full bg-gold-pale mx-auto flex items-center justify-center mb-4">
-            <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </div>
-          <p class="font-display text-xl text-ink mb-2">No products found</p>
-          <p class="text-sm text-ink-muted">Try adjusting your search or filters</p>
-          <button onclick="resetFilters()" class="mt-4 text-sm text-gold-dark hover:text-gold border-b border-gold-light pb-0.5">Clear filters</button>
-        </div>
-      </div>
+    <p id="scnt" class="text-[11px] text-[#0F0E0C]/35 uppercase tracking-widest mb-5">Loading…</p>
+    <div id="sgrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+    <div id="snone" class="hidden text-center py-20 text-[#0F0E0C]/35">
+      <p class="text-4xl mb-3">🔍</p>
+      <p class="text-lg" style="font-family:'Playfair Display',serif">No products found</p>
+      <p class="text-sm mt-1">Try a different search or filter</p>
     </div>
   </div>
 </main>
 
-<!-- ═══════════════════════════════════════════════════
-     PAGE: PRODUCT DETAIL
-═══════════════════════════════════════════════════ -->
-<main id="page-product" class="page hidden pt-16 sm:pt-[72px]">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Breadcrumb -->
-    <div class="flex items-center gap-2 text-xs text-ink-muted mb-8">
-      <button onclick="showPage('home')" class="hover:text-ink transition-colors">Home</button>
-      <span>/</span>
-      <button onclick="showPage('shop')" class="hover:text-ink transition-colors">Shop</button>
-      <span>/</span>
-      <span id="prod-breadcrumb" class="text-ink"></span>
-    </div>
-
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-      <!-- Gallery -->
-      <div>
-        <div id="prod-main-img-wrap" class="rounded-2xl overflow-hidden shadow-card-hover mb-4 aspect-square bg-cream-dark">
-          <img id="prod-main-img" src="" alt="" class="w-full h-full object-cover img-zoom" />
-        </div>
-        <div id="prod-thumbs" class="grid grid-cols-4 gap-3"></div>
-      </div>
-
-      <!-- Info -->
-      <div>
-        <div id="prod-badges" class="flex gap-2 mb-3"></div>
-        <h1 id="prod-name" class="font-display text-3xl sm:text-4xl font-semibold text-ink mb-3"></h1>
-        <div class="flex items-center gap-3 mb-4">
-          <span class="stars text-base">★★★★★</span>
-          <span id="prod-reviews" class="text-sm text-ink-muted"></span>
-        </div>
-        <div class="flex items-baseline gap-3 mb-5">
-          <span id="prod-price" class="font-display text-3xl font-bold text-ink"></span>
-          <span id="prod-original" class="text-lg text-ink-muted line-through hidden"></span>
-          <span id="prod-discount" class="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md hidden"></span>
-        </div>
-        <p id="prod-desc" class="text-ink-muted leading-relaxed mb-7 text-[15px]"></p>
-
-        <!-- Options -->
-        <div id="prod-options" class="mb-6"></div>
-
-        <!-- Quantity -->
-        <div class="mb-6">
-          <p class="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-2">Quantity</p>
-          <div class="flex items-center gap-0 border border-gold-pale rounded-xl w-fit overflow-hidden">
-            <button onclick="changeQty(-1)" class="w-11 h-11 flex items-center justify-center hover:bg-gold-pale transition-colors text-ink-soft hover:text-ink text-lg">−</button>
-            <span id="prod-qty" class="w-12 text-center font-semibold text-ink text-sm">1</span>
-            <button onclick="changeQty(1)" class="w-11 h-11 flex items-center justify-center hover:bg-gold-pale transition-colors text-ink-soft hover:text-ink text-lg">+</button>
-          </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="flex gap-3 mb-7">
-          <button id="add-to-cart-btn" class="btn-gold flex-1 bg-gold-light hover:bg-gold text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:shadow-gold">Add to Cart</button>
-          <button id="wishlist-btn" onclick="toggleWishlist()" class="w-12 h-12 flex items-center justify-center border border-gold-pale hover:border-gold-light rounded-xl transition-all hover:bg-gold-pale text-ink-muted hover:text-gold-dark text-lg">♡</button>
-        </div>
-
-        <!-- Perks -->
-        <div class="grid grid-cols-2 gap-3 text-xs text-ink-muted border-t border-gold-pale pt-5">
-          <span class="flex items-center gap-2"><span class="text-gold-light">⚡</span> Instant Download</span>
-          <span class="flex items-center gap-2"><span class="text-gold-light">🔒</span> Secure Purchase</span>
-          <span class="flex items-center gap-2"><span class="text-gold-light">📄</span> Commercial License</span>
-          <span class="flex items-center gap-2"><span class="text-gold-light">↩</span> Satisfaction Guaranteed</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Reviews -->
-    <div class="mt-16 border-t border-gold-pale pt-12">
-      <h3 class="font-display text-2xl font-semibold text-ink mb-8">Customer Reviews</h3>
-      <div id="prod-reviews-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    </div>
-
-    <!-- Related -->
-    <div class="mt-16 border-t border-gold-pale pt-12">
-      <h3 class="font-display text-2xl font-semibold text-ink mb-8">You Might Also Like</h3>
-      <div id="related-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-5"></div>
-    </div>
-  </div>
-</main>
-
-<!-- ═══════════════════════════════════════════════════
-     PAGE: ABOUT
-═══════════════════════════════════════════════════ -->
-<main id="page-about" class="page hidden pt-16 sm:pt-[72px]">
-  <!-- Hero -->
-  <div class="relative py-24 sm:py-32 overflow-hidden text-center grain">
+<!-- ══════════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════════ -->
+<main id="pg-about" class="pg pt-[68px]">
+  <div class="relative min-h-[58vh] flex items-center overflow-hidden">
     <div class="absolute inset-0">
-      <img src="https://images.unsplash.com/photo-1525909002-1b05e0c869d8?w=1400&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-10" onerror="this.style.display='none'" />
-      <div class="absolute inset-0 bg-gradient-to-b from-cream via-cream/90 to-cream"></div>
+      <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1400&h=700&fit=crop&auto=format&q=80" alt="Jewelry" class="w-full h-full object-cover opacity-20"/>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#FAF7F2] via-[#FAF7F2]/90 to-transparent"></div>
     </div>
-    <div class="relative z-10 max-w-3xl mx-auto px-4">
-      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-4">Our Story</p>
-      <h1 class="font-display text-5xl sm:text-6xl font-semibold text-ink mb-6 leading-tight">Born from Curiosity,<br><em class="gradient-text not-italic">Built with Purpose</em></h1>
-      <p class="text-ink-muted text-lg leading-relaxed">We believe that extraordinary design has the power to transform how the world sees you.</p>
+    <div class="relative max-w-7xl mx-auto px-6 py-24">
+      <span class="eb reveal">Our Story</span>
+      <h1 class="text-6xl font-bold mt-3 mb-5 reveal rd1" style="font-family:'Playfair Display',serif">Made by Hand,<br/><em class="text-[#B8975A]">Worn with Heart</em></h1>
+      <p class="text-[#5A564E] text-lg max-w-lg leading-relaxed reveal rd2">Every piece we make carries the fingerprint of its maker — imperfect, intentional, and alive.</p>
     </div>
   </div>
-
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-24">
-    <!-- Story -->
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="rounded-2xl overflow-hidden shadow-card-hover aspect-[4/3]">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop" alt="Studio" class="w-full h-full object-cover img-zoom" onerror="this.src='https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80'" />
-      </div>
-      <div>
-        <p class="font-display text-2xl italic text-ink-soft mb-5 leading-relaxed">"What if every design held a secret — a layer of meaning only the right eyes could see?"</p>
-        <p class="text-ink-muted leading-relaxed mb-4">Enigma Creation Design was founded in 2019 by a team of passionate designers who believed the digital world deserved more than templates and trends. We started in a small studio with big dreams and even bigger creative ambitions.</p>
-        <p class="text-ink-muted leading-relaxed mb-4">Today, we're a global creative studio serving thousands of clients — from startup founders to established brands — with premium digital art, logo design, brand identities, and graphic assets that carry genuine craft.</p>
-        <p class="text-ink-muted leading-relaxed">Every file we create is a piece of us. Designed with intention, built to last, and delivered with care.</p>
-      </div>
+  <div class="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-20 items-center">
+    <div class="space-y-5 reveal">
+      <p class="text-2xl font-bold gl" style="font-family:'Playfair Display',serif">The Studio</p>
+      <p class="text-[#5A564E] leading-relaxed">Enigma Creation Design was born from a simple belief: that the jewelry you wear every day should mean something. Founded in 2018, our small studio has crafted thousands of pieces for customers across 40+ countries.</p>
+      <p class="text-[#5A564E] leading-relaxed">We work with sterling silver, gold-plated brass, rose gold, and genuine gemstones. Every bracelet is knotted, every ring is shaped, every pendant is soldered by hand. No machines. No mass production.</p>
+      <p class="text-[#5A564E] leading-relaxed">When you wear an Enigma piece, you carry a small mystery — a story only you know. That's exactly how we want it.</p>
     </div>
-
-    <!-- Values -->
-    <div>
-      <div class="text-center mb-12">
-        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">What We Stand For</p>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Our Values</h2>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
-          <div class="text-3xl mb-4">🎨</div>
-          <h3 class="font-display font-semibold text-ink mb-2">Craft First</h3>
-          <p class="text-sm text-ink-muted">Every pixel is placed with intention. We don't do "good enough."</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
-          <div class="text-3xl mb-4">💡</div>
-          <h3 class="font-display font-semibold text-ink mb-2">Original Thinking</h3>
-          <p class="text-sm text-ink-muted">We start from scratch, every time. No templates, no shortcuts.</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
-          <div class="text-3xl mb-4">🤝</div>
-          <h3 class="font-display font-semibold text-ink mb-2">Client Focus</h3>
-          <p class="text-sm text-ink-muted">Your success is our success. We're invested in outcomes, not just deliverables.</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
-          <div class="text-3xl mb-4">♻️</div>
-          <h3 class="font-display font-semibold text-ink mb-2">Sustainability</h3>
-          <p class="text-sm text-ink-muted">Digital means zero waste. We're proud to be 100% eco-positive.</p>
-        </div>
-      </div>
+    <div class="grid grid-cols-2 gap-4 reveal rd1">
+      <div class="rounded-2xl overflow-hidden h-52 pc"><img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&h=350&fit=crop&q=80" class="ci w-full h-full object-cover"/></div>
+      <div class="rounded-2xl overflow-hidden h-52 mt-7 pc"><img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=400&h=350&fit=crop&q=80" class="ci w-full h-full object-cover"/></div>
+      <div class="rounded-2xl overflow-hidden h-52 -mt-7 pc"><img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=350&fit=crop&q=80" class="ci w-full h-full object-cover"/></div>
+      <div class="rounded-2xl overflow-hidden h-52 pc"><img src="https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=400&h=350&fit=crop&q=80" class="ci w-full h-full object-cover"/></div>
     </div>
-
-    <!-- Team -->
-    <div>
-      <div class="text-center mb-12">
-        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">The Makers</p>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Meet the Team</h2>
-      </div>
-      <div class="grid sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
-        <div class="text-center">
-          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gold-light to-gold-dark mx-auto flex items-center justify-center text-white font-display font-bold text-2xl mb-4">M</div>
-          <h4 class="font-semibold text-ink mb-0.5">Maya Chen</h4>
-          <p class="text-xs text-gold-dark">Founder & Creative Director</p>
-        </div>
-        <div class="text-center">
-          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-ink-soft to-ink mx-auto flex items-center justify-center text-white font-display font-bold text-2xl mb-4">R</div>
-          <h4 class="font-semibold text-ink mb-0.5">Rafael Moura</h4>
-          <p class="text-xs text-gold-dark">Lead Brand Designer</p>
-        </div>
-        <div class="text-center">
-          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gold-pale to-gold-light mx-auto flex items-center justify-center text-white font-display font-bold text-2xl mb-4">A</div>
-          <h4 class="font-semibold text-ink mb-0.5">Aisha Okoye</h4>
-          <p class="text-xs text-gold-dark">Digital Art Lead</p>
-        </div>
-      </div>
+  </div>
+  <div class="bg-[#0F0E0C] text-white py-24">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+      <div class="reveal"><p style="font-family:'Playfair Display',serif" class="text-5xl font-bold text-[#B8975A]">2.4k+</p><p class="text-white/35 text-xs uppercase tracking-widest mt-2">Happy Customers</p></div>
+      <div class="reveal rd1"><p style="font-family:'Playfair Display',serif" class="text-5xl font-bold text-[#B8975A]">40+</p><p class="text-white/35 text-xs uppercase tracking-widest mt-2">Countries Shipped</p></div>
+      <div class="reveal rd2"><p style="font-family:'Playfair Display',serif" class="text-5xl font-bold text-[#B8975A]">4.9★</p><p class="text-white/35 text-xs uppercase tracking-widest mt-2">Average Rating</p></div>
+      <div class="reveal rd3"><p style="font-family:'Playfair Display',serif" class="text-5xl font-bold text-[#B8975A]">6+</p><p class="text-white/35 text-xs uppercase tracking-widest mt-2">Years Making</p></div>
     </div>
   </div>
 </main>
 
-<!-- ═══════════════════════════════════════════════════
-     PAGE: CONTACT
-═══════════════════════════════════════════════════ -->
-<main id="page-contact" class="page hidden pt-16 sm:pt-[72px]">
-  <div class="relative py-20 text-center bg-cream-dark/60 border-b border-gold-pale overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-gold-pale/20 to-transparent pointer-events-none"></div>
-    <div class="relative z-10">
-      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Get In Touch</p>
-      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink">We'd Love to Hear<br><em class="gradient-text not-italic">From You</em></h1>
+<!-- ══════════════════════════════════════
+     CONTACT PAGE
+══════════════════════════════════════ -->
+<main id="pg-contact" class="pg pt-[68px]">
+  <div class="bg-[#F0EBE1] border-b border-black/[.06] py-12">
+    <div class="max-w-7xl mx-auto px-6">
+      <span class="eb">Get in Touch</span>
+      <h1 class="text-5xl font-bold mt-2" style="font-family:'Playfair Display',serif">Contact Us</h1>
     </div>
   </div>
-
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid lg:grid-cols-2 gap-12">
-      <!-- Form -->
-      <div class="bg-white rounded-2xl border border-gold-pale shadow-card p-8">
-        <h3 class="font-display text-xl font-semibold text-ink mb-6">Send a Message</h3>
-        <form onsubmit="handleContact(event)" class="space-y-5">
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">First Name</label>
-              <input type="text" placeholder="Jane" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            </div>
-            <div>
-              <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Last Name</label>
-              <input type="text" placeholder="Doe" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            </div>
+  <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-14 items-start">
+    <div class="reveal">
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-black/[.05]">
+        <h2 class="text-2xl font-bold mb-6" style="font-family:'Playfair Display',serif">Send a Message</h2>
+        <form onsubmit="doCont(event)" class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-[10px] uppercase tracking-widest text-[#5A564E] mb-1.5 font-medium">First Name</label><input type="text" placeholder="Jane" required class="w-full px-4 py-3 rounded-xl border border-black/10 bg-[#FAF7F2] text-sm outline-none focus:border-[#B8975A] transition-colors" style="font-family:'Jost',sans-serif"/></div>
+            <div><label class="block text-[10px] uppercase tracking-widest text-[#5A564E] mb-1.5 font-medium">Last Name</label><input type="text" placeholder="Doe" class="w-full px-4 py-3 rounded-xl border border-black/10 bg-[#FAF7F2] text-sm outline-none focus:border-[#B8975A] transition-colors" style="font-family:'Jost',sans-serif"/></div>
           </div>
-          <div>
-            <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Email</label>
-            <input type="email" placeholder="jane@example.com" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-          </div>
-          <div>
-            <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Subject</label>
-            <select class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream text-ink transition-colors">
-              <option>General Inquiry</option>
-              <option>Custom Order</option>
-              <option>Commercial License</option>
-              <option>Returns & Refunds</option>
-              <option>Other</option>
+          <div><label class="block text-[10px] uppercase tracking-widest text-[#5A564E] mb-1.5 font-medium">Email</label><input type="email" required placeholder="you@example.com" class="w-full px-4 py-3 rounded-xl border border-black/10 bg-[#FAF7F2] text-sm outline-none focus:border-[#B8975A] transition-colors" style="font-family:'Jost',sans-serif"/></div>
+          <div><label class="block text-[10px] uppercase tracking-widest text-[#5A564E] mb-1.5 font-medium">Subject</label>
+            <select class="w-full px-4 py-3 rounded-xl border border-black/10 bg-[#FAF7F2] text-sm outline-none focus:border-[#B8975A] transition-colors cursor-pointer" style="font-family:'Jost',sans-serif">
+              <option>Order Question</option><option>Custom Order</option><option>Ring Sizing</option><option>Return / Exchange</option><option>Wholesale</option><option>Other</option>
             </select>
           </div>
-          <div>
-            <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Message</label>
-            <textarea rows="5" placeholder="Tell us what you need…" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors resize-none"></textarea>
-          </div>
-          <button type="submit" class="btn-gold w-full bg-gold-light hover:bg-gold text-white font-semibold py-3.5 rounded-xl transition-all hover:shadow-gold">Send Message</button>
+          <div><label class="block text-[10px] uppercase tracking-widest text-[#5A564E] mb-1.5 font-medium">Message</label><textarea rows="5" required placeholder="Tell us what you need…" class="w-full px-4 py-3 rounded-xl border border-black/10 bg-[#FAF7F2] text-sm outline-none focus:border-[#B8975A] transition-colors resize-none" style="font-family:'Jost',sans-serif"></textarea></div>
+          <button type="submit" class="bg w-full py-3.5 rounded-xl text-sm">Send Message</button>
         </form>
       </div>
-
-      <!-- Info -->
-      <div class="space-y-5">
-        <div class="bg-white border border-gold-pale rounded-2xl p-6 flex items-center gap-4 hover:border-gold-light transition-colors">
-          <div class="w-11 h-11 rounded-xl bg-gold-pale flex items-center justify-center text-gold-dark text-lg flex-shrink-0">📧</div>
-          <div><p class="font-semibold text-sm text-ink">Email Us</p><p class="text-sm text-ink-muted mt-0.5">hello@enigmacreation.com</p></div>
+    </div>
+    <div class="space-y-5 reveal rd1">
+      <div class="bg-white rounded-2xl p-5 border border-black/[.05] flex items-center gap-4">
+        <div class="w-10 h-10 bg-[#B8975A]/10 rounded-xl flex items-center justify-center text-[#B8975A]">✉</div>
+        <div><p class="text-[10px] uppercase tracking-widest text-[#5A564E] font-medium">Email</p><p class="font-medium mt-0.5">hello@enigmacreation.com</p></div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 border border-black/[.05] flex items-center gap-4">
+        <div class="w-10 h-10 bg-[#B8975A]/10 rounded-xl flex items-center justify-center text-[#B8975A]">⏱</div>
+        <div><p class="text-[10px] uppercase tracking-widest text-[#5A564E] font-medium">Response Time</p><p class="font-medium mt-0.5">Within 24–48 hours</p></div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 border border-black/[.05] flex items-center gap-4">
+        <div class="w-10 h-10 bg-[#B8975A]/10 rounded-xl flex items-center justify-center text-[#B8975A]">📍</div>
+        <div><p class="text-[10px] uppercase tracking-widest text-[#5A564E] font-medium">Studio</p><p class="font-medium mt-0.5">Ships Worldwide 🌍</p></div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 border border-black/[.05]">
+        <p class="text-[10px] uppercase tracking-widest text-[#5A564E] font-medium mb-3">Follow Our Work</p>
+        <div class="flex flex-wrap gap-2">
+          <a href="#" class="bo px-4 py-2 rounded-full text-xs">Instagram</a>
+          <a href="#" class="bo px-4 py-2 rounded-full text-xs">Pinterest</a>
+          <a href="#" class="bo px-4 py-2 rounded-full text-xs">TikTok</a>
+          <a href="#" class="bo px-4 py-2 rounded-full text-xs">Facebook</a>
         </div>
-        <div class="bg-white border border-gold-pale rounded-2xl p-6 flex items-center gap-4 hover:border-gold-light transition-colors">
-          <div class="w-11 h-11 rounded-xl bg-gold-pale flex items-center justify-center text-gold-dark text-lg flex-shrink-0">⏰</div>
-          <div><p class="font-semibold text-sm text-ink">Response Time</p><p class="text-sm text-ink-muted mt-0.5">Within 24 hours, Monday–Friday</p></div>
-        </div>
-        <div class="bg-white border border-gold-pale rounded-2xl p-6 flex items-center gap-4 hover:border-gold-light transition-colors">
-          <div class="w-11 h-11 rounded-xl bg-gold-pale flex items-center justify-center text-gold-dark text-lg flex-shrink-0">📍</div>
-          <div><p class="font-semibold text-sm text-ink">Studio Location</p><p class="text-sm text-ink-muted mt-0.5">Portland, Oregon, USA</p></div>
-        </div>
-        <div class="bg-white border border-gold-pale rounded-2xl p-6">
-          <p class="font-semibold text-sm text-ink mb-4">Follow Our Work</p>
-          <div class="flex gap-3 flex-wrap">
-            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Instagram</a>
-            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Pinterest</a>
-            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Behance</a>
-            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Dribbble</a>
-          </div>
-        </div>
-
-        <!-- FAQ snippet -->
-        <div class="bg-gold-pale/50 border border-gold-light/30 rounded-2xl p-6">
-          <h4 class="font-semibold text-ink mb-4 text-sm">Quick Answers</h4>
-          <div class="space-y-3 text-sm text-ink-muted">
-            <p><span class="font-medium text-ink">Do files download instantly?</span><br>Yes — all products are digital downloads delivered immediately after purchase.</p>
-            <p><span class="font-medium text-ink">Can I use designs commercially?</span><br>Absolutely. All purchases include a full commercial license.</p>
-            <p><span class="font-medium text-ink">What formats are included?</span><br>Typically PDF, PNG, SVG, and source files depending on the product.</p>
-          </div>
-        </div>
+      </div>
+      <div class="bg-gradient-to-br from-[#B8975A]/10 to-[#B8975A]/5 rounded-2xl p-6 border border-[#B8975A]/20">
+        <p class="text-lg font-bold mb-2" style="font-family:'Playfair Display',serif">Custom Order?</p>
+        <p class="text-sm text-[#5A564E] mb-4">Want a personalized piece — engraved, custom size, or unique design? We love custom work.</p>
+        <button class="bg px-5 py-2.5 rounded-xl text-xs">Request Custom Order</button>
       </div>
     </div>
   </div>
 </main>
 
-<!-- ═══════════════════════════════════════════════════
-     PAGE: CHECKOUT
-═══════════════════════════════════════════════════ -->
-<main id="page-checkout" class="page hidden pt-16 sm:pt-[72px]">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="font-display text-3xl font-semibold text-ink mb-8">Checkout</h1>
-    <div class="grid lg:grid-cols-[1fr_380px] gap-10 items-start">
-      <!-- Form -->
-      <div class="space-y-5">
-        <div class="bg-white rounded-2xl border border-gold-pale p-6">
-          <h3 class="font-semibold text-ink flex items-center gap-3 mb-5"><span class="w-7 h-7 rounded-full bg-gold-light text-white text-xs font-bold flex items-center justify-center">1</span>Contact Information</h3>
-          <input type="email" placeholder="Email address" class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-        </div>
-        <div class="bg-white rounded-2xl border border-gold-pale p-6">
-          <h3 class="font-semibold text-ink flex items-center gap-3 mb-5"><span class="w-7 h-7 rounded-full bg-gold-light text-white text-xs font-bold flex items-center justify-center">2</span>Billing Details</h3>
-          <div class="grid sm:grid-cols-2 gap-4">
-            <input type="text" placeholder="First name" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            <input type="text" placeholder="Last name" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            <input type="text" placeholder="Address" class="sm:col-span-2 px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            <input type="text" placeholder="City" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            <input type="text" placeholder="ZIP Code" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            <select class="sm:col-span-2 px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream text-ink transition-colors">
-              <option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option><option>Germany</option>
-            </select>
-          </div>
-        </div>
-        <div class="bg-white rounded-2xl border border-gold-pale p-6">
-          <h3 class="font-semibold text-ink flex items-center gap-3 mb-5"><span class="w-7 h-7 rounded-full bg-gold-light text-white text-xs font-bold flex items-center justify-center">3</span>Payment</h3>
-          <div class="flex gap-3 mb-5">
-            <label class="flex-1 flex items-center gap-2 border border-gold-light rounded-xl px-4 py-3 cursor-pointer bg-gold-pale/30">
-              <input type="radio" name="pay" checked class="accent-gold-light" /> <span class="text-sm font-medium text-ink">💳 Card</span>
-            </label>
-            <label class="flex-1 flex items-center gap-2 border border-gold-pale rounded-xl px-4 py-3 cursor-pointer hover:border-gold-light transition-colors">
-              <input type="radio" name="pay" class="accent-gold-light" /> <span class="text-sm font-medium text-ink">🅿 PayPal</span>
-            </label>
-          </div>
-          <div class="space-y-3">
-            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            <div class="grid grid-cols-2 gap-3">
-              <input type="text" placeholder="MM / YY" maxlength="7" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-              <input type="text" placeholder="CVV" maxlength="4" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
-            </div>
-          </div>
-          <p class="flex items-center gap-1.5 text-xs text-ink-muted mt-3">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Secure & encrypted payment
-          </p>
-        </div>
-        <button onclick="placeOrder()" class="btn-gold w-full bg-gold-light hover:bg-gold text-white font-semibold py-4 rounded-xl transition-all hover:shadow-gold text-base">
-          Place Order — <span id="checkout-total-btn">$0.00</span>
-        </button>
-      </div>
-
-      <!-- Summary -->
-      <div class="bg-white rounded-2xl border border-gold-pale p-6 sticky top-24">
-        <h3 class="font-semibold text-ink mb-5">Order Summary</h3>
-        <div id="checkout-items-list" class="space-y-3 mb-5 max-h-60 overflow-y-auto"></div>
-        <div class="border-t border-gold-pale pt-4 space-y-2 text-sm">
-          <div class="flex justify-between text-ink-muted"><span>Subtotal</span><span id="co-subtotal">$0.00</span></div>
-          <div class="flex justify-between text-ink-muted"><span>Tax (8%)</span><span id="co-tax">$0.00</span></div>
-          <div class="flex justify-between text-ink-muted"><span>Shipping</span><span class="text-emerald-600 font-medium">Free</span></div>
-        </div>
-        <div class="border-t border-gold-pale mt-3 pt-3 flex justify-between font-semibold text-ink">
-          <span class="font-display">Total</span><span id="co-total" class="font-display text-lg">$0.00</span>
-        </div>
-      </div>
-    </div>
+<!-- CONFIRMATION -->
+<main id="pg-confirm" class="pg pt-[68px] min-h-screen flex items-center justify-center">
+  <div class="text-center px-6 py-20">
+    <div class="w-20 h-20 bg-green-50 border-2 border-green-400 rounded-full flex items-center justify-center text-green-500 text-3xl mx-auto mb-6">✓</div>
+    <h1 class="text-4xl font-bold mb-3" style="font-family:'Playfair Display',serif">Order Placed!</h1>
+    <p class="text-[#5A564E] mb-2">Thank you! We'll start crafting your piece right away.</p>
+    <p class="text-[11px] text-[#0F0E0C]/30 uppercase tracking-widest mb-8">Order #ECD-<span id="onum"></span></p>
+    <button onclick="go('home')" class="bg px-8 py-3.5 rounded-xl text-sm">Back to Home</button>
   </div>
 </main>
 
-<!-- ═══════════════════════════════════════════════════
-     PAGE: ORDER CONFIRMATION
-═══════════════════════════════════════════════════ -->
-<main id="page-confirmation" class="page hidden pt-16 sm:pt-[72px] min-h-screen flex items-center justify-center px-4">
-  <div class="text-center max-w-lg mx-auto py-20">
-    <div class="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-400 text-emerald-500 text-3xl flex items-center justify-center mx-auto mb-6 animate-scale-in">✓</div>
-    <h1 class="font-display text-4xl font-semibold text-ink mb-3">Order Confirmed!</h1>
-    <p class="text-ink-muted mb-2">Thank you for your purchase. Your files are being prepared.</p>
-    <p class="text-ink-muted mb-6">A confirmation email will arrive shortly.</p>
-    <div class="inline-flex items-center gap-2 bg-gold-pale border border-gold-light/40 rounded-full px-5 py-2 mb-8">
-      <span class="text-xs font-semibold text-gold-dark tracking-wider uppercase">Order</span>
-      <span id="confirm-order-id" class="text-xs font-mono text-ink">ECD-000000</span>
-    </div>
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <button onclick="showPage('home')" class="btn-gold bg-gold-light hover:bg-gold text-white font-semibold px-8 py-3 rounded-xl transition-all hover:shadow-gold">Back to Home</button>
-      <button onclick="showPage('shop')" class="border border-gold-pale hover:border-gold-light text-ink-soft hover:text-ink font-medium px-8 py-3 rounded-xl transition-all">Continue Shopping</button>
-    </div>
-  </div>
-</main>
-
-<!-- ═══════════════════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════════════════ -->
-<footer class="bg-ink text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-    <div class="sm:col-span-2 lg:col-span-1">
-      <button onclick="showPage('home')" class="flex items-center gap-2.5 mb-4 group">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center">
-          <span class="text-white font-display font-bold text-sm">E</span>
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="bg-[#0F0E0C] text-white">
+  <div class="max-w-7xl mx-auto px-6 pt-16 pb-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-14">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="hex bg-[#B8975A] w-8 h-8" style="display:flex;align-items:center;justify-content:center"><span class="text-white text-xs font-bold" style="font-family:'Playfair Display',serif">E</span></div>
+          <span style="font-family:'Playfair Display',serif" class="text-lg font-bold">Enigma</span>
         </div>
-        <span class="font-display font-semibold text-white text-lg">Enigma</span>
-      </button>
-      <p class="text-white/50 text-sm leading-relaxed mb-5">Premium digital art & brand identities. Designed with intention, crafted to last.</p>
-      <div class="flex gap-3">
-        <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-gold-light flex items-center justify-center text-white/60 hover:text-white transition-all text-sm">in</a>
-        <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-gold-light flex items-center justify-center text-white/60 hover:text-white transition-all text-sm">tw</a>
-        <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-gold-light flex items-center justify-center text-white/60 hover:text-white transition-all text-sm">ig</a>
+        <p class="text-white/35 text-sm leading-relaxed mb-5">Handcrafted jewelry for those who carry their stories on their skin.</p>
+        <div class="flex gap-2.5">
+          <a href="#" class="w-8 h-8 border border-white/10 rounded-lg flex items-center justify-center text-white/35 hover:text-[#B8975A] hover:border-[#B8975A] transition-all text-sm">✦</a>
+          <a href="#" class="w-8 h-8 border border-white/10 rounded-lg flex items-center justify-center text-white/35 hover:text-[#B8975A] hover:border-[#B8975A] transition-all text-sm">◈</a>
+          <a href="#" class="w-8 h-8 border border-white/10 rounded-lg flex items-center justify-center text-white/35 hover:text-[#B8975A] hover:border-[#B8975A] transition-all text-sm">⬡</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="text-[10px] uppercase tracking-widest text-white/25 font-medium mb-4">Shop</h5>
+        <div class="space-y-2.5">
+          <button onclick="go('shop')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">All Jewelry</button>
+          <button onclick="go('shop');setcat('bracelet')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Bracelets</button>
+          <button onclick="go('shop');setcat('ring')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Rings</button>
+          <button onclick="go('shop');setcat('pendant')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Pendants</button>
+          <button onclick="go('shop');setcat('necklace')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Necklaces</button>
+          <button onclick="go('shop');setcat('earring')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Earrings</button>
+        </div>
+      </div>
+      <div>
+        <h5 class="text-[10px] uppercase tracking-widest text-white/25 font-medium mb-4">Info</h5>
+        <div class="space-y-2.5">
+          <button onclick="go('about')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">About Us</button>
+          <button onclick="go('contact')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Contact</button>
+          <a href="#" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Care Guide</a>
+          <a href="#" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Size Guide</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="text-[10px] uppercase tracking-widest text-white/25 font-medium mb-4">Support</h5>
+        <div class="space-y-2.5">
+          <a href="#" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">FAQ</a>
+          <a href="#" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Shipping Info</a>
+          <a href="#" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Returns</a>
+          <button onclick="go('contact')" class="block text-sm text-white/50 hover:text-[#B8975A] transition-colors">Custom Orders</button>
+        </div>
       </div>
     </div>
-    <div>
-      <h5 class="text-xs font-semibold tracking-[0.15em] uppercase text-white/40 mb-4">Shop</h5>
-      <div class="space-y-2.5">
-        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">All Products</button>
-        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Logo Packs</button>
-        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Digital Art</button>
-        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Brand Kits</button>
-        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Templates</button>
-      </div>
-    </div>
-    <div>
-      <h5 class="text-xs font-semibold tracking-[0.15em] uppercase text-white/40 mb-4">Company</h5>
-      <div class="space-y-2.5">
-        <button onclick="showPage('about')" class="block text-sm text-white/60 hover:text-white transition-colors">About Us</button>
-        <button onclick="showPage('contact')" class="block text-sm text-white/60 hover:text-white transition-colors">Contact</button>
-        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">Careers</a>
-        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">Press</a>
-      </div>
-    </div>
-    <div>
-      <h5 class="text-xs font-semibold tracking-[0.15em] uppercase text-white/40 mb-4">Support</h5>
-      <div class="space-y-2.5">
-        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">FAQ</a>
-        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">License Info</a>
-        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">Refund Policy</a>
-        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">File Formats</a>
-      </div>
-    </div>
-  </div>
-  <div class="border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/40">
-      <p>© 2024 Enigma Creation Design. All rights reserved.</p>
-      <div class="flex gap-5">
-        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+    <div class="border-t border-white/[.07] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-white/25 text-xs">© 2024 Enigma Creation Design. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-white/25 text-xs hover:text-[#B8975A] transition-colors">Privacy Policy</a>
+        <a href="#" class="text-white/25 text-xs hover:text-[#B8975A] transition-colors">Terms of Service</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script src="script.js"></script>
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ─── JEWELRY PRODUCT DATA ─── */
+const prods = [
+  /* ── BRACELETS ── */
+  {id:1, name:"Gold Beaded Evil Eye Bracelet", price:28, oldPrice:null, cat:"bracelet",
+   img:"https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Handstrung with tiny 18k gold-plated beads and a genuine blue glass evil eye charm. Adjustable pull-cord closure fits all wrist sizes. A protective talisman and everyday staple.",
+   material:"18k Gold-Plated Brass, Glass", sizes:[], tags:["adjustable","gold","evil eye"],
+   rating:4.9, rev:214, best:true, feat:true, isnew:false},
+
+  {id:2, name:"Layered Pearl & Chain Bracelet", price:35, oldPrice:45, cat:"bracelet",
+   img:"https://images.unsplash.com/photo-1573408301185-9519bf88ae71?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Three delicate layers — a dainty chain, freshwater pearl strand, and twisted rope — fused into one effortlessly stacked look. Lobster clasp closure in sterling silver.",
+   material:"Sterling Silver, Freshwater Pearls", sizes:[], tags:["pearl","layered","silver"],
+   rating:4.8, rev:189, best:true, feat:true, isnew:false},
+
+  {id:3, name:"Black Lava Stone Diffuser Bracelet", price:22, oldPrice:null, cat:"bracelet",
+   img:"https://images.unsplash.com/photo-1575377222312-dd1a63a51638?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Natural lava stone beads on a strong elastic cord. Porous lava absorbs essential oils — add a drop and wear your favourite scent all day. Unisex sizing, ultra-casual vibe.",
+   material:"Natural Lava Stone, Stainless Steel", sizes:[], tags:["lava","diffuser","unisex"],
+   rating:4.7, rev:156, best:false, feat:false, isnew:false},
+
+  {id:4, name:"Rose Gold Crystal Tennis Bracelet", price:48, oldPrice:60, cat:"bracelet",
+   img:"https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Classic tennis silhouette reimagined in warm rose gold with hand-set cubic zirconia stones. Sparkling, elegant, and surprisingly lightweight. Box clasp for a secure fit.",
+   material:"Rose Gold-Plated Brass, Cubic Zirconia", sizes:[], tags:["crystal","rose gold","tennis"],
+   rating:5.0, rev:312, best:true, feat:true, isnew:false},
+
+  /* ── RINGS ── */
+  {id:5, name:"Adjustable Moonstone Silver Ring", price:32, oldPrice:null, cat:"ring",
+   img:"https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"A glowing cabochon moonstone set in a delicate open-band sterling silver ring. Adjustable to fit sizes 5–9. The stone flashes a soft blue adularescence in natural light.",
+   material:"Sterling Silver, Natural Moonstone", sizes:["One Size (5–9)"], tags:["moonstone","adjustable","silver"],
+   rating:4.9, rev:98, best:false, feat:true, isnew:true},
+
+  {id:6, name:"Twisted Gold Stacking Ring Set", price:38, oldPrice:null, cat:"ring",
+   img:"https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Set of 3 thin rings — twisted rope, smooth band, and beaded edge — all in 18k gold-plated sterling silver. Mix, match, or wear all three together for an effortless stacked look.",
+   material:"18k Gold-Plated Sterling Silver", sizes:["5","6","7","8","9"], tags:["stacking","gold","set of 3"],
+   rating:4.8, rev:203, best:true, feat:false, isnew:false},
+
+  {id:7, name:"Raw Amethyst Statement Ring", price:42, oldPrice:55, cat:"ring",
+   img:"https://images.unsplash.com/photo-1576022162947-e6ce7c34bccd?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"A rough, uncut amethyst crystal wrapped in oxidised sterling silver wire and set on a wide band. Bold and intentional — no two stones are identical. A true statement piece.",
+   material:"Oxidised Sterling Silver, Raw Amethyst", sizes:["6","7","8"], tags:["amethyst","statement","boho"],
+   rating:4.7, rev:77, best:false, feat:false, isnew:true},
+
+  {id:8, name:"Opal Inlay Band Ring", price:55, oldPrice:null, cat:"ring",
+   img:"https://images.unsplash.com/photo-1589128777073-263566ae5e4d?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Crushed Australian opal inlaid flush into a domed sterling silver band. The opal shimmers with flashes of green, blue, and orange. Polished to a mirror finish.",
+   material:"Sterling Silver, Crushed Australian Opal", sizes:["5","6","7","8","9","10"], tags:["opal","inlay","silver"],
+   rating:5.0, rev:143, best:true, feat:false, isnew:false},
+
+  /* ── PENDANTS ── */
+  {id:9, name:"Crescent Moon Diamond-Cut Pendant", price:36, oldPrice:null, cat:"pendant",
+   img:"https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"A diamond-cut crescent moon pendant in 18k gold-plated sterling silver. 18\" box chain included. The faceted surface catches light beautifully — perfect for layering.",
+   material:"18k Gold-Plated Sterling Silver", sizes:[], tags:["moon","gold","layering"],
+   rating:4.9, rev:221, best:true, feat:true, isnew:false},
+
+  {id:10, name:"Lotus Flower Enamel Pendant", price:29, oldPrice:38, cat:"pendant",
+   img:"https://images.unsplash.com/photo-1631125915902-d8abe9225ff2?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Hand-painted white and blush enamel lotus on a gold-plated base. The lotus symbolises purity and new beginnings. 16\" + 2\" extender chain included.",
+   material:"Gold-Plated Brass, Enamel", sizes:[], tags:["lotus","enamel","colorful"],
+   rating:4.6, rev:88, best:false, feat:false, isnew:false},
+
+  {id:11, name:"Geometric Hexagon Pendant", price:32, oldPrice:null, cat:"pendant",
+   img:"https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"A clean, minimal hexagon pendant with a fine hammered texture — a nod to sacred geometry. Comes with both a 16\" chain and an 18\" chain so you can choose your length.",
+   material:"Sterling Silver", sizes:[], tags:["geometric","minimal","sterling"],
+   rating:4.8, rev:91, best:false, feat:false, isnew:true},
+
+  /* ── NECKLACES ── */
+  {id:12, name:"Layered Satellite Chain Necklace", price:45, oldPrice:null, cat:"necklace",
+   img:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Three fine chains at different lengths — 14\", 16\", and 18\" — soldered together at the clasp so they always look perfectly layered. Finished in bright 18k gold.",
+   material:"18k Gold-Plated Sterling Silver", sizes:[], tags:["layered","gold","chains"],
+   rating:5.0, rev:176, best:false, feat:true, isnew:true},
+
+  {id:13, name:"Turquoise & Silver Boho Necklace", price:52, oldPrice:65, cat:"necklace",
+   img:"https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"A large oval turquoise cabochon in a hand-soldered sterling silver bezel, suspended on a 20\" figaro chain. Every turquoise stone is unique in colour and veining.",
+   material:"Sterling Silver, Natural Turquoise", sizes:[], tags:["turquoise","boho","statement"],
+   rating:4.9, rev:134, best:true, feat:false, isnew:false},
+
+  {id:14, name:"Dainty Initial Letter Necklace", price:26, oldPrice:null, cat:"necklace",
+   img:"https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"A personalised initial pendant in your choice of gold, silver, or rose gold on a fine cable chain. Choose your letter at checkout. Makes a perfect gift.",
+   material:"Available in Gold, Silver, Rose Gold", sizes:[], tags:["initial","personalised","gift"],
+   rating:4.8, rev:203, best:true, feat:false, isnew:false},
+
+  /* ── EARRINGS ── */
+  {id:15, name:"Gold Huggie Hoop Earrings", price:24, oldPrice:null, cat:"earring",
+   img:"https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Mini 12mm huggie hoops in 18k gold-plated sterling silver. A modern staple — they sit close to the ear and look polished alone or layered with larger hoops.",
+   material:"18k Gold-Plated Sterling Silver", sizes:[], tags:["huggies","gold","everyday"],
+   rating:4.9, rev:189, best:true, feat:false, isnew:false},
+
+  {id:16, name:"Labradorite Drop Earrings", price:44, oldPrice:56, cat:"earring",
+   img:"https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Teardrop-cut labradorite stones wrapped in 14k gold-fill wire, suspended from ear hooks. Each stone flashes spectral blues and greens — no two pairs are alike.",
+   material:"14k Gold Fill, Natural Labradorite", sizes:[], tags:["labradorite","drops","gemstone"],
+   rating:4.7, rev:62, best:false, feat:false, isnew:true},
+
+  /* ── ANKLETS ── */
+  {id:17, name:"Delicate Gold Anklet", price:19, oldPrice:null, cat:"anklet",
+   img:"https://images.unsplash.com/photo-1619119069152-a2b331eb392a?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"A barely-there 10\" gold-plated chain anklet with a tiny star charm. Adjustable lobster clasp. Waterproof coating means you can wear it to the beach without worry.",
+   material:"18k Gold-Plated Brass, Waterproof Coating", sizes:[], tags:["anklet","gold","star"],
+   rating:4.8, rev:115, best:false, feat:false, isnew:false},
+
+  {id:18, name:"Beaded Gemstone Anklet", price:25, oldPrice:32, cat:"anklet",
+   img:"https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&h=600&fit=crop&auto=format&q=80",
+   desc:"Tiny 3mm semi-precious stone beads — your choice of turquoise, amethyst, or rose quartz — strung on durable nylon with gold-fill beads in between.",
+   material:"Semi-Precious Stones, Gold Fill, Nylon", sizes:[], tags:["gemstone","beaded","boho"],
+   rating:4.6, rev:48, best:false, feat:false, isnew:true},
+];
+
+const tests = [
+  {name:"Layla M.", role:"Verified Customer", text:"The Evil Eye bracelet arrived beautifully packaged. I've been wearing it every single day — it's become my lucky charm. The quality is so much better than I expected at this price.",stars:5,
+   img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&q=80"},
+  {name:"James K.", role:"Verified Customer", text:"Bought the stacking ring set as a gift for my girlfriend. She was absolutely obsessed. The sizing guide was accurate and the packaging felt genuinely premium. Will be ordering again.",stars:5,
+   img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&q=80"},
+  {name:"Sofia R.", role:"Verified Customer", text:"The moonstone ring is stunning — photos don't do it justice. Customer service was quick and helped me with sizing. Arrived in 4 days. Genuinely one of my favourite purchases ever.",stars:5,
+   img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&q=80"},
+];
+
+/* ─── STATE ─── */
+let cart = JSON.parse(localStorage.getItem('ec_j_cart') || '[]');
+let activeCat = 'all';
+let mobiOpen = false;
+let mqty = 1;
+const wishlist = new Set(JSON.parse(localStorage.getItem('ec_j_wish') || '[]'));
+
+/* ─── INIT ─── */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('gone');
+    rndrFeat(); rndrBest(); rndrTests();
+    updBadge(); initReveal();
+  }, 800);
+});
+
+/* ─── NAVIGATION ─── */
+function go(p) {
+  document.querySelectorAll('.pg').forEach(el => el.classList.remove('on'));
+  const pg = document.getElementById('pg-' + p);
+  if (!pg) return;
+  pg.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.nav-l').forEach(l => {
+    l.style.color = l.dataset.p === p ? '#B8975A' : '';
+  });
+  if (p === 'shop') rndrShop();
+  setTimeout(initReveal, 80);
+}
+
+function toggleMob() {
+  mobiOpen = !mobiOpen;
+  const m = document.getElementById('mob');
+  m.style.transform = mobiOpen ? 'translateX(0)' : 'translateX(-100%)';
+  m.style.opacity = mobiOpen ? '1' : '0';
+  m.style.pointerEvents = mobiOpen ? 'all' : 'none';
+}
+
+function toggleSrch() {
+  const sb = document.getElementById('srchbar');
+  sb.classList.toggle('hidden');
+  if (!sb.classList.contains('hidden')) document.getElementById('nsrch').focus();
+}
+
+function navSrch(v) {
+  if (v.length > 1) {
+    go('shop');
+    document.getElementById('ssrch').value = v;
+    filtr();
+  }
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.boxShadow = window.scrollY > 8 ? '0 2px 20px rgba(15,14,12,.06)' : 'none';
+});
+
+/* ─── REVEAL ─── */
+function initReveal() {
+  const obs = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+}
+
+/* ─── PRODUCT CARD ─── */
+function card(p, large = false) {
+  const h = large ? 'h-64' : 'h-56';
+  const disc = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+  const inWish = wishlist.has(p.id);
+  return `
+  <article class="pc bg-white rounded-2xl overflow-hidden border border-black/[.05] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col group" onclick="openM(${p.id})">
+    <div class="relative overflow-hidden ${h} bg-[#F0EBE1]">
+      <img src="${p.img}" alt="${p.name}" class="ci w-full h-full object-cover" loading="lazy"
+        onerror="this.src='https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&h=600&fit=crop'"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0F0E0C]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-end justify-between p-4">
+        <button class="bg px-4 py-2 rounded-xl text-xs translate-y-3 group-hover:translate-y-0 transition-transform duration-300"
+          onclick="event.stopPropagation();addCart(${p.id})">Add to Cart</button>
+        <button id="wl-${p.id}" class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center transition-colors text-base translate-y-3 group-hover:translate-y-0 transition-transform duration-300 ${inWish ? 'wl-filled' : 'text-[#0F0E0C]/40 hover:text-red-400'}"
+          onclick="event.stopPropagation();toggleWL(${p.id})">${inWish ? '♥' : '♡'}</button>
+      </div>
+      <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+        ${p.best ? '<span class="bg-[#B8975A] text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">Bestseller</span>' : ''}
+        ${p.isnew ? '<span class="bg-[#0F0E0C] text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">New</span>' : ''}
+        ${disc > 0 ? `<span class="bg-red-500 text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">−${disc}%</span>` : ''}
+      </div>
+    </div>
+    <div class="p-4 flex flex-col flex-1">
+      <p class="text-[10px] uppercase tracking-widest text-[#B8975A] font-semibold mb-1">${p.cat}</p>
+      <h3 class="font-bold text-[#0F0E0C] text-[.93rem] leading-tight mb-2 line-clamp-2" style="font-family:'Playfair Display',serif">${p.name}</h3>
+      <div class="flex items-center gap-1.5 mb-3">
+        <span class="st">${'★'.repeat(Math.floor(p.rating))}</span>
+        <span class="text-[11px] text-[#5A564E]/55">(${p.rev})</span>
+      </div>
+      <div class="mt-auto flex items-center gap-2">
+        <span style="font-family:'Playfair Display',serif" class="text-xl font-bold">$${p.price}</span>
+        ${p.oldPrice ? `<span class="text-sm text-[#5A564E]/40 line-through">$${p.oldPrice}</span>` : ''}
+        <span class="ml-auto text-[9px] uppercase tracking-wide bg-[#B8975A]/8 text-[#B8975A]/70 px-2.5 py-0.5 rounded-full font-semibold">${p.tags[0]}</span>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ─── RENDER SECTIONS ─── */
+function rndrFeat() {
+  document.getElementById('fgrid').innerHTML = prods.filter(p => p.feat).slice(0, 4).map(p => card(p)).join('');
+}
+function rndrBest() {
+  document.getElementById('bgrid').innerHTML = prods.filter(p => p.best).slice(0, 3).map(p => card(p, true)).join('');
+}
+function rndrTests() {
+  document.getElementById('tgrid').innerHTML = tests.map(t => `
+  <div class="bg-white rounded-2xl p-6 border border-black/[.05] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 reveal">
+    <div class="flex items-center gap-3 mb-4">
+      <img src="${t.img}" alt="${t.name}" class="w-10 h-10 rounded-full object-cover"/>
+      <div>
+        <p class="font-bold text-sm">${t.name}</p>
+        <p class="text-[11px] text-[#5A564E]/55">${t.role}</p>
+      </div>
+      <div class="ml-auto st">${'★'.repeat(t.stars)}</div>
+    </div>
+    <p class="text-[#5A564E] text-sm leading-relaxed italic" style="font-family:'Playfair Display',serif">"${t.text}"</p>
+  </div>`).join('');
+  setTimeout(initReveal, 80);
+}
+
+/* ─── SHOP ─── */
+function rndrShop() { filtr(); }
+
+function setcat(c) {
+  activeCat = c;
+  document.querySelectorAll('#pg-shop .fp[data-c]').forEach(b => b.classList.toggle('on', b.dataset.c === c));
+  if (document.getElementById('pg-shop').classList.contains('on')) filtr();
+}
+
+function scat(btn, c) {
+  activeCat = c;
+  document.querySelectorAll('#pg-shop .fp[data-c]').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  filtr();
+}
+
+function filtr() {
+  const q = (document.getElementById('ssrch')?.value || '').toLowerCase().trim();
+  const sort = document.getElementById('ssort')?.value || 'def';
+  let res = prods.filter(p => {
+    const mc = activeCat === 'all' || p.cat === activeCat;
+    const ms = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q)) || p.cat.includes(q);
+    return mc && ms;
+  });
+  if (sort === 'lo') res.sort((a, b) => a.price - b.price);
+  else if (sort === 'hi') res.sort((a, b) => b.price - a.price);
+  else if (sort === 'new') res.sort((a, b) => (b.isnew ? 1 : 0) - (a.isnew ? 1 : 0));
+  else if (sort === 'pop') res.sort((a, b) => b.rev - a.rev);
+
+  const grid = document.getElementById('sgrid');
+  const none = document.getElementById('snone');
+  const cnt = document.getElementById('scnt');
+  if (res.length === 0) {
+    grid.innerHTML = ''; none.classList.remove('hidden');
+    cnt.textContent = 'No products found';
+  } else {
+    none.classList.add('hidden');
+    grid.innerHTML = res.map(p => card(p)).join('');
+    cnt.textContent = `Showing ${res.length} piece${res.length !== 1 ? 's' : ''}`;
+  }
+}
+
+/* ─── PRODUCT MODAL ─── */
+function openM(id) {
+  const p = prods.find(x => x.id === id);
+  if (!p) return;
+  mqty = 1;
+  const disc = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+  const inWish = wishlist.has(p.id);
+  const sizeBtns = p.sizes.length > 0
+    ? `<div class="mb-5">
+        <p class="text-[10px] uppercase tracking-widest text-[#5A564E]/50 font-medium mb-2">Size</p>
+        <div class="flex flex-wrap gap-2">${p.sizes.map((s, i) => `<button class="sz-btn${i === 0 ? ' picked' : ''}" onclick="pickSize(this)">${s}</button>`).join('')}</div>
+       </div>`
+    : '';
+
+  document.getElementById('mcont').innerHTML = `
+  <div class="relative rounded-l-2xl overflow-hidden md:h-auto h-64">
+    <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover"
+      onerror="this.src='https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&h=600&fit=crop'"/>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#0F0E0C]/20 to-transparent"></div>
+    <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+      ${p.best ? '<span class="bg-[#B8975A] text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">Bestseller</span>' : ''}
+      ${p.isnew ? '<span class="bg-[#0F0E0C] text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">New</span>' : ''}
+      ${disc > 0 ? `<span class="bg-red-500 text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">−${disc}%</span>` : ''}
+    </div>
+  </div>
+  <div class="p-7 flex flex-col">
+    <span class="eb mb-1.5">${p.cat}</span>
+    <h2 style="font-family:'Playfair Display',serif" class="text-[1.6rem] font-bold leading-tight mb-2">${p.name}</h2>
+    <div class="flex items-center gap-2 mb-3">
+      <span class="st">${'★'.repeat(Math.floor(p.rating))}</span>
+      <span class="text-xs text-[#5A564E]/55">${p.rating} · ${p.rev} reviews</span>
+    </div>
+    <p class="text-[#5A564E] text-sm leading-relaxed mb-4">${p.desc}</p>
+    <p class="text-xs text-[#5A564E]/50 mb-4"><strong class="text-[#5A564E]/70">Material:</strong> ${p.material}</p>
+    <div class="flex flex-wrap gap-1.5 mb-5">${p.tags.map(t => `<span class="text-xs bg-[#B8975A]/8 text-[#B8975A]/75 px-2.5 py-0.5 rounded-full font-medium">${t}</span>`).join('')}</div>
+    ${sizeBtns}
+    <div class="flex items-center gap-3 mb-5">
+      <span class="text-[10px] uppercase tracking-widest text-[#5A564E]/50 font-medium">Qty:</span>
+      <div class="flex items-center gap-1.5 border border-black/10 rounded-xl p-1">
+        <button class="qb" onclick="mChgQty(-1)">−</button>
+        <span id="mq" class="text-sm font-bold w-6 text-center">1</span>
+        <button class="qb" onclick="mChgQty(1)">+</button>
+      </div>
+    </div>
+    <div class="mt-auto">
+      <div class="flex items-baseline gap-3 mb-5">
+        <span style="font-family:'Playfair Display',serif" class="text-4xl font-bold">$${p.price}</span>
+        ${p.oldPrice ? `<span class="text-base text-[#5A564E]/40 line-through">$${p.oldPrice}</span>` : ''}
+      </div>
+      <div class="flex gap-3">
+        <button onclick="addCartM(${p.id})" class="bg flex-1 py-3.5 rounded-xl text-sm">Add to Cart</button>
+        <button id="wl-modal-${p.id}" onclick="toggleWL(${p.id},true)" class="w-12 h-12 border border-black/10 rounded-xl flex items-center justify-center transition-colors text-lg ${inWish ? 'wl-filled' : 'text-[#5A564E]/40 hover:text-red-400 hover:border-red-200'}">${inWish ? '♥' : '♡'}</button>
+      </div>
+      <div class="mt-4 grid grid-cols-2 gap-1.5 text-[11px] text-[#5A564E]/45">
+        <span>🤲 Handmade</span><span>📦 Gift Packaging</span>
+        <span>🚚 Free Shipping $75+</span><span>↩ 30-day Returns</span>
+      </div>
+    </div>
+  </div>`;
+
+  const ov = document.getElementById('moverlay');
+  ov.classList.remove('hidden'); ov.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeM() {
+  document.getElementById('moverlay').classList.add('hidden');
+  document.getElementById('moverlay').classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+function mChgQty(d) {
+  mqty = Math.max(1, mqty + d);
+  const el = document.getElementById('mq');
+  if (el) el.textContent = mqty;
+}
+function addCartM(id) { addCart(id, mqty); closeM(); }
+
+function pickSize(btn) {
+  btn.closest('.flex').querySelectorAll('.sz-btn').forEach(b => b.classList.remove('picked'));
+  btn.classList.add('picked');
+}
+
+/* ─── WISHLIST ─── */
+function toggleWL(id, fromModal = false) {
+  const was = wishlist.has(id);
+  was ? wishlist.delete(id) : wishlist.add(id);
+  localStorage.setItem('ec_j_wish', JSON.stringify([...wishlist]));
+  const heart = was ? '♡' : '♥';
+  // update card button if visible
+  const cardBtn = document.getElementById(`wl-${id}`);
+  if (cardBtn) {
+    cardBtn.textContent = heart;
+    cardBtn.classList.toggle('wl-filled', !was);
+    cardBtn.classList.toggle('text-[#0F0E0C]/40', was);
+  }
+  // update modal button
+  const modalBtn = document.getElementById(`wl-modal-${id}`);
+  if (modalBtn) {
+    modalBtn.textContent = heart;
+    modalBtn.classList.toggle('wl-filled', !was);
+  }
+  toast(was ? 'Removed from wishlist' : '♥ Saved to wishlist');
+}
+
+/* ─── CART ─── */
+function addCart(id, qty = 1) {
+  const p = prods.find(x => x.id === id);
+  if (!p) return;
+  const ex = cart.find(i => i.id === id);
+  if (ex) ex.qty += qty;
+  else cart.push({ id, qty, name: p.name, price: p.price, img: p.img });
+  localStorage.setItem('ec_j_cart', JSON.stringify(cart));
+  updBadge(); toast(`"${p.name}" added to cart ✓`); rndrCart();
+}
+
+function rmCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  localStorage.setItem('ec_j_cart', JSON.stringify(cart));
+  updBadge(); rndrCart();
+}
+
+function updQty(id, d) {
+  const i = cart.find(x => x.id === id);
+  if (!i) return;
+  i.qty = Math.max(1, i.qty + d);
+  localStorage.setItem('ec_j_cart', JSON.stringify(cart));
+  updBadge(); rndrCart();
+}
+
+function updBadge() {
+  const n = cart.reduce((s, i) => s + i.qty, 0);
+  const b = document.getElementById('cbadge');
+  b.textContent = n; b.style.display = n > 0 ? 'flex' : 'none';
+}
+
+function openCart() {
+  document.getElementById('cdraw').classList.remove('translate-x-full');
+  document.getElementById('cover').classList.remove('opacity-0', 'pointer-events-none');
+  document.getElementById('cover').classList.add('opacity-100');
+  document.body.style.overflow = 'hidden'; rndrCart();
+}
+
+function closeCart() {
+  document.getElementById('cdraw').classList.add('translate-x-full');
+  document.getElementById('cover').classList.add('opacity-0', 'pointer-events-none');
+  document.getElementById('cover').classList.remove('opacity-100');
+  document.body.style.overflow = '';
+}
+
+function rndrCart() {
+  const list = document.getElementById('clist');
+  const foot = document.getElementById('cfooter');
+  const emp = document.getElementById('cempty');
+  if (!cart.length) {
+    list.innerHTML = ''; foot.classList.add('hidden'); emp.classList.remove('hidden'); return;
+  }
+  emp.classList.add('hidden'); foot.classList.remove('hidden');
+  list.innerHTML = cart.map(i => `
+  <div class="flex gap-3 py-4 border-b border-black/[.06] last:border-0">
+    <div class="w-14 h-14 rounded-xl overflow-hidden bg-[#F0EBE1] shrink-0">
+      <img src="${i.img}" class="w-full h-full object-cover"/>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="font-bold text-sm truncate leading-tight" style="font-family:'Playfair Display',serif">${i.name}</p>
+      <p class="text-[11px] text-[#5A564E]/50 mt-0.5 mb-2">$${i.price} each</p>
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1 border border-black/10 rounded-lg p-0.5">
+          <button class="qb w-6 h-6 text-xs" onclick="updQty(${i.id},-1)">−</button>
+          <span class="text-xs font-bold w-4 text-center">${i.qty}</span>
+          <button class="qb w-6 h-6 text-xs" onclick="updQty(${i.id},1)">+</button>
+        </div>
+        <span class="text-sm font-bold text-[#B8975A] ml-auto">$${(i.price * i.qty).toFixed(2)}</span>
+      </div>
+    </div>
+    <button onclick="rmCart(${i.id})" class="text-[#0F0E0C]/20 hover:text-red-400 transition-colors text-xl self-start">×</button>
+  </div>`).join('');
+
+  const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const shipping = sub >= 75 ? 0 : 5.99;
+  document.getElementById('csub').textContent = `$${(sub + shipping).toFixed(2)}`;
+}
+
+function doCheckout() {
+  document.getElementById('onum').textContent = Date.now().toString().slice(-6);
+  cart = []; localStorage.setItem('ec_j_cart', JSON.stringify(cart));
+  updBadge(); closeCart(); go('confirm');
+}
+
+/* ─── FORMS ─── */
+function doNews(e) { e.preventDefault(); e.target.reset(); toast('🎉 Welcome! 10% off code sent to your inbox.'); }
+function doCont(e) { e.preventDefault(); e.target.reset(); toast('✓ Message sent! We\'ll reply within 24 hours.'); }
+
+/* ─── TOAST ─── */
+let tt;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.transform = 'translateX(-50%) translateY(0)';
+  el.style.opacity = '1';
+  clearTimeout(tt);
+  tt = setTimeout(() => {
+    el.style.transform = 'translateX(-50%) translateY(70px)';
+    el.style.opacity = '0';
+  }, 2800);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeM(); closeCart(); } });
+</script>
 </body>
 </html>
