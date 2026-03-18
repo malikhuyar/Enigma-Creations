@@ -1,688 +1,934 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enigma Creation Design — Handcrafted Artisan Jewelry</title>
-  <meta name="description" content="Discover one-of-a-kind handcrafted jewelry and wearable art by Enigma Creation Design. Each piece tells a story." />
+  <title>Enigma Creation Design — Premium Digital Art & Branding</title>
+  <meta name="description" content="Discover premium handcrafted digital art, logos, and brand identity designs by Enigma Creation Design." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Playfair Display + Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-<!-- LOADER -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Playfair Display"', 'Georgia', 'serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            gold: { DEFAULT: '#B8960C', light: '#D4AF37', pale: '#F5ECC7', dark: '#8B6914' },
+            ink: { DEFAULT: '#1C1917', soft: '#44403C', muted: '#78716C' },
+            cream: { DEFAULT: '#FAF8F3', dark: '#F0EBE1' },
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards',
+            'fade-in': 'fadeIn 0.5s ease forwards',
+            'scale-in': 'scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards',
+            'slide-right': 'slideRight 0.45s cubic-bezier(0.4,0,0.2,1) forwards',
+            'shimmer': 'shimmer 1.8s infinite',
+          },
+          keyframes: {
+            fadeUp: { '0%': { opacity: '0', transform: 'translateY(28px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            scaleIn: { '0%': { opacity: '0', transform: 'scale(0.85)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+            slideRight: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(0)' } },
+            shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+          },
+          boxShadow: {
+            'gold': '0 8px 32px rgba(184,150,12,0.22)',
+            'card': '0 4px 24px rgba(28,25,23,0.08)',
+            'card-hover': '0 16px 48px rgba(28,25,23,0.14)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAF8F3; color: #1C1917; }
+
+    /* Loader */
+    #loader { position: fixed; inset: 0; background: #FAF8F3; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; transition: opacity 0.6s ease, visibility 0.6s ease; }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-ring { width: 56px; height: 56px; border: 2px solid #F5ECC7; border-top-color: #D4AF37; border-radius: 50%; animation: spin 0.9s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FAF8F3; }
+    ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+
+    /* Navbar glass */
+    #navbar { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+    /* Hero gradient text */
+    .gradient-text { background: linear-gradient(135deg, #8B6914 0%, #D4AF37 40%, #B8960C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* Product image skeleton */
+    .img-skeleton { background: linear-gradient(90deg, #F0EBE1 25%, #FAF8F3 50%, #F0EBE1 75%); background-size: 200% 100%; animation: shimmer 1.8s infinite; }
+
+    /* Hover zoom image */
+    .img-zoom { transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
+    .img-zoom:hover { transform: scale(1.07); }
+
+    /* Cart drawer */
+    #cart-overlay { transition: opacity 0.35s ease; }
+    #cart-drawer { transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+
+    /* Toast */
+    #toast { transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* Gold button shine */
+    .btn-gold { position: relative; overflow: hidden; }
+    .btn-gold::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
+    .btn-gold:hover::after { left: 100%; }
+
+    /* Category card hover */
+    .cat-card { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
+    .cat-card:hover { transform: translateY(-6px); }
+
+    /* Product card */
+    .product-card { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(28,25,23,0.13); }
+
+    /* Mobile menu */
+    #mobile-menu { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
+
+    /* Range input */
+    input[type="range"] { accent-color: #D4AF37; }
+
+    /* Grain overlay */
+    .grain::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+
+    /* Active nav link */
+    .nav-link-active { color: #D4AF37 !important; }
+    .nav-link-active::after { transform: scaleX(1) !important; }
+
+    /* Star rating */
+    .stars { color: #D4AF37; }
+
+    /* Tooltip */
+    .tooltip { position: relative; }
+    .tooltip-text { visibility: hidden; opacity: 0; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: #1C1917; color: white; font-size: 11px; padding: 4px 10px; border-radius: 6px; white-space: nowrap; transition: opacity 0.2s; pointer-events: none; }
+    .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+    /* Image error fallback */
+    img.error { display: none; }
+  </style>
+</head>
+
+<body class="antialiased overflow-x-hidden">
+
+<!-- ═══════════════════════════════════════════════════
+     LOADER
+═══════════════════════════════════════════════════ -->
 <div id="loader">
-  <div class="loader-inner">
-    <svg viewBox="0 0 60 60" class="loader-mark">
-      <circle cx="30" cy="30" r="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="175" stroke-dashoffset="175">
-        <animate attributeName="stroke-dashoffset" from="175" to="0" dur="1.2s" fill="freeze" />
-      </circle>
-      <text x="50%" y="55%" text-anchor="middle" class="loader-e">E</text>
-    </svg>
-    <p class="loader-text">Enigma Creation Design</p>
-  </div>
+  <div class="loader-ring"></div>
+  <p class="font-display text-gold-dark text-sm tracking-[0.2em] uppercase">Enigma</p>
 </div>
 
-<!-- NAVBAR -->
-<header id="navbar">
-  <div class="nav-inner">
-    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
+<!-- ═══════════════════════════════════════════════════
+     CART OVERLAY + DRAWER
+═══════════════════════════════════════════════════ -->
+<div id="cart-overlay" class="fixed inset-0 bg-ink/40 z-50 opacity-0 pointer-events-none" onclick="closeCart()"></div>
+
+<aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-cream z-50 translate-x-full flex flex-col shadow-2xl">
+  <!-- Header -->
+  <div class="flex items-center justify-between px-6 py-5 border-b border-gold-pale">
+    <h3 class="font-display text-xl font-semibold text-ink">Your Cart</h3>
+    <button onclick="closeCart()" class="w-9 h-9 rounded-full bg-cream-dark hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted hover:text-ink">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
+  </div>
+  <!-- Items -->
+  <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-4 space-y-4"></div>
+  <!-- Footer -->
+  <div id="cart-footer" class="px-6 py-5 border-t border-gold-pale hidden">
+    <div class="flex justify-between items-center mb-4">
+      <span class="text-sm text-ink-muted">Subtotal</span>
+      <span id="cart-subtotal" class="font-display text-xl font-semibold text-ink">$0.00</span>
+    </div>
+    <p class="text-xs text-ink-muted mb-4 text-center">Shipping & taxes calculated at checkout</p>
+    <button onclick="showPage('checkout')" class="btn-gold w-full bg-gold-light hover:bg-gold text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:shadow-gold mb-3">Proceed to Checkout</button>
+    <button onclick="closeCart();showPage('shop')" class="w-full border border-gold-light/60 text-ink-soft hover:border-gold-light hover:text-ink py-3 rounded-xl text-sm font-medium transition-all">Continue Shopping</button>
+  </div>
+  <div id="cart-empty" class="flex-1 flex flex-col items-center justify-center px-6 text-center gap-4">
+    <div class="w-20 h-20 rounded-full bg-gold-pale flex items-center justify-center">
+      <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+    </div>
+    <p class="font-display text-lg text-ink">Your cart is empty</p>
+    <p class="text-sm text-ink-muted">Discover our premium collection</p>
+    <button onclick="closeCart();showPage('shop')" class="btn-gold bg-gold-light text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-gold transition-all">Browse Shop</button>
+  </div>
+</aside>
 
-    <nav class="nav-links" id="navLinks">
-      <a href="#home" class="nav-link" data-page="home">Home</a>
-      <a href="#shop" class="nav-link" data-page="shop">Shop</a>
-      <a href="#about" class="nav-link" data-page="about">About</a>
-      <a href="#contact" class="nav-link" data-page="contact">Contact</a>
-    </nav>
+<!-- ═══════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════ -->
+<header id="navbar" class="fixed top-0 left-0 right-0 z-40 bg-cream/90 border-b border-gold-pale/60 transition-shadow duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 sm:h-18">
 
-    <a href="#home" class="nav-logo" data-page="home">
-      <span class="logo-mark">⬡</span>
-      <span>Enigma</span>
-    </a>
+      <!-- Logo -->
+      <button onclick="showPage('home')" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center">
+          <span class="text-white font-display font-bold text-sm">E</span>
+        </div>
+        <span class="font-display font-semibold text-lg text-ink group-hover:text-gold-dark transition-colors hidden sm:block">Enigma</span>
+      </button>
 
-    <div class="nav-actions">
-      <button class="icon-btn" id="searchToggle" aria-label="Search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
-        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button class="icon-btn cart-btn" id="cartToggle" aria-label="Cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <button onclick="showPage('home')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="home">Home</button>
+        <button onclick="showPage('shop')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="shop">Shop</button>
+        <button onclick="showPage('about')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="about">About</button>
+        <button onclick="showPage('contact')" class="nav-link text-sm font-medium text-ink-muted hover:text-ink transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[1.5px] after:bg-gold-light after:scale-x-0 hover:after:scale-x-100 after:transition-transform" data-page="contact">Contact</button>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Search -->
+        <button onclick="toggleSearch()" class="w-9 h-9 rounded-full hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted hover:text-ink tooltip">
+          <svg class="w-4.5 h-4.5 w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span class="tooltip-text">Search</span>
+        </button>
+
+        <!-- Cart -->
+        <button onclick="openCart()" class="relative w-9 h-9 rounded-full hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted hover:text-ink tooltip">
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span id="cart-badge" class="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 w-[18px] h-[18px] bg-gold-light text-white text-[10px] font-bold rounded-full flex items-center justify-center opacity-0 scale-0 transition-all duration-300">0</span>
+          <span class="tooltip-text">Cart</span>
+        </button>
+
+        <!-- Mobile menu -->
+        <button onclick="toggleMobileMenu()" class="md:hidden w-9 h-9 rounded-full hover:bg-gold-pale flex items-center justify-center transition-colors text-ink-muted">
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- Search Bar -->
-  <div class="search-bar" id="searchBar">
-    <div class="search-inner">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="Search for jewelry, accessories…" />
-      <button class="icon-btn" id="searchClose">✕</button>
+  <div id="search-bar" class="hidden border-t border-gold-pale/60 bg-cream/95 px-4 py-3">
+    <div class="max-w-2xl mx-auto relative">
+      <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="global-search" type="text" placeholder="Search products, categories…" class="w-full pl-10 pr-4 py-2.5 bg-white border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light transition-colors" oninput="handleGlobalSearch(this.value)" />
     </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-gold-pale/60 bg-cream/98 px-4 py-4 space-y-1">
+    <button onclick="showPage('home');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">Home</button>
+    <button onclick="showPage('shop');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">Shop</button>
+    <button onclick="showPage('about');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">About</button>
+    <button onclick="showPage('contact');closeMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gold-pale text-sm font-medium text-ink-soft hover:text-ink transition-colors">Contact</button>
   </div>
 </header>
 
-<!-- CART DRAWER -->
-<div class="cart-overlay" id="cartOverlay"></div>
-<aside class="cart-drawer" id="cartDrawer">
-  <div class="cart-header">
-    <h3>Your Cart</h3>
-    <button class="icon-btn" id="cartClose">✕</button>
-  </div>
-  <div class="cart-items" id="cartItems">
-    <div class="cart-empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <p>Your cart is empty</p>
-      <button class="btn btn-outline" data-page="shop">Browse Shop</button>
-    </div>
-  </div>
-  <div class="cart-footer" id="cartFooter" style="display:none">
-    <div class="cart-subtotal">
-      <span>Subtotal</span>
-      <span id="cartTotal">$0.00</span>
-    </div>
-    <p class="cart-note">Shipping & taxes calculated at checkout</p>
-    <button class="btn btn-primary full-width" data-page="checkout">Proceed to Checkout</button>
-    <button class="btn btn-outline full-width" data-page="shop">Continue Shopping</button>
-  </div>
-</aside>
+<!-- ═══════════════════════════════════════════════════
+     TOAST
+═══════════════════════════════════════════════════ -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-ink text-white text-sm font-medium px-5 py-3 rounded-xl shadow-xl translate-y-20 opacity-0 pointer-events-none whitespace-nowrap flex items-center gap-2">
+  <svg class="w-4 h-4 text-gold-light flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+  <span id="toast-msg"></span>
+</div>
 
-<!-- ==================== PAGES ==================== -->
-
-<!-- HOME PAGE -->
-<main id="page-home" class="page active">
+<!-- ═══════════════════════════════════════════════════
+     PAGE: HOME
+═══════════════════════════════════════════════════ -->
+<main id="page-home" class="page pt-16 sm:pt-[72px]">
 
   <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-bg">
-      <div class="hero-orb hero-orb-1"></div>
-      <div class="hero-orb hero-orb-2"></div>
-      <div class="hero-grain"></div>
+  <section class="relative min-h-[88vh] flex items-center overflow-hidden grain">
+    <!-- BG image -->
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-15" onerror="this.style.display='none'" />
+      <div class="absolute inset-0 bg-gradient-to-br from-cream via-cream/95 to-gold-pale/40"></div>
     </div>
-    <div class="hero-content">
-      <div class="hero-badge reveal">✦ Handcrafted with Intention</div>
-      <h1 class="hero-title reveal">
-        <em>Where Mystery</em><br>
-        Becomes<br>
-        <span>Wearable Art</span>
-      </h1>
-      <p class="hero-sub reveal">Each piece holds a secret — crafted by hand, inspired by the unknown, designed to be worn with meaning.</p>
-      <div class="hero-actions reveal">
-        <button class="btn btn-primary" data-page="shop">Explore Collection</button>
-        <button class="btn btn-ghost" data-page="about">Our Story</button>
-      </div>
-      <div class="hero-stats reveal">
-        <div class="stat"><strong>2,400+</strong><span>Happy Customers</span></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><strong>150+</strong><span>Unique Designs</span></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><strong>100%</strong><span>Handmade</span></div>
-      </div>
-    </div>
-    <div class="hero-visual reveal">
-      <div class="hero-card-stack">
-        <div class="hero-card hc-3">
-          <div class="hero-card-img" style="background: linear-gradient(135deg,#c9a96e22,#c9a96e55); display:flex;align-items:center;justify-content:center;font-size:4rem;">🪬</div>
+    <!-- Decorative orbs -->
+    <div class="absolute top-20 right-[10%] w-80 h-80 rounded-full bg-gold-pale/50 blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-20 left-[5%] w-60 h-60 rounded-full bg-gold-pale/30 blur-[80px] pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 grid lg:grid-cols-2 gap-16 items-center">
+      <!-- Text -->
+      <div>
+        <div class="inline-flex items-center gap-2 bg-gold-pale border border-gold-light/40 rounded-full px-4 py-1.5 mb-7 reveal">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold-light animate-pulse"></span>
+          <span class="text-xs font-semibold text-gold-dark tracking-[0.12em] uppercase">Premium Digital Creations</span>
         </div>
-        <div class="hero-card hc-2">
-          <div class="hero-card-img" style="background: linear-gradient(135deg,#b5966022,#b5966055); display:flex;align-items:center;justify-content:center;font-size:4rem;">💎</div>
+        <h1 class="font-display text-5xl sm:text-6xl lg:text-[4.5rem] leading-[1.05] font-bold text-ink mb-6 reveal reveal-delay-1">
+          Where Design<br>Becomes<br><em class="gradient-text not-italic">Enigma</em>
+        </h1>
+        <p class="text-base sm:text-lg text-ink-muted leading-relaxed max-w-lg mb-10 reveal reveal-delay-2">
+          Handcrafted digital art, premium brand identities, and creative designs that captivate. Each piece tells a story — yours to own.
+        </p>
+        <div class="flex flex-wrap gap-4 reveal reveal-delay-3">
+          <button onclick="showPage('shop')" class="btn-gold bg-gold-light hover:bg-gold text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 hover:shadow-gold hover:-translate-y-0.5">
+            Explore Collection
+          </button>
+          <button onclick="showPage('about')" class="border border-ink/20 hover:border-gold-light text-ink-soft hover:text-ink font-medium px-8 py-3.5 rounded-xl transition-all duration-300">
+            Our Story
+          </button>
         </div>
-        <div class="hero-card hc-1">
-          <div class="hero-card-img" style="background: linear-gradient(135deg,#c9a96e33,#c9a96e66); display:flex;align-items:center;justify-content:center;font-size:4rem;">🔮</div>
-          <div class="hero-card-info">
-            <span class="hero-card-tag">Bestseller</span>
-            <p>Celestial Eye Pendant</p>
-            <strong>$48.00</strong>
-          </div>
+        <!-- Stats -->
+        <div class="flex gap-8 mt-12 reveal reveal-delay-4">
+          <div><p class="font-display text-2xl font-bold text-ink">2.4k+</p><p class="text-xs text-ink-muted uppercase tracking-wider">Customers</p></div>
+          <div class="w-px bg-gold-pale"></div>
+          <div><p class="font-display text-2xl font-bold text-ink">150+</p><p class="text-xs text-ink-muted uppercase tracking-wider">Products</p></div>
+          <div class="w-px bg-gold-pale"></div>
+          <div><p class="font-display text-2xl font-bold text-ink">4.9★</p><p class="text-xs text-ink-muted uppercase tracking-wider">Rating</p></div>
+        </div>
+      </div>
+      <!-- Hero product cards -->
+      <div class="relative hidden lg:block h-[500px] reveal reveal-delay-2">
+        <div class="absolute top-0 right-0 w-64 rounded-2xl overflow-hidden shadow-card-hover rotate-3 hover:rotate-0 transition-transform duration-500">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80&auto=format&fit=crop" alt="Featured design" class="w-full h-48 object-cover" onerror="this.src='https://images.unsplash.com/photo-1558655146-d09347e92766?w=500&q=80'" />
+          <div class="bg-white p-3"><p class="font-medium text-sm text-ink">Premium Brand Kit</p><p class="text-gold-dark font-semibold text-sm">$49</p></div>
+        </div>
+        <div class="absolute top-28 left-0 w-56 rounded-2xl overflow-hidden shadow-card-hover -rotate-2 hover:rotate-0 transition-transform duration-500">
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80&auto=format&fit=crop" alt="Featured design" class="w-full h-44 object-cover" onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=80'" />
+          <div class="bg-white p-3"><p class="font-medium text-sm text-ink">Digital Art Print</p><p class="text-gold-dark font-semibold text-sm">$29</p></div>
+        </div>
+        <div class="absolute bottom-0 right-12 w-60 rounded-2xl overflow-hidden shadow-card-hover rotate-1 hover:rotate-0 transition-transform duration-500">
+          <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&q=80&auto=format&fit=crop" alt="Featured design" class="w-full h-44 object-cover" onerror="this.src='https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80'" />
+          <div class="bg-white p-3"><p class="font-medium text-sm text-ink">Logo Design Pack</p><p class="text-gold-dark font-semibold text-sm">$39</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CATEGORIES -->
-  <section class="section categories-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="section-label">Explore</p>
-        <h2 class="section-title">Shop by Category</h2>
-      </div>
-      <div class="categories-grid">
-        <div class="cat-card reveal" data-page="shop" data-category="necklaces" style="--delay:0s">
-          <div class="cat-img" style="background:linear-gradient(135deg,#e8dcc8,#c9a96e40)"><span>🌙</span></div>
-          <h3>Necklaces</h3>
-          <p>24 pieces</p>
-        </div>
-        <div class="cat-card reveal" data-page="shop" data-category="earrings" style="--delay:0.1s">
-          <div class="cat-img" style="background:linear-gradient(135deg,#d4e8e0,#6ec9a940)"><span>✨</span></div>
-          <h3>Earrings</h3>
-          <p>31 pieces</p>
-        </div>
-        <div class="cat-card reveal" data-page="shop" data-category="rings" style="--delay:0.2s">
-          <div class="cat-img" style="background:linear-gradient(135deg,#e8d4d4,#c96e6e40)"><span>💍</span></div>
-          <h3>Rings</h3>
-          <p>18 pieces</p>
-        </div>
-        <div class="cat-card reveal" data-page="shop" data-category="bracelets" style="--delay:0.3s">
-          <div class="cat-img" style="background:linear-gradient(135deg,#d4d8e8,#6e7ac940)"><span>🔮</span></div>
-          <h3>Bracelets</h3>
-          <p>22 pieces</p>
-        </div>
-        <div class="cat-card reveal" data-page="shop" data-category="sets" style="--delay:0.4s">
-          <div class="cat-img" style="background:linear-gradient(135deg,#e8e4d4,#c9b96e40)"><span>🪬</span></div>
-          <h3>Gift Sets</h3>
-          <p>12 pieces</p>
-        </div>
+  <!-- TRUST BAR -->
+  <div class="bg-gold-pale/60 border-y border-gold-light/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-wrap justify-center gap-6 sm:gap-12 text-xs sm:text-sm text-ink-muted">
+        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> Instant Digital Download</span>
+        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> Commercial License Included</span>
+        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> 24/7 Customer Support</span>
+        <span class="flex items-center gap-2"><span class="text-gold-light">✦</span> 100% Satisfaction Guarantee</span>
       </div>
     </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="text-center mb-12 reveal">
+      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Browse By</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Our Collections</h2>
+    </div>
+    <div id="categories-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"></div>
   </section>
 
   <!-- FEATURED PRODUCTS -->
-  <section class="section featured-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="section-label">Curated For You</p>
-        <h2 class="section-title">Featured Pieces</h2>
-        <button class="btn btn-outline" data-page="shop">View All</button>
+  <section class="bg-cream-dark/50 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 reveal">
+        <div>
+          <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Curated For You</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Featured Designs</h2>
+        </div>
+        <button onclick="showPage('shop')" class="text-sm font-medium text-gold-dark hover:text-gold border-b border-gold-light pb-0.5 transition-colors self-start sm:self-auto">View All →</button>
       </div>
-      <div class="products-grid" id="featuredGrid"></div>
+      <div id="featured-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"></div>
     </div>
   </section>
 
-  <!-- BANNER -->
-  <section class="mid-banner reveal">
-    <div class="mid-banner-bg">
-      <div class="mid-banner-orb"></div>
+  <!-- MID BANNER -->
+  <section class="relative py-28 overflow-hidden grain">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-20" onerror="this.style.display='none'" />
+      <div class="absolute inset-0 bg-gradient-to-r from-ink/90 to-ink/70"></div>
     </div>
-    <div class="mid-banner-content">
-      <p class="section-label">The Enigma Promise</p>
-      <h2>"Every piece is a conversation between<br><em>the maker and the mystery."</em></h2>
-      <button class="btn btn-primary" data-page="about">Discover Our Story</button>
-    </div>
-    <div class="mid-banner-icons">
-      <div class="icon-feature reveal"><div class="icon-feat-circle">🤲</div><strong>Handcrafted</strong><span>Made with care by hand</span></div>
-      <div class="icon-feature reveal"><div class="icon-feat-circle">♻️</div><strong>Sustainable</strong><span>Ethically sourced materials</span></div>
-      <div class="icon-feature reveal"><div class="icon-feat-circle">📦</div><strong>Free Shipping</strong><span>On orders over $75</span></div>
-      <div class="icon-feature reveal"><div class="icon-feat-circle">💌</div><strong>Gift Ready</strong><span>Beautiful packaging included</span></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <p class="text-xs tracking-[0.25em] text-gold-light uppercase font-semibold mb-4 reveal">Our Philosophy</p>
+      <h2 class="font-display text-3xl sm:text-5xl font-semibold text-white mb-6 leading-tight reveal reveal-delay-1">
+        "Every design is a conversation<br class="hidden sm:block" /><em class="text-gold-light">between vision and form."</em>
+      </h2>
+      <p class="text-white/70 max-w-xl mx-auto mb-8 reveal reveal-delay-2">We believe great design transforms businesses, elevates brands, and creates lasting impressions. Each piece is crafted with intention.</p>
+      <button onclick="showPage('about')" class="btn-gold bg-gold-light/20 hover:bg-gold-light border border-gold-light/40 hover:border-gold-light text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 reveal reveal-delay-3">
+        Discover Our Story
+      </button>
     </div>
   </section>
 
   <!-- BESTSELLERS -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="section-label">Most Loved</p>
-        <h2 class="section-title">Bestsellers</h2>
-        <button class="btn btn-outline" data-page="shop">See All</button>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 reveal">
+      <div>
+        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Most Loved</p>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Bestsellers</h2>
       </div>
-      <div class="products-grid" id="bestsellerGrid"></div>
+      <button onclick="showPage('shop')" class="text-sm font-medium text-gold-dark hover:text-gold border-b border-gold-light pb-0.5 transition-colors self-start sm:self-auto">See All →</button>
     </div>
+    <div id="bestsellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"></div>
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="section testimonials-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="section-label">Reviews</p>
-        <h2 class="section-title">What Our Customers Say</h2>
+  <section class="bg-cream-dark/60 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 reveal">
+        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Reviews</p>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">What Customers Say</h2>
       </div>
-      <div class="testimonials-track">
-        <div class="testimonials-inner" id="testimonialInner"></div>
-      </div>
-      <div class="testimonial-dots" id="testimonialDots"></div>
-    </div>
-  </section>
-
-  <!-- INSTAGRAM-STYLE GALLERY -->
-  <section class="section gallery-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="section-label">@enigmacreationdesign</p>
-        <h2 class="section-title">Worn &amp; Loved</h2>
-      </div>
-      <div class="gallery-grid reveal">
-        <div class="gallery-item gi-1"><span>💎</span></div>
-        <div class="gallery-item gi-2"><span>🌙</span></div>
-        <div class="gallery-item gi-3"><span>🔮</span></div>
-        <div class="gallery-item gi-4"><span>🪬</span></div>
-        <div class="gallery-item gi-5"><span>✨</span></div>
-        <div class="gallery-item gi-6"><span>💍</span></div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="bg-white rounded-2xl p-7 shadow-card reveal">
+          <div class="stars text-lg mb-4">★★★★★</div>
+          <p class="text-ink-soft text-sm leading-relaxed mb-5 font-display italic">"The logo pack is absolutely stunning. The files were perfectly organized and the quality exceeded my expectations. Highly recommend!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-white text-sm font-bold">S</div>
+            <div><p class="text-sm font-semibold text-ink">Sarah M.</p><p class="text-xs text-ink-muted">Verified Buyer</p></div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-7 shadow-card reveal reveal-delay-1">
+          <div class="stars text-lg mb-4">★★★★★</div>
+          <p class="text-ink-soft text-sm leading-relaxed mb-5 font-display italic">"Incredible digital prints! They arrived instantly and look gorgeous printed large. The attention to detail in each piece is remarkable."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-white text-sm font-bold">J</div>
+            <div><p class="text-sm font-semibold text-ink">James T.</p><p class="text-xs text-ink-muted">Verified Buyer</p></div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-7 shadow-card reveal reveal-delay-2">
+          <div class="stars text-lg mb-4">★★★★★</div>
+          <p class="text-ink-soft text-sm leading-relaxed mb-5 font-display italic">"Used the branding kit for my startup and the response has been incredible. Professional, unique, and exactly what we needed."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-white text-sm font-bold">P</div>
+            <div><p class="text-sm font-semibold text-ink">Priya K.</p><p class="text-xs text-ink-muted">Verified Buyer</p></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- NEWSLETTER -->
-  <section class="newsletter-section reveal">
-    <div class="newsletter-bg"></div>
-    <div class="newsletter-content">
-      <p class="section-label">Join the Circle</p>
-      <h2>Unlock 10% Off Your First Order</h2>
-      <p>Subscribe for new arrivals, exclusive drops, and artisan stories.</p>
-      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
-        <input type="email" placeholder="your@email.com" required />
-        <button type="submit" class="btn btn-primary">Subscribe</button>
+  <section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-gold-pale/60 via-cream to-gold-pale/30 pointer-events-none"></div>
+    <div class="relative z-10 max-w-2xl mx-auto px-4 text-center reveal">
+      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-3">Join the Circle</p>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink mb-3">Get 10% Off Your First Order</h2>
+      <p class="text-ink-muted mb-8">Subscribe for new drops, exclusive offers, and creative inspiration delivered to your inbox.</p>
+      <form onsubmit="handleNewsletter(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" placeholder="your@email.com" required class="flex-1 px-5 py-3 rounded-xl border border-gold-light/50 bg-white focus:outline-none focus:border-gold-light text-sm transition-colors" />
+        <button type="submit" class="btn-gold bg-gold-light hover:bg-gold text-white font-semibold px-6 py-3 rounded-xl transition-all hover:shadow-gold whitespace-nowrap">Subscribe</button>
       </form>
     </div>
   </section>
 
 </main>
 
-<!-- SHOP PAGE -->
-<main id="page-shop" class="page">
-  <div class="page-hero">
-    <div class="page-hero-bg"></div>
-    <h1 class="reveal">The Collection</h1>
-    <p class="reveal">Handcrafted pieces, each with a story to tell</p>
+<!-- ═══════════════════════════════════════════════════
+     PAGE: SHOP
+═══════════════════════════════════════════════════ -->
+<main id="page-shop" class="page hidden pt-16 sm:pt-[72px]">
+  <!-- Shop Header -->
+  <div class="relative bg-cream-dark/60 border-b border-gold-pale py-14 sm:py-20 text-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-gold-pale/20 to-transparent pointer-events-none"></div>
+    <div class="relative z-10 max-w-2xl mx-auto px-4">
+      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">The Collection</p>
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink mb-3">Shop All Designs</h1>
+      <p class="text-ink-muted text-sm">Handcrafted digital creations for every vision</p>
+    </div>
   </div>
-  <div class="container shop-layout">
-    <!-- Filters Sidebar -->
-    <aside class="shop-sidebar">
-      <div class="filter-group reveal">
-        <h4>Category</h4>
-        <label class="filter-check"><input type="radio" name="cat" value="all" checked> All</label>
-        <label class="filter-check"><input type="radio" name="cat" value="necklaces"> Necklaces</label>
-        <label class="filter-check"><input type="radio" name="cat" value="earrings"> Earrings</label>
-        <label class="filter-check"><input type="radio" name="cat" value="rings"> Rings</label>
-        <label class="filter-check"><input type="radio" name="cat" value="bracelets"> Bracelets</label>
-        <label class="filter-check"><input type="radio" name="cat" value="sets"> Gift Sets</label>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+    <!-- Toolbar -->
+    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-8">
+      <!-- Search -->
+      <div class="relative w-full sm:w-72">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="shop-search" type="text" placeholder="Search products…" class="w-full pl-10 pr-4 py-2.5 bg-white border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light transition-colors" oninput="applyFilters()" />
       </div>
-      <div class="filter-group reveal">
-        <h4>Price Range</h4>
-        <label class="filter-check"><input type="radio" name="price" value="all" checked> All Prices</label>
-        <label class="filter-check"><input type="radio" name="price" value="under40"> Under $40</label>
-        <label class="filter-check"><input type="radio" name="price" value="40-80"> $40 – $80</label>
-        <label class="filter-check"><input type="radio" name="price" value="over80"> Over $80</label>
-      </div>
-      <div class="filter-group reveal">
-        <h4>Sort By</h4>
-        <select id="sortSelect" class="filter-select">
+      <!-- Sort + Count -->
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <span id="shop-count" class="text-sm text-ink-muted whitespace-nowrap"></span>
+        <select id="shop-sort" onchange="applyFilters()" class="ml-auto sm:ml-0 bg-white border border-gold-pale rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-gold-light transition-colors text-ink cursor-pointer">
           <option value="featured">Featured</option>
-          <option value="newest">Newest</option>
-          <option value="low-high">Price: Low to High</option>
-          <option value="high-low">Price: High to Low</option>
+          <option value="newest">Newest First</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
           <option value="popular">Most Popular</option>
         </select>
       </div>
-    </aside>
+    </div>
 
-    <!-- Products -->
-    <div class="shop-main">
-      <div class="shop-toolbar">
-        <p id="shopCount" class="shop-count">Showing all products</p>
-        <div class="shop-search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="shopSearch" placeholder="Search products…" />
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Sidebar Filters -->
+      <aside class="w-full lg:w-60 flex-shrink-0">
+        <div class="bg-white rounded-2xl border border-gold-pale p-5 sticky top-24 space-y-6">
+          <div>
+            <h4 class="font-semibold text-sm text-ink mb-3">Category</h4>
+            <div id="category-filters" class="space-y-2"></div>
+          </div>
+          <div class="border-t border-gold-pale pt-5">
+            <h4 class="font-semibold text-sm text-ink mb-3">Price Range</h4>
+            <div class="space-y-2">
+              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
+                <input type="radio" name="price" value="all" checked onchange="applyFilters()" class="accent-gold-light"> All Prices
+              </label>
+              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
+                <input type="radio" name="price" value="under20" onchange="applyFilters()" class="accent-gold-light"> Under $20
+              </label>
+              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
+                <input type="radio" name="price" value="20-50" onchange="applyFilters()" class="accent-gold-light"> $20 – $50
+              </label>
+              <label class="filter-radio flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
+                <input type="radio" name="price" value="over50" onchange="applyFilters()" class="accent-gold-light"> Over $50
+              </label>
+            </div>
+          </div>
+          <div class="border-t border-gold-pale pt-5">
+            <h4 class="font-semibold text-sm text-ink mb-3">Type</h4>
+            <div class="space-y-2">
+              <label class="flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
+                <input type="checkbox" id="filter-bestseller" onchange="applyFilters()" class="accent-gold-light rounded"> Bestsellers
+              </label>
+              <label class="flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
+                <input type="checkbox" id="filter-new" onchange="applyFilters()" class="accent-gold-light rounded"> New Arrivals
+              </label>
+              <label class="flex items-center gap-2 text-sm text-ink-muted cursor-pointer hover:text-ink">
+                <input type="checkbox" id="filter-sale" onchange="applyFilters()" class="accent-gold-light rounded"> On Sale
+              </label>
+            </div>
+          </div>
+          <button onclick="resetFilters()" class="w-full text-xs text-ink-muted hover:text-gold-dark border border-gold-pale hover:border-gold-light rounded-lg py-2 transition-colors">Reset Filters</button>
         </div>
-      </div>
-      <div class="products-grid" id="shopGrid"></div>
-    </div>
-  </div>
-</main>
+      </aside>
 
-<!-- PRODUCT PAGE -->
-<main id="page-product" class="page">
-  <div class="product-breadcrumb">
-    <button data-page="home">Home</button> / <button data-page="shop">Shop</button> / <span id="prodBreadcrumb">Product</span>
-  </div>
-  <div class="product-layout container">
-    <div class="product-gallery">
-      <div class="product-main-img" id="productMainImg"></div>
-      <div class="product-thumbs" id="productThumbs"></div>
-    </div>
-    <div class="product-info">
-      <div class="product-badges" id="productBadges"></div>
-      <h1 class="product-title" id="productTitle"></h1>
-      <div class="product-meta">
-        <div class="product-stars" id="productStars"></div>
-        <span id="productReviewCount"></span>
-      </div>
-      <div class="product-price-row">
-        <span class="product-price" id="productPrice"></span>
-        <span class="product-original" id="productOriginal"></span>
-        <span class="product-discount" id="productDiscount"></span>
-      </div>
-      <p class="product-desc" id="productDesc"></p>
-
-      <div class="product-options">
-        <div class="option-group" id="materialGroup">
-          <label>Material</label>
-          <div class="option-btns" id="materialBtns"></div>
+      <!-- Products Grid -->
+      <div class="flex-1 min-w-0">
+        <div id="shop-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6"></div>
+        <div id="shop-empty" class="hidden text-center py-24">
+          <div class="w-16 h-16 rounded-full bg-gold-pale mx-auto flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </div>
+          <p class="font-display text-xl text-ink mb-2">No products found</p>
+          <p class="text-sm text-ink-muted">Try adjusting your search or filters</p>
+          <button onclick="resetFilters()" class="mt-4 text-sm text-gold-dark hover:text-gold border-b border-gold-light pb-0.5">Clear filters</button>
         </div>
-      </div>
-
-      <div class="product-qty">
-        <label>Quantity</label>
-        <div class="qty-control">
-          <button class="qty-btn" id="qtyMinus">−</button>
-          <span id="qtyValue">1</span>
-          <button class="qty-btn" id="qtyPlus">+</button>
-        </div>
-      </div>
-
-      <div class="product-actions-row">
-        <button class="btn btn-primary" id="addToCartBtn">Add to Cart</button>
-        <button class="btn btn-icon" id="wishlistBtn" aria-label="Wishlist">♡</button>
-      </div>
-
-      <div class="product-features">
-        <div class="pf-item">✦ Handcrafted with care</div>
-        <div class="pf-item">📦 Gift packaging included</div>
-        <div class="pf-item">🚚 Free shipping over $75</div>
-        <div class="pf-item">↩ 30-day returns</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Reviews -->
-  <div class="container">
-    <div class="reviews-section">
-      <h3>Customer Reviews</h3>
-      <div class="reviews-summary" id="reviewsSummary"></div>
-      <div class="reviews-list" id="reviewsList"></div>
-    </div>
-
-    <!-- Related Products -->
-    <div class="related-section">
-      <div class="section-header">
-        <p class="section-label">You May Also Love</p>
-        <h2 class="section-title">Related Pieces</h2>
-      </div>
-      <div class="products-grid" id="relatedGrid"></div>
-    </div>
-  </div>
-</main>
-
-<!-- CART PAGE -->
-<main id="page-cart" class="page">
-  <div class="page-hero small">
-    <div class="page-hero-bg"></div>
-    <h1>Your Cart</h1>
-  </div>
-  <div class="container cart-page-layout">
-    <div class="cart-page-items" id="cartPageItems"></div>
-    <div class="cart-page-summary">
-      <div class="summary-card">
-        <h3>Order Summary</h3>
-        <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">$0.00</span></div>
-        <div class="summary-row"><span>Shipping</span><span id="summaryShipping">Free</span></div>
-        <div class="summary-row"><span>Tax (estimated)</span><span id="summaryTax">$0.00</span></div>
-        <div class="summary-divider"></div>
-        <div class="summary-row total-row"><span>Total</span><span id="summaryTotal">$0.00</span></div>
-        <div class="promo-row">
-          <input type="text" placeholder="Promo code" class="promo-input" />
-          <button class="btn btn-outline small">Apply</button>
-        </div>
-        <button class="btn btn-primary full-width" data-page="checkout">Proceed to Checkout</button>
-        <button class="btn btn-ghost full-width" data-page="shop">Continue Shopping</button>
       </div>
     </div>
   </div>
 </main>
 
-<!-- CHECKOUT PAGE -->
-<main id="page-checkout" class="page">
-  <div class="page-hero small">
-    <div class="page-hero-bg"></div>
-    <h1>Checkout</h1>
-  </div>
-  <div class="container checkout-layout">
-    <div class="checkout-form-section">
-      <div class="checkout-step">
-        <h3><span class="step-num">1</span> Contact Information</h3>
-        <div class="form-grid">
-          <div class="form-group full">
-            <label>Email Address</label>
-            <input type="email" placeholder="you@example.com" class="form-input" />
+<!-- ═══════════════════════════════════════════════════
+     PAGE: PRODUCT DETAIL
+═══════════════════════════════════════════════════ -->
+<main id="page-product" class="page hidden pt-16 sm:pt-[72px]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-xs text-ink-muted mb-8">
+      <button onclick="showPage('home')" class="hover:text-ink transition-colors">Home</button>
+      <span>/</span>
+      <button onclick="showPage('shop')" class="hover:text-ink transition-colors">Shop</button>
+      <span>/</span>
+      <span id="prod-breadcrumb" class="text-ink"></span>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <!-- Gallery -->
+      <div>
+        <div id="prod-main-img-wrap" class="rounded-2xl overflow-hidden shadow-card-hover mb-4 aspect-square bg-cream-dark">
+          <img id="prod-main-img" src="" alt="" class="w-full h-full object-cover img-zoom" />
+        </div>
+        <div id="prod-thumbs" class="grid grid-cols-4 gap-3"></div>
+      </div>
+
+      <!-- Info -->
+      <div>
+        <div id="prod-badges" class="flex gap-2 mb-3"></div>
+        <h1 id="prod-name" class="font-display text-3xl sm:text-4xl font-semibold text-ink mb-3"></h1>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="stars text-base">★★★★★</span>
+          <span id="prod-reviews" class="text-sm text-ink-muted"></span>
+        </div>
+        <div class="flex items-baseline gap-3 mb-5">
+          <span id="prod-price" class="font-display text-3xl font-bold text-ink"></span>
+          <span id="prod-original" class="text-lg text-ink-muted line-through hidden"></span>
+          <span id="prod-discount" class="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md hidden"></span>
+        </div>
+        <p id="prod-desc" class="text-ink-muted leading-relaxed mb-7 text-[15px]"></p>
+
+        <!-- Options -->
+        <div id="prod-options" class="mb-6"></div>
+
+        <!-- Quantity -->
+        <div class="mb-6">
+          <p class="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-2">Quantity</p>
+          <div class="flex items-center gap-0 border border-gold-pale rounded-xl w-fit overflow-hidden">
+            <button onclick="changeQty(-1)" class="w-11 h-11 flex items-center justify-center hover:bg-gold-pale transition-colors text-ink-soft hover:text-ink text-lg">−</button>
+            <span id="prod-qty" class="w-12 text-center font-semibold text-ink text-sm">1</span>
+            <button onclick="changeQty(1)" class="w-11 h-11 flex items-center justify-center hover:bg-gold-pale transition-colors text-ink-soft hover:text-ink text-lg">+</button>
           </div>
         </div>
-      </div>
-      <div class="checkout-step">
-        <h3><span class="step-num">2</span> Shipping Address</h3>
-        <div class="form-grid">
-          <div class="form-group"><label>First Name</label><input type="text" placeholder="Jane" class="form-input" /></div>
-          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Doe" class="form-input" /></div>
-          <div class="form-group full"><label>Address</label><input type="text" placeholder="123 Main Street" class="form-input" /></div>
-          <div class="form-group full"><label>Apartment, suite, etc. (optional)</label><input type="text" placeholder="Apt 4B" class="form-input" /></div>
-          <div class="form-group"><label>City</label><input type="text" placeholder="New York" class="form-input" /></div>
-          <div class="form-group"><label>ZIP Code</label><input type="text" placeholder="10001" class="form-input" /></div>
-          <div class="form-group"><label>Country</label>
-            <select class="form-input"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select>
-          </div>
-          <div class="form-group"><label>Phone</label><input type="tel" placeholder="+1 (555) 000-0000" class="form-input" /></div>
+
+        <!-- Actions -->
+        <div class="flex gap-3 mb-7">
+          <button id="add-to-cart-btn" class="btn-gold flex-1 bg-gold-light hover:bg-gold text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:shadow-gold">Add to Cart</button>
+          <button id="wishlist-btn" onclick="toggleWishlist()" class="w-12 h-12 flex items-center justify-center border border-gold-pale hover:border-gold-light rounded-xl transition-all hover:bg-gold-pale text-ink-muted hover:text-gold-dark text-lg">♡</button>
+        </div>
+
+        <!-- Perks -->
+        <div class="grid grid-cols-2 gap-3 text-xs text-ink-muted border-t border-gold-pale pt-5">
+          <span class="flex items-center gap-2"><span class="text-gold-light">⚡</span> Instant Download</span>
+          <span class="flex items-center gap-2"><span class="text-gold-light">🔒</span> Secure Purchase</span>
+          <span class="flex items-center gap-2"><span class="text-gold-light">📄</span> Commercial License</span>
+          <span class="flex items-center gap-2"><span class="text-gold-light">↩</span> Satisfaction Guaranteed</span>
         </div>
       </div>
-      <div class="checkout-step">
-        <h3><span class="step-num">3</span> Payment</h3>
-        <div class="payment-methods">
-          <label class="pay-method active"><input type="radio" name="pay" checked> <span>💳 Credit / Debit Card</span></label>
-          <label class="pay-method"><input type="radio" name="pay"> <span>🅿️ PayPal</span></label>
-        </div>
-        <div class="form-grid card-form">
-          <div class="form-group full"><label>Card Number</label>
-            <div class="card-input-wrap"><input type="text" placeholder="1234 5678 9012 3456" class="form-input" maxlength="19" /><span class="card-icons">💳</span></div>
-          </div>
-          <div class="form-group full"><label>Cardholder Name</label><input type="text" placeholder="Jane Doe" class="form-input" /></div>
-          <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM / YY" class="form-input" maxlength="7" /></div>
-          <div class="form-group"><label>CVV</label><input type="text" placeholder="123" class="form-input" maxlength="4" /></div>
-        </div>
-        <div class="secure-notice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure, encrypted payment</div>
-      </div>
-      <button class="btn btn-primary full-width" onclick="handleCheckout()">Place Order — <span id="checkoutTotal">$0.00</span></button>
     </div>
 
-    <div class="checkout-summary">
-      <h3>Order Summary</h3>
-      <div id="checkoutItems" class="checkout-items-list"></div>
-      <div class="summary-divider"></div>
-      <div class="summary-row"><span>Subtotal</span><span id="coSubtotal">$0.00</span></div>
-      <div class="summary-row"><span>Shipping</span><span>Free</span></div>
-      <div class="summary-row"><span>Tax (8%)</span><span id="coTax">$0.00</span></div>
-      <div class="summary-divider"></div>
-      <div class="summary-row total-row"><span>Total</span><span id="coTotal">$0.00</span></div>
+    <!-- Reviews -->
+    <div class="mt-16 border-t border-gold-pale pt-12">
+      <h3 class="font-display text-2xl font-semibold text-ink mb-8">Customer Reviews</h3>
+      <div id="prod-reviews-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </div>
+
+    <!-- Related -->
+    <div class="mt-16 border-t border-gold-pale pt-12">
+      <h3 class="font-display text-2xl font-semibold text-ink mb-8">You Might Also Like</h3>
+      <div id="related-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-5"></div>
     </div>
   </div>
 </main>
 
-<!-- ABOUT PAGE -->
-<main id="page-about" class="page">
-  <div class="about-hero">
-    <div class="about-hero-bg">
-      <div class="about-orb about-orb-1"></div>
-      <div class="about-orb about-orb-2"></div>
+<!-- ═══════════════════════════════════════════════════
+     PAGE: ABOUT
+═══════════════════════════════════════════════════ -->
+<main id="page-about" class="page hidden pt-16 sm:pt-[72px]">
+  <!-- Hero -->
+  <div class="relative py-24 sm:py-32 overflow-hidden text-center grain">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1525909002-1b05e0c869d8?w=1400&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-10" onerror="this.style.display='none'" />
+      <div class="absolute inset-0 bg-gradient-to-b from-cream via-cream/90 to-cream"></div>
     </div>
-    <div class="about-hero-content reveal">
-      <p class="section-label">Our Story</p>
-      <h1>Born from Mystery,<br><em>Crafted with Soul</em></h1>
+    <div class="relative z-10 max-w-3xl mx-auto px-4">
+      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-4">Our Story</p>
+      <h1 class="font-display text-5xl sm:text-6xl font-semibold text-ink mb-6 leading-tight">Born from Curiosity,<br><em class="gradient-text not-italic">Built with Purpose</em></h1>
+      <p class="text-ink-muted text-lg leading-relaxed">We believe that extraordinary design has the power to transform how the world sees you.</p>
     </div>
   </div>
 
-  <div class="container about-layout">
-    <div class="about-story reveal">
-      <p class="about-large">It began with a question: <em>what if jewelry could hold secrets?</em></p>
-      <p>Enigma Creation Design was born in 2018 from a studio in Portland, Oregon — a quiet space where ancient symbolism meets modern artistry. Founder Maya Chen had spent years studying gemology and sacred geometry, fascinated by how civilizations across time used adornment to mark the unexplainable.</p>
-      <p>Maya's jewelry doesn't just decorate — it <em>speaks</em>. Each collection is inspired by a theme: celestial bodies, ancient runes, the geometry of nature. The pieces are small philosophies, worn close to the body, whispering meaning only the wearer can decipher.</p>
-      <p>Today, Enigma Creation Design ships to over 40 countries. Every piece is still handcrafted in our studio, using ethically sourced metals and stones. We believe jewelry should be a conversation — between maker and material, between wearer and world.</p>
-    </div>
-
-    <div class="about-values">
-      <div class="value-card reveal">
-        <div class="value-icon">🤲</div>
-        <h3>Handcrafted Integrity</h3>
-        <p>No mass production. Every piece is shaped, soldered, and polished by hand in our Portland studio.</p>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-24">
+    <!-- Story -->
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="rounded-2xl overflow-hidden shadow-card-hover aspect-[4/3]">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop" alt="Studio" class="w-full h-full object-cover img-zoom" onerror="this.src='https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80'" />
       </div>
-      <div class="value-card reveal">
-        <div class="value-icon">🌍</div>
-        <h3>Ethical Sourcing</h3>
-        <p>We partner only with suppliers who share our commitment to fair labor and environmental responsibility.</p>
-      </div>
-      <div class="value-card reveal">
-        <div class="value-icon">🎨</div>
-        <h3>Intentional Design</h3>
-        <p>Each collection is researched and designed with deep respect for its cultural and symbolic roots.</p>
-      </div>
-      <div class="value-card reveal">
-        <div class="value-icon">💌</div>
-        <h3>Personal Connection</h3>
-        <p>We read every review, answer every message, and remember that behind every order is a person with a story.</p>
+      <div>
+        <p class="font-display text-2xl italic text-ink-soft mb-5 leading-relaxed">"What if every design held a secret — a layer of meaning only the right eyes could see?"</p>
+        <p class="text-ink-muted leading-relaxed mb-4">Enigma Creation Design was founded in 2019 by a team of passionate designers who believed the digital world deserved more than templates and trends. We started in a small studio with big dreams and even bigger creative ambitions.</p>
+        <p class="text-ink-muted leading-relaxed mb-4">Today, we're a global creative studio serving thousands of clients — from startup founders to established brands — with premium digital art, logo design, brand identities, and graphic assets that carry genuine craft.</p>
+        <p class="text-ink-muted leading-relaxed">Every file we create is a piece of us. Designed with intention, built to last, and delivered with care.</p>
       </div>
     </div>
 
-    <div class="team-section reveal">
-      <div class="section-header">
-        <p class="section-label">The Makers</p>
-        <h2 class="section-title">Meet Our Team</h2>
+    <!-- Values -->
+    <div>
+      <div class="text-center mb-12">
+        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">What We Stand For</p>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Our Values</h2>
       </div>
-      <div class="team-grid">
-        <div class="team-card">
-          <div class="team-avatar" style="background:linear-gradient(135deg,#c9a96e,#8b6914)">M</div>
-          <h4>Maya Chen</h4>
-          <p>Founder & Lead Designer</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
+          <div class="text-3xl mb-4">🎨</div>
+          <h3 class="font-display font-semibold text-ink mb-2">Craft First</h3>
+          <p class="text-sm text-ink-muted">Every pixel is placed with intention. We don't do "good enough."</p>
         </div>
-        <div class="team-card">
-          <div class="team-avatar" style="background:linear-gradient(135deg,#6e9ac9,#145f8b)">R</div>
-          <h4>Rafael Moreno</h4>
-          <p>Master Metalsmith</p>
+        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
+          <div class="text-3xl mb-4">💡</div>
+          <h3 class="font-display font-semibold text-ink mb-2">Original Thinking</h3>
+          <p class="text-sm text-ink-muted">We start from scratch, every time. No templates, no shortcuts.</p>
         </div>
-        <div class="team-card">
-          <div class="team-avatar" style="background:linear-gradient(135deg,#c96e9a,#8b1454)">S</div>
-          <h4>Sara Okafor</h4>
-          <p>Gemstone Curator</p>
+        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
+          <div class="text-3xl mb-4">🤝</div>
+          <h3 class="font-display font-semibold text-ink mb-2">Client Focus</h3>
+          <p class="text-sm text-ink-muted">Your success is our success. We're invested in outcomes, not just deliverables.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-gold-pale text-center hover:border-gold-light hover:shadow-card transition-all">
+          <div class="text-3xl mb-4">♻️</div>
+          <h3 class="font-display font-semibold text-ink mb-2">Sustainability</h3>
+          <p class="text-sm text-ink-muted">Digital means zero waste. We're proud to be 100% eco-positive.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team -->
+    <div>
+      <div class="text-center mb-12">
+        <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">The Makers</p>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold text-ink">Meet the Team</h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
+        <div class="text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gold-light to-gold-dark mx-auto flex items-center justify-center text-white font-display font-bold text-2xl mb-4">M</div>
+          <h4 class="font-semibold text-ink mb-0.5">Maya Chen</h4>
+          <p class="text-xs text-gold-dark">Founder & Creative Director</p>
+        </div>
+        <div class="text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-ink-soft to-ink mx-auto flex items-center justify-center text-white font-display font-bold text-2xl mb-4">R</div>
+          <h4 class="font-semibold text-ink mb-0.5">Rafael Moura</h4>
+          <p class="text-xs text-gold-dark">Lead Brand Designer</p>
+        </div>
+        <div class="text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gold-pale to-gold-light mx-auto flex items-center justify-center text-white font-display font-bold text-2xl mb-4">A</div>
+          <h4 class="font-semibold text-ink mb-0.5">Aisha Okoye</h4>
+          <p class="text-xs text-gold-dark">Digital Art Lead</p>
         </div>
       </div>
     </div>
   </div>
 </main>
 
-<!-- CONTACT PAGE -->
-<main id="page-contact" class="page">
-  <div class="page-hero">
-    <div class="page-hero-bg"></div>
-    <h1 class="reveal">Get in Touch</h1>
-    <p class="reveal">We'd love to hear from you</p>
+<!-- ═══════════════════════════════════════════════════
+     PAGE: CONTACT
+═══════════════════════════════════════════════════ -->
+<main id="page-contact" class="page hidden pt-16 sm:pt-[72px]">
+  <div class="relative py-20 text-center bg-cream-dark/60 border-b border-gold-pale overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-gold-pale/20 to-transparent pointer-events-none"></div>
+    <div class="relative z-10">
+      <p class="text-xs tracking-[0.2em] text-gold-dark uppercase font-semibold mb-2">Get In Touch</p>
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-ink">We'd Love to Hear<br><em class="gradient-text not-italic">From You</em></h1>
+    </div>
   </div>
-  <div class="container contact-layout">
-    <div class="contact-form-card reveal">
-      <h3>Send a Message</h3>
-      <form onsubmit="handleContact(event)">
-        <div class="form-grid">
-          <div class="form-group"><label>First Name</label><input type="text" placeholder="Jane" class="form-input" /></div>
-          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Doe" class="form-input" /></div>
-          <div class="form-group full"><label>Email</label><input type="email" placeholder="you@example.com" class="form-input" /></div>
-          <div class="form-group full"><label>Subject</label>
-            <select class="form-input">
-              <option>Order Inquiry</option>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid lg:grid-cols-2 gap-12">
+      <!-- Form -->
+      <div class="bg-white rounded-2xl border border-gold-pale shadow-card p-8">
+        <h3 class="font-display text-xl font-semibold text-ink mb-6">Send a Message</h3>
+        <form onsubmit="handleContact(event)" class="space-y-5">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">First Name</label>
+              <input type="text" placeholder="Jane" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Last Name</label>
+              <input type="text" placeholder="Doe" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            </div>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Email</label>
+            <input type="email" placeholder="jane@example.com" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Subject</label>
+            <select class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream text-ink transition-colors">
+              <option>General Inquiry</option>
               <option>Custom Order</option>
-              <option>Returns & Exchanges</option>
-              <option>Wholesale</option>
+              <option>Commercial License</option>
+              <option>Returns & Refunds</option>
               <option>Other</option>
             </select>
           </div>
-          <div class="form-group full"><label>Message</label><textarea class="form-input" rows="5" placeholder="Tell us what you're looking for…"></textarea></div>
-        </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-      </form>
-    </div>
+          <div>
+            <label class="text-xs font-semibold text-ink-muted uppercase tracking-wider block mb-1.5">Message</label>
+            <textarea rows="5" placeholder="Tell us what you need…" required class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors resize-none"></textarea>
+          </div>
+          <button type="submit" class="btn-gold w-full bg-gold-light hover:bg-gold text-white font-semibold py-3.5 rounded-xl transition-all hover:shadow-gold">Send Message</button>
+        </form>
+      </div>
 
-    <div class="contact-info reveal">
-      <div class="ci-card">
-        <div class="ci-icon">📧</div>
-        <h4>Email</h4>
-        <p>hello@enigmacreation.com</p>
-      </div>
-      <div class="ci-card">
-        <div class="ci-icon">⏰</div>
-        <h4>Response Time</h4>
-        <p>Within 24-48 hours</p>
-      </div>
-      <div class="ci-card">
-        <div class="ci-icon">📍</div>
-        <h4>Studio</h4>
-        <p>Portland, Oregon, USA</p>
-      </div>
-      <div class="social-links-contact">
-        <h4>Follow Our Journey</h4>
-        <div class="social-row">
-          <a href="#" class="social-link-large">Instagram</a>
-          <a href="#" class="social-link-large">Pinterest</a>
-          <a href="#" class="social-link-large">TikTok</a>
-          <a href="#" class="social-link-large">Facebook</a>
+      <!-- Info -->
+      <div class="space-y-5">
+        <div class="bg-white border border-gold-pale rounded-2xl p-6 flex items-center gap-4 hover:border-gold-light transition-colors">
+          <div class="w-11 h-11 rounded-xl bg-gold-pale flex items-center justify-center text-gold-dark text-lg flex-shrink-0">📧</div>
+          <div><p class="font-semibold text-sm text-ink">Email Us</p><p class="text-sm text-ink-muted mt-0.5">hello@enigmacreation.com</p></div>
+        </div>
+        <div class="bg-white border border-gold-pale rounded-2xl p-6 flex items-center gap-4 hover:border-gold-light transition-colors">
+          <div class="w-11 h-11 rounded-xl bg-gold-pale flex items-center justify-center text-gold-dark text-lg flex-shrink-0">⏰</div>
+          <div><p class="font-semibold text-sm text-ink">Response Time</p><p class="text-sm text-ink-muted mt-0.5">Within 24 hours, Monday–Friday</p></div>
+        </div>
+        <div class="bg-white border border-gold-pale rounded-2xl p-6 flex items-center gap-4 hover:border-gold-light transition-colors">
+          <div class="w-11 h-11 rounded-xl bg-gold-pale flex items-center justify-center text-gold-dark text-lg flex-shrink-0">📍</div>
+          <div><p class="font-semibold text-sm text-ink">Studio Location</p><p class="text-sm text-ink-muted mt-0.5">Portland, Oregon, USA</p></div>
+        </div>
+        <div class="bg-white border border-gold-pale rounded-2xl p-6">
+          <p class="font-semibold text-sm text-ink mb-4">Follow Our Work</p>
+          <div class="flex gap-3 flex-wrap">
+            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Instagram</a>
+            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Pinterest</a>
+            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Behance</a>
+            <a href="#" class="flex items-center gap-2 px-4 py-2 border border-gold-pale rounded-xl text-sm text-ink-muted hover:border-gold-light hover:text-ink transition-all">Dribbble</a>
+          </div>
+        </div>
+
+        <!-- FAQ snippet -->
+        <div class="bg-gold-pale/50 border border-gold-light/30 rounded-2xl p-6">
+          <h4 class="font-semibold text-ink mb-4 text-sm">Quick Answers</h4>
+          <div class="space-y-3 text-sm text-ink-muted">
+            <p><span class="font-medium text-ink">Do files download instantly?</span><br>Yes — all products are digital downloads delivered immediately after purchase.</p>
+            <p><span class="font-medium text-ink">Can I use designs commercially?</span><br>Absolutely. All purchases include a full commercial license.</p>
+            <p><span class="font-medium text-ink">What formats are included?</span><br>Typically PDF, PNG, SVG, and source files depending on the product.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </main>
 
-<!-- ORDER CONFIRMATION PAGE -->
-<main id="page-confirmation" class="page">
-  <div class="confirmation-content">
-    <div class="confirmation-icon">✓</div>
-    <h1>Order Confirmed!</h1>
-    <p>Thank you for your purchase. You'll receive a confirmation email shortly.</p>
-    <div class="confirmation-order-num">Order #<span id="orderNum">ECD-2024-001</span></div>
-    <button class="btn btn-primary" data-page="home">Back to Home</button>
+<!-- ═══════════════════════════════════════════════════
+     PAGE: CHECKOUT
+═══════════════════════════════════════════════════ -->
+<main id="page-checkout" class="page hidden pt-16 sm:pt-[72px]">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="font-display text-3xl font-semibold text-ink mb-8">Checkout</h1>
+    <div class="grid lg:grid-cols-[1fr_380px] gap-10 items-start">
+      <!-- Form -->
+      <div class="space-y-5">
+        <div class="bg-white rounded-2xl border border-gold-pale p-6">
+          <h3 class="font-semibold text-ink flex items-center gap-3 mb-5"><span class="w-7 h-7 rounded-full bg-gold-light text-white text-xs font-bold flex items-center justify-center">1</span>Contact Information</h3>
+          <input type="email" placeholder="Email address" class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+        </div>
+        <div class="bg-white rounded-2xl border border-gold-pale p-6">
+          <h3 class="font-semibold text-ink flex items-center gap-3 mb-5"><span class="w-7 h-7 rounded-full bg-gold-light text-white text-xs font-bold flex items-center justify-center">2</span>Billing Details</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <input type="text" placeholder="First name" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            <input type="text" placeholder="Last name" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            <input type="text" placeholder="Address" class="sm:col-span-2 px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            <input type="text" placeholder="City" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            <input type="text" placeholder="ZIP Code" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            <select class="sm:col-span-2 px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream text-ink transition-colors">
+              <option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option><option>Germany</option>
+            </select>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-gold-pale p-6">
+          <h3 class="font-semibold text-ink flex items-center gap-3 mb-5"><span class="w-7 h-7 rounded-full bg-gold-light text-white text-xs font-bold flex items-center justify-center">3</span>Payment</h3>
+          <div class="flex gap-3 mb-5">
+            <label class="flex-1 flex items-center gap-2 border border-gold-light rounded-xl px-4 py-3 cursor-pointer bg-gold-pale/30">
+              <input type="radio" name="pay" checked class="accent-gold-light" /> <span class="text-sm font-medium text-ink">💳 Card</span>
+            </label>
+            <label class="flex-1 flex items-center gap-2 border border-gold-pale rounded-xl px-4 py-3 cursor-pointer hover:border-gold-light transition-colors">
+              <input type="radio" name="pay" class="accent-gold-light" /> <span class="text-sm font-medium text-ink">🅿 PayPal</span>
+            </label>
+          </div>
+          <div class="space-y-3">
+            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" class="w-full px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            <div class="grid grid-cols-2 gap-3">
+              <input type="text" placeholder="MM / YY" maxlength="7" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+              <input type="text" placeholder="CVV" maxlength="4" class="px-4 py-3 border border-gold-pale rounded-xl text-sm focus:outline-none focus:border-gold-light bg-cream transition-colors" />
+            </div>
+          </div>
+          <p class="flex items-center gap-1.5 text-xs text-ink-muted mt-3">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Secure & encrypted payment
+          </p>
+        </div>
+        <button onclick="placeOrder()" class="btn-gold w-full bg-gold-light hover:bg-gold text-white font-semibold py-4 rounded-xl transition-all hover:shadow-gold text-base">
+          Place Order — <span id="checkout-total-btn">$0.00</span>
+        </button>
+      </div>
+
+      <!-- Summary -->
+      <div class="bg-white rounded-2xl border border-gold-pale p-6 sticky top-24">
+        <h3 class="font-semibold text-ink mb-5">Order Summary</h3>
+        <div id="checkout-items-list" class="space-y-3 mb-5 max-h-60 overflow-y-auto"></div>
+        <div class="border-t border-gold-pale pt-4 space-y-2 text-sm">
+          <div class="flex justify-between text-ink-muted"><span>Subtotal</span><span id="co-subtotal">$0.00</span></div>
+          <div class="flex justify-between text-ink-muted"><span>Tax (8%)</span><span id="co-tax">$0.00</span></div>
+          <div class="flex justify-between text-ink-muted"><span>Shipping</span><span class="text-emerald-600 font-medium">Free</span></div>
+        </div>
+        <div class="border-t border-gold-pale mt-3 pt-3 flex justify-between font-semibold text-ink">
+          <span class="font-display">Total</span><span id="co-total" class="font-display text-lg">$0.00</span>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <a href="#" class="nav-logo" data-page="home"><span class="logo-mark">⬡</span><span>Enigma</span></a>
-      <p>Handcrafted jewelry, wearable mysteries. Each piece tells a story — yours to discover.</p>
-      <div class="social-links">
-        <a href="#" class="social-icon" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-        </a>
-        <a href="#" class="social-icon" aria-label="Pinterest">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.23-5.22 1.23-5.22s-.31-.63-.31-1.56c0-1.46.85-2.55 1.9-2.55.9 0 1.33.67 1.33 1.48 0 .9-.58 2.26-.87 3.52-.25 1.05.52 1.9 1.54 1.9 1.84 0 3.08-2.37 3.08-5.18 0-2.14-1.44-3.74-4.04-3.74-2.94 0-4.77 2.2-4.77 4.66 0 .85.25 1.44.64 1.9.18.21.21.29.14.54-.05.17-.15.59-.2.76-.06.24-.25.33-.46.24-1.3-.53-1.9-1.97-1.9-3.59 0-2.67 2.25-5.88 6.7-5.88 3.6 0 5.96 2.62 5.96 5.44 0 3.72-2.06 6.5-5.1 6.5-1.02 0-1.98-.55-2.31-1.18l-.64 2.46c-.23.88-.85 1.98-1.26 2.65.95.28 1.96.44 3 .44 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
-        </a>
-        <a href="#" class="social-icon" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        </a>
+<!-- ═══════════════════════════════════════════════════
+     PAGE: ORDER CONFIRMATION
+═══════════════════════════════════════════════════ -->
+<main id="page-confirmation" class="page hidden pt-16 sm:pt-[72px] min-h-screen flex items-center justify-center px-4">
+  <div class="text-center max-w-lg mx-auto py-20">
+    <div class="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-400 text-emerald-500 text-3xl flex items-center justify-center mx-auto mb-6 animate-scale-in">✓</div>
+    <h1 class="font-display text-4xl font-semibold text-ink mb-3">Order Confirmed!</h1>
+    <p class="text-ink-muted mb-2">Thank you for your purchase. Your files are being prepared.</p>
+    <p class="text-ink-muted mb-6">A confirmation email will arrive shortly.</p>
+    <div class="inline-flex items-center gap-2 bg-gold-pale border border-gold-light/40 rounded-full px-5 py-2 mb-8">
+      <span class="text-xs font-semibold text-gold-dark tracking-wider uppercase">Order</span>
+      <span id="confirm-order-id" class="text-xs font-mono text-ink">ECD-000000</span>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <button onclick="showPage('home')" class="btn-gold bg-gold-light hover:bg-gold text-white font-semibold px-8 py-3 rounded-xl transition-all hover:shadow-gold">Back to Home</button>
+      <button onclick="showPage('shop')" class="border border-gold-pale hover:border-gold-light text-ink-soft hover:text-ink font-medium px-8 py-3 rounded-xl transition-all">Continue Shopping</button>
+    </div>
+  </div>
+</main>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer class="bg-ink text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div class="sm:col-span-2 lg:col-span-1">
+      <button onclick="showPage('home')" class="flex items-center gap-2.5 mb-4 group">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center">
+          <span class="text-white font-display font-bold text-sm">E</span>
+        </div>
+        <span class="font-display font-semibold text-white text-lg">Enigma</span>
+      </button>
+      <p class="text-white/50 text-sm leading-relaxed mb-5">Premium digital art & brand identities. Designed with intention, crafted to last.</p>
+      <div class="flex gap-3">
+        <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-gold-light flex items-center justify-center text-white/60 hover:text-white transition-all text-sm">in</a>
+        <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-gold-light flex items-center justify-center text-white/60 hover:text-white transition-all text-sm">tw</a>
+        <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-gold-light flex items-center justify-center text-white/60 hover:text-white transition-all text-sm">ig</a>
       </div>
     </div>
-    <div class="footer-links-cols">
-      <div class="footer-col">
-        <h5>Shop</h5>
-        <a href="#" data-page="shop">All Jewelry</a>
-        <a href="#" data-page="shop" data-category="necklaces">Necklaces</a>
-        <a href="#" data-page="shop" data-category="earrings">Earrings</a>
-        <a href="#" data-page="shop" data-category="rings">Rings</a>
-        <a href="#" data-page="shop" data-category="sets">Gift Sets</a>
+    <div>
+      <h5 class="text-xs font-semibold tracking-[0.15em] uppercase text-white/40 mb-4">Shop</h5>
+      <div class="space-y-2.5">
+        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">All Products</button>
+        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Logo Packs</button>
+        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Digital Art</button>
+        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Brand Kits</button>
+        <button onclick="showPage('shop')" class="block text-sm text-white/60 hover:text-white transition-colors">Templates</button>
       </div>
-      <div class="footer-col">
-        <h5>Company</h5>
-        <a href="#" data-page="about">About Us</a>
-        <a href="#" data-page="contact">Contact</a>
-        <a href="#">Press</a>
-        <a href="#">Sustainability</a>
+    </div>
+    <div>
+      <h5 class="text-xs font-semibold tracking-[0.15em] uppercase text-white/40 mb-4">Company</h5>
+      <div class="space-y-2.5">
+        <button onclick="showPage('about')" class="block text-sm text-white/60 hover:text-white transition-colors">About Us</button>
+        <button onclick="showPage('contact')" class="block text-sm text-white/60 hover:text-white transition-colors">Contact</button>
+        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">Careers</a>
+        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">Press</a>
       </div>
-      <div class="footer-col">
-        <h5>Support</h5>
-        <a href="#">Shipping & Returns</a>
-        <a href="#">Size Guide</a>
-        <a href="#">Care Instructions</a>
-        <a href="#">FAQ</a>
+    </div>
+    <div>
+      <h5 class="text-xs font-semibold tracking-[0.15em] uppercase text-white/40 mb-4">Support</h5>
+      <div class="space-y-2.5">
+        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">FAQ</a>
+        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">License Info</a>
+        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">Refund Policy</a>
+        <a href="#" class="block text-sm text-white/60 hover:text-white transition-colors">File Formats</a>
       </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <p>© 2024 Enigma Creation Design. All rights reserved.</p>
-    <div class="footer-legal">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/40">
+      <p>© 2024 Enigma Creation Design. All rights reserved.</p>
+      <div class="flex gap-5">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
     </div>
   </div>
 </footer>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
 
 <script src="script.js"></script>
 </body>
